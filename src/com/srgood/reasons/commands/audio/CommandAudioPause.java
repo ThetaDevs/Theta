@@ -1,15 +1,16 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.audio.MusicPlayer;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioPause implements AudioCommand {
 
-    private static final String HELP = "Used to pause the audio that is playing on this server. Use: '" + BotMain.prefix + "pause'";
+    private static final String HELP = "Used to pause the audio that is playing on this server. Use: '" + ReasonsMain.prefix + "pause'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -38,15 +39,15 @@ public class CommandAudioPause implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

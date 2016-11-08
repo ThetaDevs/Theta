@@ -1,4 +1,4 @@
-package com.srgood.reasons.source;
+package com.srgood.reasons.audio.source;
 
 public class AudioTimestamp {
     private final int hours;

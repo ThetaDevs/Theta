@@ -1,6 +1,6 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
-import com.srgood.reasons.PermissionLevels;
+import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.utils.CommandUtils;
 import com.srgood.reasons.utils.PermissionUtils;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.srgood.reasons.utils.config.ConfigBasicUtils.lockAndGetDocument;
-import static com.srgood.reasons.utils.config.ConfigBasicUtils.releaseDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.lockAndGetDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.releaseDocument;
 
 class ConfigCommandUtils {
     private static final Map<String, Function<String, Object>> requiredCommandSubElements = new HashMap<String, Function<String, Object>>() {

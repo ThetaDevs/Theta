@@ -1,7 +1,7 @@
 package com.srgood.reasons.audio.events;
 
 import com.srgood.reasons.audio.MusicPlayer;
-import com.srgood.reasons.source.AudioSource;
+import com.srgood.reasons.audio.source.AudioSource;
 
 public class SkipEvent extends PlayerEvent {
     private final AudioSource skippedSource;

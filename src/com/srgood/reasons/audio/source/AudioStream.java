@@ -1,4 +1,4 @@
-package com.srgood.reasons.source;
+package com.srgood.reasons.audio.source;
 
 import java.io.BufferedInputStream;
 import java.util.regex.Pattern;

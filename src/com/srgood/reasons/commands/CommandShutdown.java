@@ -1,16 +1,16 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.Reference;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import com.srgood.reasons.utils.config.ConfigPersistenceUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.Constants;
+import com.srgood.reasons.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigPersistenceUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.xml.transform.TransformerException;
 
 public class CommandShutdown implements Command {
-    private static final String HELP = "Used to shutdown Reasons. Use: '" + BotMain.prefix + "shutdown' -OR- '" + BotMain.prefix + "shutdown override <override key>'";
+    private static final String HELP = "Used to shutdown Reasons. Use: '" + ReasonsMain.prefix + "shutdown' -OR- '" + ReasonsMain.prefix + "shutdown override <override key>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -24,12 +24,12 @@ public class CommandShutdown implements Command {
 
 
         try {
-            if (Reference.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
+            if (Constants.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
                 event.getChannel().sendMessage("Shutting down! " + event.getAuthor().getAsMention());
                 doShutdown();
             } else {
                 if (args[0].toLowerCase().equals("override")) {
-                    if (BotMain.overrideKey.equals(args[1])) {
+                    if (ReasonsMain.overrideKey.equals(args[1])) {
                         event.getChannel().sendMessage("Valid key. Shutting down! " + event.getAuthor().getAsMention());
                         doShutdown();
                     } else {
@@ -57,7 +57,7 @@ public class CommandShutdown implements Command {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        BotMain.jda.shutdown();
+        ReasonsMain.jda.shutdown();
     }
 
     @Override
@@ -72,13 +72,13 @@ public class CommandShutdown implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.ADMINISTRATOR;
+        return PermissionLevels.ADMINISTRATOR;
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }

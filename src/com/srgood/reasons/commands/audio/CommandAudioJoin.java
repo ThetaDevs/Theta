@@ -1,7 +1,8 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.VoiceChannel;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
@@ -11,7 +12,7 @@ import net.dv8tion.jda.utils.SimpleLog;
 public class CommandAudioJoin implements AudioCommand {
 
 
-    private static final String HELP = "Adds Reasons to a voice channel. Use: '" + BotMain.prefix + "join [channel name]' Default is the channel you are currently in.";
+    private static final String HELP = "Adds Reasons to a voice channel. Use: '" + ReasonsMain.prefix + "join [channel name]' Default is the channel you are currently in.";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -75,15 +76,15 @@ public class CommandAudioJoin implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

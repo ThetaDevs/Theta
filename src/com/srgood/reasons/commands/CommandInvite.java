@@ -1,13 +1,13 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.Reference;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.Constants;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandInvite implements Command {
-    private static final String HELP = "Prints the link to add Reasons to another server. Use: '" + BotMain.prefix + "invite'";
+    private static final String HELP = "Prints the link to add Reasons to another server. Use: '" + ReasonsMain.prefix + "invite'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -18,7 +18,7 @@ public class CommandInvite implements Command {
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         // TODO Auto-generated method stub
-        event.getChannel().sendMessage(String.format("Reasons authorization link: %s", Reference.Strings.INVITE_LINK));
+        event.getChannel().sendMessage(String.format("Reasons authorization link: %s", Constants.Strings.INVITE_LINK));
     }
 
     @Override
@@ -33,15 +33,15 @@ public class CommandInvite implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

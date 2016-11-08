@@ -2,8 +2,8 @@ package com.srgood.reasons.utils;
 
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
-import com.srgood.reasons.threading.ChannelThread;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.commands.ChannelCommandThread;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 
 import java.util.Comparator;
@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class CommandUtils {
 
     private static Map<String, Command> commands = new TreeMap<>();
-    private static java.util.Map<String, ChannelThread> channelThreadMap = new java.util.HashMap<>();
+    private static java.util.Map<String, ChannelCommandThread> channelThreadMap = new java.util.HashMap<>();
     private static final Lock channelThreadMapLock = new ReentrantLock();
 
     public static void handleCommand(CommandParser.CommandContainer cmd) {
@@ -28,15 +28,15 @@ public class CommandUtils {
                 if (PermissionUtils.userPermissionLevel(cmd.event.getGuild(), cmd.event.getAuthor()).getLevel() >= commands.get(cmd.invoke).permissionLevel(cmd.event.getGuild()).getLevel()) {
                     boolean shouldExecute = commands.get(cmd.invoke).called(cmd.args, cmd.event);
                     getChannelThreadMapLock().lock();
-                    ChannelThread channelThread =
+                    ChannelCommandThread channelCommandThread =
                             channelThreadMap.containsKey(cmd.event.getChannel().getId())
                                     ? channelThreadMap.get(cmd.event.getChannel().getId())
-                                    : new ChannelThread(cmd.event.getChannel());
-                    channelThreadMap.put(cmd.event.getChannel().getId(), channelThread);
+                                    : new ChannelCommandThread(cmd.event.getChannel());
+                    channelThreadMap.put(cmd.event.getChannel().getId(), channelCommandThread);
                     getChannelThreadMapLock().unlock();
-                    channelThread.addCommand(new ChannelThread.CommandItem(cmd, shouldExecute));
-                    if (channelThread.getState() == Thread.State.NEW) {
-                        channelThread.start();
+                    channelCommandThread.addCommand(new ChannelCommandThread.CommandItem(cmd, shouldExecute));
+                    if (channelCommandThread.getState() == Thread.State.NEW) {
+                        channelCommandThread.start();
                     }
                 } else {
                     cmd.event.getChannel().sendMessage("You lack the required permission to preform this action");
@@ -49,7 +49,7 @@ public class CommandUtils {
         }
     }
 
-    public static void deregisterThread(ChannelThread thread) {
+    public static void deregisterThread(ChannelCommandThread thread) {
         getChannelThreadMapLock().lock();
         if (channelThreadMap.containsKey(thread.getChannelID())) {
             channelThreadMap.remove(thread.getChannelID());

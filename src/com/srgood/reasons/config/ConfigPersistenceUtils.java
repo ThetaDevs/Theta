@@ -1,6 +1,6 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -94,7 +94,7 @@ public class ConfigPersistenceUtils {
 
                     ConfigGuildUtils.addServer(ServerNode.getAttribute("id"), ServerNode);
                 }
-                BotMain.prefix = ConfigBasicUtils.getFirstSubElement(ConfigBasicUtils.getFirstSubElement(rootElem, "default"), "prefix").getTextContent();
+                ReasonsMain.prefix = ConfigBasicUtils.getFirstSubElement(ConfigBasicUtils.getFirstSubElement(rootElem, "default"), "prefix").getTextContent();
             } finally {
                 ConfigBasicUtils.releaseDocument();
             }

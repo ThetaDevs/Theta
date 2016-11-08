@@ -1,8 +1,8 @@
 package com.srgood.reasons.utils;
 
-import com.srgood.reasons.PermissionLevels;
-import com.srgood.reasons.Reference;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.Constants;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.entities.User;
@@ -12,24 +12,24 @@ import java.util.Collection;
 
 public class PermissionUtils {
 
-    public static Collection<com.srgood.reasons.PermissionLevels> getPermissions(Guild guild, User user) {
+    public static Collection<PermissionLevels> getPermissions(Guild guild, User user) {
         return rolesToPermissions(guild, guild.getRolesForUser(user));
     }
 
-    public static com.srgood.reasons.PermissionLevels userPermissionLevel(Guild guild, User user) {
-        if (Reference.Other.BOT_DEVELOPERS.contains(user.getId())) {
-            return com.srgood.reasons.PermissionLevels.DEVELOPER;
+    public static PermissionLevels userPermissionLevel(Guild guild, User user) {
+        if (Constants.Other.BOT_DEVELOPERS.contains(user.getId())) {
+            return PermissionLevels.DEVELOPER;
         } else {
             return getHighestPermission(guild, getPermissions(guild, user));
         }
     }
 
 
-    public static com.srgood.reasons.PermissionLevels getHighestPermission(Guild guild, Collection<com.srgood.reasons.PermissionLevels> Roles) {
+    public static PermissionLevels getHighestPermission(Guild guild, Collection<PermissionLevels> Roles) {
 
-        com.srgood.reasons.PermissionLevels maxFound = com.srgood.reasons.PermissionLevels.STANDARD;
+        PermissionLevels maxFound = PermissionLevels.STANDARD;
 
-        for (com.srgood.reasons.PermissionLevels permLevel : com.srgood.reasons.PermissionLevels.values()) {
+        for (PermissionLevels permLevel : PermissionLevels.values()) {
             if ((permLevel.getLevel() > maxFound.getLevel())) {
                 if (containsAny(rolesToPermissions(guild, ConfigUtils.getGuildRolesFromPermission(guild, permLevel)), Roles)) {
                     maxFound = permLevel;
@@ -40,7 +40,7 @@ public class PermissionUtils {
         return maxFound;
     }
 
-    private static Collection<com.srgood.reasons.PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends net.dv8tion.jda.entities.Role> roles) {
+    private static Collection<PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends net.dv8tion.jda.entities.Role> roles) {
         return roles.stream().map(role -> ConfigUtils.roleToPermission(role)).collect(java.util.stream.Collectors.toList());
     }
 
@@ -53,8 +53,8 @@ public class PermissionUtils {
         return false;
     }
 
-    public static com.srgood.reasons.PermissionLevels intToEnum(int level) {
-        for (com.srgood.reasons.PermissionLevels p : com.srgood.reasons.PermissionLevels.values()) {
+    public static PermissionLevels intToEnum(int level) {
+        for (PermissionLevels p : PermissionLevels.values()) {
             if (p.level == level) {
                 return p;
             }
@@ -70,7 +70,7 @@ public class PermissionUtils {
     }
 
 
-    public static Role createRole(com.srgood.reasons.PermissionLevels roleLevel, Guild guild, boolean addToXML) {
+    public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) {
         if (!roleLevel.isVisible()) return null;
 
         RoleManager roleMgr = guild.createRole();

@@ -1,6 +1,6 @@
 package com.srgood.reasons.utils;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import net.dv8tion.jda.entities.Channel;
 
 import java.time.Duration;
@@ -15,7 +15,7 @@ public class Vote {
     public Vote(Map<String,Integer> choiceMap, int voteDuration, Channel channel, Runnable action) {
         final Instant begin = Instant.now();
         VoteListener voteListener = new VoteListener(channel,choiceMap);
-        BotMain.jda.addEventListener(voteListener);
+        ReasonsMain.jda.addEventListener(voteListener);
 
         Thread thread = new Thread() {
             @Override
@@ -23,7 +23,7 @@ public class Vote {
                 while (true) {
                     if (Duration.between(begin, Instant.now()).getSeconds() >=  voteDuration) {
                         action.run();
-                        BotMain.jda.removeEventListener(voteListener);
+                        ReasonsMain.jda.removeEventListener(voteListener);
                         break;
                     }
                 }

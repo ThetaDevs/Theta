@@ -1,13 +1,13 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandPing implements Command {
 
-    private static final String HELP = "Ping! Use: '" + BotMain.prefix + "ping'";
+    private static final String HELP = "Ping! Use: '" + ReasonsMain.prefix + "ping'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -35,7 +35,7 @@ public class CommandPing implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
 
         return ConfigUtils.getCommandPermission(guild, this);
 
@@ -43,8 +43,8 @@ public class CommandPing implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+    public PermissionLevels defaultPermissionLevel() {
+        return PermissionLevels.STANDARD;
     }
 
     @Override

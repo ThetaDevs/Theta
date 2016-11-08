@@ -1,9 +1,7 @@
-package com.srgood.reasons.threading;
+package com.srgood.reasons.commands;
 
-import com.srgood.reasons.commands.Command;
-import com.srgood.reasons.commands.CommandParser;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Channel;
 import net.dv8tion.jda.exceptions.RateLimitedException;
 
@@ -12,7 +10,7 @@ import java.util.Deque;
 
 import static com.srgood.reasons.utils.CommandUtils.getChannelThreadMapLock;
 
-public class ChannelThread extends Thread {
+public class ChannelCommandThread extends Thread {
 
     private Channel channel;
 
@@ -20,7 +18,7 @@ public class ChannelThread extends Thread {
 
     private boolean commandWasAdded = false;
 
-    public ChannelThread(Channel channel) {
+    public ChannelCommandThread(Channel channel) {
         this.channel = channel;
     }
 

@@ -1,4 +1,4 @@
-package com.srgood.reasons;
+package com.srgood.reasons.commands;
 
 import java.awt.*;
 

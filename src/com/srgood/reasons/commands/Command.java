@@ -1,7 +1,6 @@
 package com.srgood.reasons.commands;
 
 
-import com.srgood.reasons.PermissionLevels;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 

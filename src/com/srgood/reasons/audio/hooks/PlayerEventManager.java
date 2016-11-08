@@ -1,4 +1,4 @@
-package com.srgood.reasons.hooks;
+package com.srgood.reasons.audio.hooks;
 
 
 import com.srgood.reasons.audio.events.PlayerEvent;

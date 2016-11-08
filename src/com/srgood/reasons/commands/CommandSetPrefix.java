@@ -1,12 +1,12 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandSetPrefix implements Command {
-    private static final String HELP = "Sets the prefix on this server. Use: '" + BotMain.prefix + "setprefix <prefix>'";
+    private static final String HELP = "Sets the prefix on this server. Use: '" + ReasonsMain.prefix + "setprefix <prefix>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -37,15 +37,15 @@ public class CommandSetPrefix implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.ADMINISTRATOR;
+        return PermissionLevels.ADMINISTRATOR;
     }
 
     @Override

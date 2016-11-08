@@ -1,7 +1,7 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.Permission;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Message;
@@ -10,11 +10,11 @@ import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.srgood.reasons.BotMain.jda;
+import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandDelete implements Command {
 
-    private static final String HELP = "Deletes messages. Use: '" + BotMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
+    private static final String HELP = "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
     int total;
 
     @Override
@@ -78,15 +78,15 @@ public class CommandDelete implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

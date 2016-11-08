@@ -1,11 +1,12 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.audio.MusicPlayer;
-import com.srgood.reasons.source.AudioInfo;
-import com.srgood.reasons.source.AudioSource;
-import com.srgood.reasons.source.AudioTimestamp;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.audio.source.AudioInfo;
+import com.srgood.reasons.audio.source.AudioSource;
+import com.srgood.reasons.audio.source.AudioTimestamp;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class CommandAudioList implements AudioCommand {
 
-    private static final String HELP = "Lists the current audio queue for this server. Use: '" + BotMain.prefix + "list'";
+    private static final String HELP = "Lists the current audio queue for this server. Use: '" + ReasonsMain.prefix + "list'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -86,7 +87,7 @@ public class CommandAudioList implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
@@ -97,9 +98,9 @@ public class CommandAudioList implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
 }

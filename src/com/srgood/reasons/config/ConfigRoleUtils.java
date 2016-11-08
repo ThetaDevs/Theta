@@ -1,6 +1,6 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
-import com.srgood.reasons.PermissionLevels;
+import com.srgood.reasons.commands.PermissionLevels;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 import org.w3c.dom.Attr;
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.srgood.reasons.utils.config.ConfigBasicUtils.lockAndGetDocument;
-import static com.srgood.reasons.utils.config.ConfigBasicUtils.releaseDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.lockAndGetDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.releaseDocument;
 
 class ConfigRoleUtils {
     private static Element getRolesElement(Guild guild) {

@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.utils.GuildUtils;
 import com.srgood.reasons.utils.ImageUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class CommandDebug implements Command {
-    private static final String HELP = "Used internally for debugging. Use: '" + BotMain.prefix + "debug [debug arg]'";
+    private static final String HELP = "Used internally for debugging. Use: '" + ReasonsMain.prefix + "debug [debug arg]'";
     private static final boolean ALLOW_DEBUG = true;
 
     @Override
@@ -42,7 +42,7 @@ public class CommandDebug implements Command {
                     event.getChannel().sendMessage("" + ConfigUtils.verifyConfig());
                     break;
                 case "getuptime":
-                    long seconds = Duration.between(BotMain.startInstant, Instant.now()).getSeconds();
+                    long seconds = Duration.between(ReasonsMain.startInstant, Instant.now()).getSeconds();
                     long absSeconds = Math.abs(seconds);
                     String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
                     String x = seconds < 0 ? "-" + positive : positive;
@@ -69,7 +69,7 @@ public class CommandDebug implements Command {
                     break;
             }
         } else {
-            event.getChannel().sendMessage("Author Name: " + event.getAuthor().getUsername() + "\n" + "Author Nick: " + event.getAuthorNick() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "BotMain.jda.getSelfInfo().getAsMention().length()" + BotMain.jda.getSelfInfo().getAsMention().length() + "\n" + "BotMain.jda.getSelfInfo().getAsMention()" + BotMain.jda.getSelfInfo().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig());
+            event.getChannel().sendMessage("Author Name: " + event.getAuthor().getUsername() + "\n" + "Author Nick: " + event.getAuthorNick() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention().length()" + ReasonsMain.jda.getSelfInfo().getAsMention().length() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention()" + ReasonsMain.jda.getSelfInfo().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig());
         }
 
     }
@@ -86,15 +86,15 @@ public class CommandDebug implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

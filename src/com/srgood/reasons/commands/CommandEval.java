@@ -3,8 +3,8 @@ package com.srgood.reasons.commands;
 import com.meowingtwurtle.math.api.IMathGroup;
 import com.meowingtwurtle.math.api.IMathHandler;
 import com.meowingtwurtle.math.api.MathExpressionParseException;
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
@@ -13,7 +13,7 @@ import java.text.NumberFormat;
 
 public class CommandEval implements Command {
 
-    private static final String HELP = "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt. Use: '" + BotMain.prefix + "eval <exp>'";
+    private static final String HELP = "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt. Use: '" + ReasonsMain.prefix + "eval <exp>'";
 
     private final static NumberFormat RESULT_FORMATTER = new DecimalFormat("#0.0###");
 
@@ -71,14 +71,14 @@ public class CommandEval implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+    public PermissionLevels defaultPermissionLevel() {
+        return PermissionLevels.STANDARD;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.srgood.reasons.utils;
 
-import com.srgood.reasons.PermissionLevels;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 
@@ -10,7 +10,7 @@ public class GuildUtils {
         ConfigUtils.ensureGuildInitted(guild);
 
         try {
-            for (com.srgood.reasons.PermissionLevels permission : com.srgood.reasons.PermissionLevels.values()) {
+            for (PermissionLevels permission : PermissionLevels.values()) {
                 com.srgood.reasons.utils.PermissionUtils.createRole(permission, guild, true);
             }
         } catch (net.dv8tion.jda.exceptions.PermissionException e3) {

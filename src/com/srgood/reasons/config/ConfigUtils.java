@@ -1,6 +1,6 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
-import com.srgood.reasons.PermissionLevels;
+import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
 import net.dv8tion.jda.entities.Guild;

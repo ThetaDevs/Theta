@@ -1,20 +1,19 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.PermissionLevels;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import static com.srgood.reasons.utils.PermissionUtils.stringToRole;
-import static com.srgood.reasons.utils.config.ConfigUtils.setCommandPermission;
+import static com.srgood.reasons.config.ConfigUtils.setCommandPermission;
 
 /**
  * Created by dmanl on 9/11/2016.
  */
 public class CommandSetPermLevel implements Command {
-    private static final String HELP = "Sets the permission level required for a command on this server. Use: '" + BotMain.prefix + "setpermlevel <command> <role ID>'";
+    private static final String HELP = "Sets the permission level required for a command on this server. Use: '" + ReasonsMain.prefix + "setpermlevel <command> <role ID>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {

@@ -1,7 +1,7 @@
 package com.srgood.reasons.audio;
 
-import com.srgood.reasons.source.AudioSource;
-import com.srgood.reasons.source.RemoteSource;
+import com.srgood.reasons.audio.source.AudioSource;
+import com.srgood.reasons.audio.source.RemoteSource;
 import org.json.JSONObject;
 import sun.misc.IOUtils;
 

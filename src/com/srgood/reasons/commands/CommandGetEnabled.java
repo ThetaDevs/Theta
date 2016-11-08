@@ -1,14 +1,13 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.PermissionLevels;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandGetEnabled implements Command {
-    private static final String HELP = "Prints whether a command is enabled on this server. Use: '" + BotMain.prefix + "getenabled <command>'";
+    private static final String HELP = "Prints whether a command is enabled on this server. Use: '" + ReasonsMain.prefix + "getenabled <command>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -33,12 +32,12 @@ public class CommandGetEnabled implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         return PermissionLevels.STANDARD;
     }
     @Override

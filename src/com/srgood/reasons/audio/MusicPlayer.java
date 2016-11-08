@@ -1,10 +1,10 @@
 package com.srgood.reasons.audio;
 
-import com.srgood.reasons.hooks.PlayerEventListener;
-import com.srgood.reasons.hooks.PlayerEventManager;
-import com.srgood.reasons.source.AudioSource;
-import com.srgood.reasons.source.AudioStream;
-import com.srgood.reasons.source.AudioTimestamp;
+import com.srgood.reasons.audio.hooks.PlayerEventListener;
+import com.srgood.reasons.audio.hooks.PlayerEventManager;
+import com.srgood.reasons.audio.source.AudioSource;
+import com.srgood.reasons.audio.source.AudioStream;
+import com.srgood.reasons.audio.source.AudioTimestamp;
 import net.dv8tion.jda.audio.AudioConnection;
 import net.dv8tion.jda.audio.AudioSendHandler;
 import net.dv8tion.jda.utils.SimpleLog;

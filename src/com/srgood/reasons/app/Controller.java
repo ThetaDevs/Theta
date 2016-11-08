@@ -1,8 +1,8 @@
 package com.srgood.reasons.app;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import com.srgood.reasons.utils.config.ConfigPersistenceUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigPersistenceUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +16,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
-import static com.srgood.reasons.BotMain.jda;
+import static com.srgood.reasons.ReasonsMain.jda;
 
 public class Controller implements Initializable {
 
@@ -88,12 +88,12 @@ public class Controller implements Initializable {
 
     @FXML
     public void updateConsole() {
-        console.setText(com.srgood.reasons.BotMain.out.toString());
+        console.setText(ReasonsMain.out.toString());
     }
 
     @FXML
     public void updateErrConsole() {
-        errConsole.setText(BotMain.errOut.toString());
+        errConsole.setText(ReasonsMain.errOut.toString());
     }
 
 

@@ -1,11 +1,12 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.audio.MusicPlayer;
 import com.srgood.reasons.audio.Playlist;
-import com.srgood.reasons.source.AudioInfo;
-import com.srgood.reasons.source.AudioSource;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.audio.source.AudioInfo;
+import com.srgood.reasons.audio.source.AudioSource;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.Permission;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
@@ -16,11 +17,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.srgood.reasons.BotMain.jda;
+import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandAudioPlay implements AudioCommand {
 
-    private static final String HELP = "Used to play audio on this server. Use: '" + BotMain.prefix + "play [URL]'";
+    private static final String HELP = "Used to play audio on this server. Use: '" + ReasonsMain.prefix + "play [URL]'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -116,15 +117,15 @@ public class CommandAudioPlay implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

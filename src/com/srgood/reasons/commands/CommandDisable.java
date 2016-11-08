@@ -1,13 +1,13 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
+import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandDisable implements Command {
-    private static final String HELP = "Disables a command on this server. Use: '" + BotMain.prefix + "disable <command>'";
+    private static final String HELP = "Disables a command on this server. Use: '" + ReasonsMain.prefix + "disable <command>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -42,15 +42,15 @@ public class CommandDisable implements Command {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.ADMINISTRATOR;
+        return PermissionLevels.ADMINISTRATOR;
     }
 
     @Override

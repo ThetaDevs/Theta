@@ -1,8 +1,7 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.PermissionLevels;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.entities.User;
@@ -16,7 +15,7 @@ import java.util.Random;
  */
 public class CommandNotifyRand implements Command {
 
-    private static final String HELP = "Notifies a random member of a Role. Use: '" + BotMain.prefix + "notifyrand <role ID>'";
+    private static final String HELP = "Notifies a random member of a Role. Use: '" + ReasonsMain.prefix + "notifyrand <role ID>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {

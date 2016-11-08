@@ -1,6 +1,6 @@
 package com.srgood.reasons.utils;
 
-import com.srgood.reasons.Reference;
+import com.srgood.reasons.Constants;
 import net.dv8tion.jda.entities.MessageChannel;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class MessageUtils {
      */
     public static void sendMessageSafe(MessageChannel channel, String message) {
         List<String> stringList = new ArrayList<>();
-        for (int i = 0; i < (message.length() / Reference.Numbers.MESSAGE_LIMIT) + 1; i++) {
-            int endIndex = (i + 1) * Reference.Numbers.MESSAGE_LIMIT;
-            stringList.add(message.substring(i * Reference.Numbers.MESSAGE_LIMIT, endIndex > message.length() ? message.length() : endIndex));
+        for (int i = 0; i < (message.length() / Constants.Numbers.MESSAGE_LIMIT) + 1; i++) {
+            int endIndex = (i + 1) * Constants.Numbers.MESSAGE_LIMIT;
+            stringList.add(message.substring(i * Constants.Numbers.MESSAGE_LIMIT, endIndex > message.length() ? message.length() : endIndex));
         }
 
         stringList.stream().filter(s -> s.length() > 0).forEach(s -> {
@@ -37,7 +37,7 @@ public class MessageUtils {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : splitMessages) {
-            if (stringBuilder.length() + s.length() + 1 > Reference.Numbers.MESSAGE_LIMIT) {
+            if (stringBuilder.length() + s.length() + 1 > Constants.Numbers.MESSAGE_LIMIT) {
                 subMessageList.add(stringBuilder.toString());
                 stringBuilder = new StringBuilder();
             }

@@ -1,14 +1,15 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.BotMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioLeave implements AudioCommand {
 
-    private static final String HELP = "Makes Reasons leave the connected voice channel on this server. Use: '" + BotMain.prefix + "leave'";
+    private static final String HELP = "Makes Reasons leave the connected voice channel on this server. Use: '" + ReasonsMain.prefix + "leave'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -35,15 +36,15 @@ public class CommandAudioLeave implements AudioCommand {
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels permissionLevel(Guild guild) {
+    public PermissionLevels permissionLevel(Guild guild) {
         // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
-    public com.srgood.reasons.PermissionLevels defaultPermissionLevel() {
+    public PermissionLevels defaultPermissionLevel() {
         // TODO Auto-generated method stub
-        return com.srgood.reasons.PermissionLevels.STANDARD;
+        return PermissionLevels.STANDARD;
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.PermissionLevels;
 import com.srgood.reasons.games.ChessGame;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 

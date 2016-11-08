@@ -2,7 +2,7 @@ package com.srgood.reasons;
 
 import java.awt.*;
 
-public class Reference {
+public class Constants {
 
     public static class Strings {
 
