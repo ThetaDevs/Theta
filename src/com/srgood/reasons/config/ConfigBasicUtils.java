@@ -16,8 +16,12 @@ class ConfigBasicUtils {
     private static Lock documentLock = new ReentrantLock();
 
     static Document lockAndGetDocument() {
-        documentLock.lock();
+        lockDocument();
         return document;
+    }
+
+    static void lockDocument() {
+        documentLock.lock();
     }
 
     static void releaseDocument() {
@@ -26,7 +30,7 @@ class ConfigBasicUtils {
 
     static void setDocument(Document document) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             ConfigBasicUtils.document = document;
         } finally {
             releaseDocument();
@@ -121,7 +125,7 @@ class ConfigBasicUtils {
 
     static Element getFirstSubElement(Element parent, String subTagName) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             List<Node> nList = nodeListToList(parent.getElementsByTagName(subTagName));
             return (Element) (nList.size() > 0 ? nList.get(0) : null);
         } finally {

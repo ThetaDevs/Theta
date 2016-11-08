@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static com.srgood.reasons.config.ConfigBasicUtils.lockAndGetDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.lockDocument;
 import static com.srgood.reasons.config.ConfigBasicUtils.releaseDocument;
 
 class ConfigCommandUtils {
@@ -37,7 +38,7 @@ class ConfigCommandUtils {
 
     private static Element getCommandElement(Element commandsElement, String commandName) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             List<Node> commandList = ConfigBasicUtils.nodeListToList(commandsElement.getElementsByTagName("command"));
 
             for (Node n : commandList) {
@@ -54,7 +55,7 @@ class ConfigCommandUtils {
 
     private static String getCommandProperty(Element commandElement, String property) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             Element propertyElement = ConfigBasicUtils.getFirstSubElement(commandElement, property);
             return propertyElement != null ? propertyElement.getTextContent() : null;
         } finally {
@@ -165,7 +166,7 @@ class ConfigCommandUtils {
 
     static void initCommandConfigIfNotExists(Guild guild, Command cmd) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             Element serverElement = ConfigGuildUtils.getGuildNode(guild);
             Element commandsElement;
             String realCommandName = CommandUtils.getNameFromCommand(cmd);

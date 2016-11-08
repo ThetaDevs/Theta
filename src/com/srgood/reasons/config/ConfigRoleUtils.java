@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.srgood.reasons.config.ConfigBasicUtils.lockAndGetDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.lockDocument;
 import static com.srgood.reasons.config.ConfigBasicUtils.releaseDocument;
 
 class ConfigRoleUtils {
@@ -22,7 +23,7 @@ class ConfigRoleUtils {
 
     private static List<Node> getRoleNodeListFromGuild(Guild guild) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             Element rolesElem = getRolesElement(guild);
 
             return ConfigBasicUtils.nodeListToList(rolesElem.getElementsByTagName("role"));
@@ -33,7 +34,7 @@ class ConfigRoleUtils {
 
     static PermissionLevels roleToPermission(Guild guild, Role role) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             PermissionLevels permission = null;
             if (role == null) {
                 throw new IllegalArgumentException("role cannot be null");
@@ -66,7 +67,7 @@ class ConfigRoleUtils {
 
     static boolean guildHasRoleForPermission(Guild guild, PermissionLevels roleLevel) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             List<Node> roleElementList = getRoleNodeListFromGuild(guild);
 
             for (Node n : roleElementList) {
@@ -100,7 +101,7 @@ class ConfigRoleUtils {
 
     static void deregisterRoleConfig(Guild guild, String roleID) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             Element elementRole = null;
 
             List<Node> roleNodeList = getRoleNodeListFromGuild(guild);
@@ -127,7 +128,7 @@ class ConfigRoleUtils {
 
     static Set<Role> getGuildRolesFromPermissionLevel(Guild guild, PermissionLevels permissionLevel) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             String permissionName = permissionLevel.getXMLName();
             return getRoleNodeListFromGuild(guild).stream().filter(n -> n instanceof Element).map(n -> (Element) n).filter(elem -> elem.getAttribute("name").equals(permissionName)).map(Node::getTextContent).map(guild::getRoleById).collect(Collectors.toSet());
         } finally {

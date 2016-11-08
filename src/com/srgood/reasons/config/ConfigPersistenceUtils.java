@@ -81,8 +81,10 @@ public class ConfigPersistenceUtils {
             DocumentBuilder domInput = domFactory.newDocumentBuilder();
 
             try {
-                Document doc = ConfigBasicUtils.lockAndGetDocument();
-                ConfigBasicUtils.setDocument(domInput.parse(inputStream));
+
+                ConfigBasicUtils.lockDocument();
+                Document doc = domInput.parse(inputStream);
+                ConfigBasicUtils.setDocument(doc);
                 doc.getDocumentElement().normalize();
 
                 // <config> element

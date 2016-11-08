@@ -63,7 +63,7 @@ class ConfigGuildUtils {
 
     static void deleteGuildConfig(Guild guild) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             getGuildNode(guild).getParentNode().removeChild(getGuildNode(guild));
         } finally {
             releaseDocument();
@@ -72,7 +72,7 @@ class ConfigGuildUtils {
 
     static String getGuildSimpleProperty(Guild guild, String property) {
         try {
-            lockAndGetDocument();
+            lockDocument();
             Element propertyElement = getFirstSubElement(getGuildNode(guild), property);
             return propertyElement != null ? propertyElement.getTextContent() : null;
         } finally {
