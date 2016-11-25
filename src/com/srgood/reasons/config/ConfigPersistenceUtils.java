@@ -1,4 +1,4 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
 import com.srgood.reasons.ReasonsMain;
 import org.w3c.dom.Document;

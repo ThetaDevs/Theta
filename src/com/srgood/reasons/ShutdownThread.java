@@ -1,6 +1,6 @@
 package com.srgood.reasons;
 
-import com.srgood.reasons.utils.config.ConfigPersistenceUtils;
+import com.srgood.reasons.config.ConfigPersistenceUtils;
 
 import javax.xml.transform.TransformerException;
 
@@ -11,7 +11,7 @@ public class ShutdownThread extends Thread {
         try {
             ConfigPersistenceUtils.writeXML();
         } catch (TransformerException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
 

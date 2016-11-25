@@ -1,11 +1,10 @@
 package com.srgood.reasons.utils;
 
-import com.srgood.reasons.commands.ChannelCommandThread;
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import com.srgood.reasons.utils.Permissions.PermissionUtils;
-import net.dv8tion.jda.core.entities.Guild;
+import com.srgood.reasons.commands.ChannelCommandThread;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -40,13 +39,13 @@ public class CommandUtils {
                         channelCommandThread.start();
                     }
                 } else {
-                    cmd.event.getChannel().sendMessage("You lack the required permission to preform this action").queue();
+                    cmd.event.getChannel().sendMessage("You lack the required permission to preform this action");
                 }
             else {
-                cmd.event.getChannel().sendMessage("This command is disabled").queue();
+                cmd.event.getChannel().sendMessage("This command is disabled");
             }
         } else {
-            cmd.event.getChannel().sendMessage("Unknown command `" + cmd.invoke+"`").queue();
+            cmd.event.getChannel().sendMessage("Unknown command `" + cmd.invoke+"`");
         }
     }
 

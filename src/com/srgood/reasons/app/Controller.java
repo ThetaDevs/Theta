@@ -1,14 +1,14 @@
 package com.srgood.reasons.app;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.config.ConfigPersistenceUtils;
-import com.srgood.reasons.utils.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigUtils;
+import com.srgood.reasons.config.ConfigPersistenceUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.entities.Guild;
 
 import javax.xml.transform.TransformerException;
 import java.io.ByteArrayInputStream;

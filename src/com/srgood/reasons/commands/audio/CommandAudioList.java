@@ -20,7 +20,6 @@ public class CommandAudioList implements AudioCommand {
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -78,7 +77,6 @@ public class CommandAudioList implements AudioCommand {
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
         return HELP;
     }
 
@@ -88,7 +86,6 @@ public class CommandAudioList implements AudioCommand {
 
     @Override
     public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
@@ -99,7 +96,6 @@ public class CommandAudioList implements AudioCommand {
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
         return PermissionLevels.STANDARD;
     }
 

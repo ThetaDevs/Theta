@@ -2,11 +2,11 @@ package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.Reference;
-import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.ImageUtils;
 import com.srgood.reasons.utils.Vote;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -34,7 +34,7 @@ public class CommandVote implements Command{
                 voteMap.put(args[i],0);
             }
 
-            event.getChannel().sendMessage("A vote has started! use `vote <option>` to vote!").queue();
+            event.getChannel().sendMessage("A vote has started! use `vote <option>` to vote!");
             new Vote(voteMap, Integer.parseInt(args[0]),event.getChannel(), new Runnable() {
                 @Override
                 public void run() {
@@ -43,7 +43,7 @@ public class CommandVote implements Command{
                     for (String st : voteMap.keySet()) {
                         sb.append(st).append(": ").append(voteMap.get(st)).append("\n");
                     }
-                    event.getChannel().sendMessage(sb.toString()).queue();
+                    event.getChannel().sendMessage(sb.toString());
                     try {
                         event.getChannel().sendFile(ImageUtils.renderVote(
                                 args[1],
@@ -68,7 +68,7 @@ public class CommandVote implements Command{
                 }
             });
         } else {
-            event.getChannel().sendMessage("Incorrect arguments, correct usage: " + ConfigUtils.getGuildPrefix(event.getGuild()) + "vote <duration (seconds)> <option 1> <option 2> ... [option 5 (up to " +  Reference.Strings.COLORS.length + " max)]").queue();
+            event.getChannel().sendMessage("Incorrect arguments, correct usage: " + ConfigUtils.getGuildPrefix(event.getGuild()) + "vote <duration (seconds)> <option 1> <option 2> ... [option 5 (up to " +  Reference.Strings.COLORS.length + " max)]");
         }
     }
 

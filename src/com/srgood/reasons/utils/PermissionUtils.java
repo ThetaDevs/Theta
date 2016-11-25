@@ -1,23 +1,46 @@
-package com.srgood.reasons.utils.Permissions;
+package com.srgood.reasons.utils;
 
 import com.srgood.reasons.commands.PermissionLevels;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.managers.RoleManager;
+import com.srgood.reasons.Reference;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.entities.Role;
+import net.dv8tion.jda.entities.User;
+import net.dv8tion.jda.managers.RoleManager;
 
 import java.util.Collection;
 
 public class PermissionUtils {
 
     public static Collection<PermissionLevels> getPermissions(Guild guild, User user) {
-        return rolesToPermissions(guild, guild.getMember(user).getRoles());
+        return rolesToPermissions(guild, guild.getRolesForUser(user));
+    }
+
+    public static PermissionLevels userPermissionLevel(Guild guild, User user) {
+        if (Reference.Other.BOT_DEVELOPERS.contains(user.getId())) {
+            return PermissionLevels.DEVELOPER;
+        } else {
+            return getHighestPermission(guild, getPermissions(guild, user));
+        }
     }
 
 
-    private static Collection<PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends Role> roles) {
+    public static PermissionLevels getHighestPermission(Guild guild, Collection<PermissionLevels> Roles) {
+
+        PermissionLevels maxFound = PermissionLevels.STANDARD;
+
+        for (PermissionLevels permLevel : PermissionLevels.values()) {
+            if ((permLevel.getLevel() > maxFound.getLevel())) {
+                if (containsAny(rolesToPermissions(guild, ConfigUtils.getGuildRolesFromPermission(guild, permLevel)), Roles)) {
+                    maxFound = permLevel;
+                    break;
+                }
+            }
+        }
+        return maxFound;
+    }
+
+    private static Collection<PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends net.dv8tion.jda.entities.Role> roles) {
         return roles.stream().map(role -> ConfigUtils.roleToPermission(role)).collect(java.util.stream.Collectors.toList());
     }
 
@@ -47,12 +70,14 @@ public class PermissionUtils {
     }
 
 
-    public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) throws RateLimitedException {
+    public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) {
         if (!roleLevel.isVisible()) return null;
 
-        RoleManager roleMgr = guild.getController().createRole().block().getManager();
-        roleMgr.setName(roleLevel.getReadableName()).queue();
-        roleMgr.setColor(roleLevel.getColor()).queue();
+        RoleManager roleMgr = guild.createRole();
+        roleMgr.setName(roleLevel.getReadableName());
+        roleMgr.setColor(roleLevel.getColor());
+
+        roleMgr.update();
 
         Role role = roleMgr.getRole();
 

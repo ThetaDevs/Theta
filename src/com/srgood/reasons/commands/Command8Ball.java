@@ -1,11 +1,10 @@
 package com.srgood.reasons.commands;
 
-
 import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.Reference;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Random;
 
@@ -23,7 +22,7 @@ public class Command8Ball implements Command {
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(Reference.Strings.EIGHT_BALL[new Random().nextInt(Reference.Strings.EIGHT_BALL.length)]).queue();
+        event.getChannel().sendMessage(Reference.Strings.EIGHT_BALL[new Random().nextInt(Reference.Strings.EIGHT_BALL.length)]);
     }
 
     @Override

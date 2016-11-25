@@ -2,20 +2,17 @@ package com.srgood.reasons;
 
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
-import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
+import com.srgood.reasons.config.ConfigUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.utils.SimpleLog;
+import net.dv8tion.jda.JDA;
+import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.utils.SimpleLog;
 import org.reflections.Reflections;
 
 import javax.imageio.ImageIO;
@@ -47,7 +44,7 @@ public class ReasonsMain extends Application {
     private boolean firstTime;
     private TrayIcon trayIcon;
 
-    @Override public void init() throws RateLimitedException {
+    @Override public void init() {
         out = new ByteArrayOutputStream();
         errOut = new ByteArrayOutputStream();
 
@@ -93,7 +90,9 @@ public class ReasonsMain extends Application {
 
         try {
             //create a JDA with one Event listener
-            jda = new JDABuilder(AccountType.BOT).addListener(new DiscordEventListener()).setToken(Reference.Strings.BOT_TOKEN_REASONS).setGame(Game.of("Type @Reasons help")).setAutoReconnect(true).buildBlocking();
+            jda = new JDABuilder().addListener(new DiscordEventListener()).setBotToken(Reference.Strings.BOT_TOKEN_REASONS).buildBlocking();
+            jda.setAutoReconnect(true);
+            jda.getAccountManager().setGame("type '@Reasons help'");
         } catch (LoginException e) {
             SimpleLog.getLog("Reasons").fatal("**COULD NOT LOG IN**");
         } catch (InterruptedException e) {
@@ -105,7 +104,7 @@ public class ReasonsMain extends Application {
         try {
             ConfigUtils.initConfig();
         } catch (Exception e1) {
-            // TODO Auto-generated catch block
+            
             e1.printStackTrace();
         }
 

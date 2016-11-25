@@ -1,13 +1,13 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
-import static com.srgood.reasons.utils.config.ConfigUtils.setCommandPermission;
-import static com.srgood.reasons.utils.Permissions.PermissionUtils.stringToRole;
+import static com.srgood.reasons.utils.PermissionUtils.stringToRole;
+import static com.srgood.reasons.config.ConfigUtils.setCommandPermission;
 
 /**
  * Created by dmanl on 9/11/2016.
@@ -28,7 +28,7 @@ public class CommandSetPermLevel implements Command {
 
         setCommandPermission(event.getGuild(),mCommand,perm);
 
-        event.getChannel().sendMessage("Permission for " + CommandUtils.getNameFromCommand(mCommand) + " set to " + perm.getReadableName() + ".").queue();
+        event.getChannel().sendMessage("Permission for " + CommandUtils.getNameFromCommand(mCommand) + " set to " + perm.getReadableName() + ".");
     }
 
     @Override

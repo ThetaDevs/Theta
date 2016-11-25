@@ -1,12 +1,11 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.GuildUtils;
 import com.srgood.reasons.utils.ImageUtils;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -18,13 +17,13 @@ public class CommandDebug implements Command {
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
         return ALLOW_DEBUG;
     }
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
-        // TODO Auto-generated method stub
+    public void action(String[] args, GuildMessageReceivedEvent event) {
+        
 
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
@@ -32,7 +31,7 @@ public class CommandDebug implements Command {
                 case "flushandinitguild":
                     GuildUtils.deleteGuild(event.getGuild());
                     com.srgood.reasons.utils.GuildUtils.initGuild(event.getGuild());
-                    event.getChannel().sendMessage("Done").queue();
+                    event.getChannel().sendMessage("Done");
                     break;
                 case "flushguild":
                 case "deleteguild":
@@ -40,14 +39,14 @@ public class CommandDebug implements Command {
                     break;
                 case "verifyconfig":
                 case "verifyxml":
-                    event.getChannel().sendMessage("" + ConfigUtils.verifyConfig()).queue();
+                    event.getChannel().sendMessage("" + ConfigUtils.verifyConfig());
                     break;
                 case "getuptime":
                     long seconds = Duration.between(ReasonsMain.startInstant, Instant.now()).getSeconds();
                     long absSeconds = Math.abs(seconds);
                     String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
                     String x = seconds < 0 ? "-" + positive : positive;
-                    event.getChannel().sendMessage(x).queue();
+                    event.getChannel().sendMessage(x);
                     break;
                 case "except":
                 case "throw":
@@ -66,35 +65,35 @@ public class CommandDebug implements Command {
                     }
                     break;
                 default:
-                    event.getChannel().sendMessage("Invalid argument").queue();
+                    event.getChannel().sendMessage("Invalid argument");
                     break;
             }
         } else {
-            event.getChannel().sendMessage("Author Name: " + event.getMember().getEffectiveName() + "\n" + "Author Nick: " + event.getMember().getEffectiveName() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention().length()" + ReasonsMain.jda.getSelfUser().getAsMention().length() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention()" + ReasonsMain.jda.getSelfUser().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig()).queue();
+            event.getChannel().sendMessage("Author Name: " + event.getAuthor().getUsername() + "\n" + "Author Nick: " + event.getAuthorNick() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention().length()" + ReasonsMain.jda.getSelfInfo().getAsMention().length() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention()" + ReasonsMain.jda.getSelfInfo().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig());
         }
 
     }
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
+        
         return HELP;
     }
 
     @Override
     public void executed(boolean success, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
     }
 
     @Override
     public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
+        
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
+        
         return PermissionLevels.STANDARD;
     }
 

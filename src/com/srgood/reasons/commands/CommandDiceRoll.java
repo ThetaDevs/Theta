@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Random;
 
@@ -13,20 +13,20 @@ public class CommandDiceRoll implements Command {
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
         int numRolls;
         StringBuilder stringBuilder = new StringBuilder();
         Random r = new Random();
 
         if (args.length > 0) {
             if (Integer.parseInt(args[0]) > 50) {
-                event.getChannel().sendMessage("Whoa there, Im not going to roll " + args[0] + " dice, how about 50 instead?").queue();
+                event.getChannel().sendMessage("Whoa there, Im not going to roll " + args[0] + " dice, how about 50 instead?");
                 numRolls = 50;
             } else numRolls = Integer.parseInt(args[0]);
 
@@ -40,33 +40,33 @@ public class CommandDiceRoll implements Command {
 
             }
 
-            event.getChannel().sendMessage(stringBuilder.toString()).queue();
+            event.getChannel().sendMessage(stringBuilder.toString());
         } else {
-            event.getChannel().sendMessage(r.nextInt(6) + 1 + ".").queue();
+            event.getChannel().sendMessage(r.nextInt(6) + 1 + ".");
         }
     }
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
+        
         return HELP;
     }
 
     @Override
     public void executed(boolean success, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
 
     }
 
     @Override
     public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
+        
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
+        
         return PermissionLevels.STANDARD;
     }
 

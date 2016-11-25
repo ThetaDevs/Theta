@@ -1,4 +1,4 @@
-package com.srgood.reasons.utils.config;
+package com.srgood.reasons.config;
 
 import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.commands.Command;
