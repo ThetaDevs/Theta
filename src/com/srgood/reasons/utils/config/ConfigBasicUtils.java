@@ -1,4 +1,4 @@
-package com.srgood.reasons.config;
+package com.srgood.reasons.utils.config;
 
 import net.dv8tion.jda.utils.SimpleLog;
 import org.w3c.dom.Document;

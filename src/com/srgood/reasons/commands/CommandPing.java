@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandPing implements Command {
 
@@ -18,7 +18,7 @@ public class CommandPing implements Command {
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         // TODO Auto-generated method stub
-        event.getChannel().sendMessage("Pong " + event.getAuthor().getAsMention());
+        event.getChannel().sendMessage("Pong " + event.getAuthor().getAsMention()).queue();
 
 
     }

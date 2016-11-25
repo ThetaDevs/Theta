@@ -1,9 +1,10 @@
 package com.srgood.reasons.commands;
 
+import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.games.ChessGame;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 /**
  * Created by dmanl on 9/11/2016.
@@ -17,9 +18,9 @@ public class CommandChess implements Command {
     }
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) {
+    public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
         if (args.length >= 1) {
-            ChessGame chessGame = new ChessGame(event.getChannel().sendMessage(""));
+            ChessGame chessGame = new ChessGame(event.getChannel().sendMessage("").block());
         }
     }
 

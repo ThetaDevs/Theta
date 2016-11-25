@@ -1,40 +1,35 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.Permission;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Message;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.srgood.reasons.ReasonsMain.jda;
-
 public class CommandDelete implements Command {
 
     private static final String HELP = "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
-    int total;
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
         // TODO Auto-generated method stub
-        total = event.getChannel().getHistory().retrieveAll().size();
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
 
-        if (!event.getChannel()
-                .checkPermission(jda.getSelfInfo(), Permission.MESSAGE_MANAGE)) {
-            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.");
+        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_PERMISSIONS)) {
+            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.").queue();
             return;
         }
 
         String channel, delType;
-        List<Message> messages = event.getChannel().getHistory().retrieveAll();
+        List<Message> messages = event.getChannel().getHistory().getCachedHistory();
         List<Message> buffer = new ArrayList<>();
         boolean needsRecursion = false;
 
@@ -55,12 +50,12 @@ public class CommandDelete implements Command {
         }
 */
 
-        event.getChannel().deleteMessages(messages);
+        event.getChannel().deleteMessages(messages).queue();
 
         if (needsRecursion) {
             this.action(args,event);
         } else {
-            event.getChannel().sendMessage("Successfully Deleted **" + total + "** messages");
+            event.getChannel().sendMessage("Successfully Deleted **" + messages.size() + "** messages").queue();
         }
 
 

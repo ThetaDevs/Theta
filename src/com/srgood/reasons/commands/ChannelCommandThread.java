@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
+
+import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Channel;
-import net.dv8tion.jda.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.entities.Channel;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,13 +45,6 @@ public class ChannelCommandThread extends Thread {
                         }
                     } else {
                         commandContainer.event.getChannel().sendMessage("This command is not enabled.");
-                    }
-                }  catch (RateLimitedException e) {
-                    try {
-                        Thread.sleep(1000L);
-
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
                     }
                 } catch (Exception e) {
                     CommandItem commandItem = commandDeque.getFirst();

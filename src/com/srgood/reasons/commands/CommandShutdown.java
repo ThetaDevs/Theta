@@ -1,11 +1,11 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.Constants;
-import com.srgood.reasons.config.ConfigUtils;
-import com.srgood.reasons.config.ConfigPersistenceUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.Reference;
+import com.srgood.reasons.utils.config.ConfigPersistenceUtils;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.xml.transform.TransformerException;
 
@@ -24,26 +24,26 @@ public class CommandShutdown implements Command {
 
 
         try {
-            if (Constants.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
-                event.getChannel().sendMessage("Shutting down! " + event.getAuthor().getAsMention());
+            if (Reference.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
+                event.getChannel().sendMessage("Shutting down! " + event.getAuthor().getAsMention()).queue();
                 doShutdown();
             } else {
                 if (args[0].toLowerCase().equals("override")) {
                     if (ReasonsMain.overrideKey.equals(args[1])) {
-                        event.getChannel().sendMessage("Valid key. Shutting down! " + event.getAuthor().getAsMention());
+                        event.getChannel().sendMessage("Valid key. Shutting down! " + event.getAuthor().getAsMention()).queue();
                         doShutdown();
                     } else {
-                        event.getChannel().sendMessage("Bad key " + event.getAuthor().getAsMention());
+                        event.getChannel().sendMessage("Bad key " + event.getAuthor().getAsMention()).queue();
                     }
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             try {
                 if (args[0].toLowerCase().equals("override")) {
-                    event.getChannel().sendMessage("Invalid Arguments, you should quit the debate team " + event.getAuthor().getAsMention());
+                    event.getChannel().sendMessage("Invalid Arguments, you should quit the debate team " + event.getAuthor().getAsMention()).queue();
                 }
             } catch (ArrayIndexOutOfBoundsException ex) {
-                event.getChannel().sendMessage("You aren't me. you cant do that " + event.getAuthor().getAsMention());
+                event.getChannel().sendMessage("You aren't me. you cant do that " + event.getAuthor().getAsMention()).queue();
             }
 
         }

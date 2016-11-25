@@ -1,11 +1,12 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Role;
-import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
 import java.util.Random;
@@ -22,7 +23,7 @@ public class CommandNotifyRand implements Command {
         return true;
     }
 
-    public User getRandomUser(List<User> users,Boolean isOnline) {
+    public User getRandomUser(List<User> users, Boolean isOnline) {
         User user = null;
 
         if (isOnline) {
@@ -36,8 +37,8 @@ public class CommandNotifyRand implements Command {
         Random r = new Random();
 
         Role role = event.getGuild().getRoleById(args[0]);
-        List<User> users = event.getGuild().getUsersWithRole(role);
-        User user = null;
+        List<Member> users = event.getGuild().getMembersWithRoles(role);
+        Member member = null;
 
         if (args.length > 0) {
 
@@ -54,8 +55,8 @@ public class CommandNotifyRand implements Command {
 
 
 
-        user.getPrivateChannel().sendMessage(event.getAuthor().getUsername() + " has requested your presence at " + event.getGuild().getName() + " in #" + event.getChannel().getName());
-        event.getChannel().sendMessage(user.getUsername() + " has been notified");
+        member.getUser().getPrivateChannel().sendMessage(event.getMember().getUser().getName() + " has requested your presence at " + event.getGuild().getName() + " in #" + event.getChannel().getName()).queue();
+        event.getChannel().sendMessage(member.getEffectiveName() + " has been notified").queue();
 
 
 

@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandSetPrefix implements Command {
     private static final String HELP = "Sets the prefix on this server. Use: '" + ReasonsMain.prefix + "setprefix <prefix>'";
@@ -18,9 +18,9 @@ public class CommandSetPrefix implements Command {
     public void action(String[] args, GuildMessageReceivedEvent event) {
         try {
             ConfigUtils.setGuildPrefix(event.getGuild(), args[0]);
-            event.getChannel().sendMessage("Prefix set to: " + args[0]);
+            event.getChannel().sendMessage("Prefix set to: " + args[0]).queue();
         } catch (Exception e) {
-            event.getChannel().sendMessage(help());
+            event.getChannel().sendMessage(help()).queue();
             e.printStackTrace();
         }
     }

@@ -1,9 +1,9 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Random;
 
@@ -26,7 +26,7 @@ public class CommandDiceRoll implements Command {
 
         if (args.length > 0) {
             if (Integer.parseInt(args[0]) > 50) {
-                event.getChannel().sendMessage("Whoa there, Im not going to roll " + args[0] + " dice, how about 50 instead?");
+                event.getChannel().sendMessage("Whoa there, Im not going to roll " + args[0] + " dice, how about 50 instead?").queue();
                 numRolls = 50;
             } else numRolls = Integer.parseInt(args[0]);
 
@@ -40,9 +40,9 @@ public class CommandDiceRoll implements Command {
 
             }
 
-            event.getChannel().sendMessage(stringBuilder.toString());
+            event.getChannel().sendMessage(stringBuilder.toString()).queue();
         } else {
-            event.getChannel().sendMessage(r.nextInt(6) + 1 + ".");
+            event.getChannel().sendMessage(r.nextInt(6) + 1 + ".").queue();
         }
     }
 

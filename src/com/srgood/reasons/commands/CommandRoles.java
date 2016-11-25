@@ -1,11 +1,11 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.MessageUtils;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Role;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.List;
 import java.util.stream.Collectors;

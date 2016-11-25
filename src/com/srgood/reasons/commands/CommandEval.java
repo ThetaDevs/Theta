@@ -4,9 +4,9 @@ import com.meowingtwurtle.math.api.IMathGroup;
 import com.meowingtwurtle.math.api.IMathHandler;
 import com.meowingtwurtle.math.api.MathExpressionParseException;
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -33,12 +33,12 @@ public class CommandEval implements Command {
             String exp = join(args);
 
             if (!exp.matches("[()\\d\\w\\s.+\\-*/^]+")) {
-                event.getChannel().sendMessage("`MATH:` Expression contains invalid characters");
+                event.getChannel().sendMessage("`MATH:` Expression contains invalid characters").queue();
                 return;
             }
 
             IMathGroup group = IMathHandler.getMathHandler().parse(exp);
-            event.getChannel().sendMessage("`MATH:` " + RESULT_FORMATTER.format(group.eval()));
+            event.getChannel().sendMessage("`MATH:` " + RESULT_FORMATTER.format(group.eval())).queue();
         } catch (Exception e) {
             e.printStackTrace();
             Throwable t = e;
@@ -49,7 +49,7 @@ public class CommandEval implements Command {
                     break;
                 }
             }
-            event.getChannel().sendMessage("`MATH:` An error occurred during parsing: " + (t == null ? "null" : t.getClass().getCanonicalName() + ": " + t.getMessage()));
+            event.getChannel().sendMessage("`MATH:` An error occurred during parsing: " + (t == null ? "null" : t.getClass().getCanonicalName() + ": " + t.getMessage())).queue();
         }
     }
 

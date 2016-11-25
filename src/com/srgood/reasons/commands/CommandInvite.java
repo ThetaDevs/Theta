@@ -1,10 +1,10 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.Constants;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.Reference;
+import com.srgood.reasons.utils.config.ConfigUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandInvite implements Command {
     private static final String HELP = "Prints the link to add Reasons to another server. Use: '" + ReasonsMain.prefix + "invite'";
@@ -18,7 +18,7 @@ public class CommandInvite implements Command {
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         // TODO Auto-generated method stub
-        event.getChannel().sendMessage(String.format("Reasons authorization link: %s", Constants.Strings.INVITE_LINK));
+        event.getChannel().sendMessage(String.format("Reasons authorization link: %s", Reference.Strings.INVITE_LINK)).queue();
     }
 
     @Override

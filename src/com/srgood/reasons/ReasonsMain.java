@@ -2,17 +2,20 @@ package com.srgood.reasons;
 
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
+import com.srgood.reasons.utils.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.config.ConfigUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import net.dv8tion.jda.JDA;
-import net.dv8tion.jda.JDABuilder;
-import net.dv8tion.jda.utils.SimpleLog;
+import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.utils.SimpleLog;
 import org.reflections.Reflections;
 
 import javax.imageio.ImageIO;
@@ -44,7 +47,7 @@ public class ReasonsMain extends Application {
     private boolean firstTime;
     private TrayIcon trayIcon;
 
-    @Override public void init() {
+    @Override public void init() throws RateLimitedException {
         out = new ByteArrayOutputStream();
         errOut = new ByteArrayOutputStream();
 
@@ -90,9 +93,7 @@ public class ReasonsMain extends Application {
 
         try {
             //create a JDA with one Event listener
-            jda = new JDABuilder().addListener(new DiscordEventListener()).setBotToken(Constants.Strings.BOT_TOKEN_REASONS).buildBlocking();
-            jda.setAutoReconnect(true);
-            jda.getAccountManager().setGame("type '@Reasons help'");
+            jda = new JDABuilder(AccountType.BOT).addListener(new DiscordEventListener()).setToken(Reference.Strings.BOT_TOKEN_REASONS).setGame(Game.of("Type @Reasons help")).setAutoReconnect(true).buildBlocking();
         } catch (LoginException e) {
             SimpleLog.getLog("Reasons").fatal("**COULD NOT LOG IN**");
         } catch (InterruptedException e) {
@@ -225,5 +226,11 @@ public class ReasonsMain extends Application {
         });
     }
 
+
+//    private final static int[] illegalChars = { 34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 46, 47 };
+
+//    static {
+//        Arrays.sort(illegalChars);
+//    }
 
 }

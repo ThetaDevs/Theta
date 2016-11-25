@@ -1,4 +1,4 @@
-package com.srgood.reasons.config;
+package com.srgood.reasons.utils.config;
 
 import net.dv8tion.jda.entities.Guild;
 import org.w3c.dom.Attr;
@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.srgood.reasons.config.ConfigBasicUtils.*;
+import static com.srgood.reasons.utils.config.ConfigBasicUtils.*;
 
 class ConfigGuildUtils {
     private static Map<String, Element> servers = new HashMap<>();
