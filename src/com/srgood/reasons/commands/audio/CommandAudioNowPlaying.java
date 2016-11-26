@@ -12,18 +12,10 @@ import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioNowPlaying implements AudioCommand {
 
-    private static final String HELP = "Displays information about the song that is playing on this server. Use: '" + ReasonsMain.prefix + "now-playing'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         AudioManager manager = event.getGuild().getAudioManager();
         MusicPlayer player = AudioCommand.initAndGetPlayer(manager);
-
 
         if (player.isPlaying()) {
             AudioTimestamp currentTime = player.getCurrentTimestamp();
@@ -40,26 +32,12 @@ public class CommandAudioNowPlaying implements AudioCommand {
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
+        return "Displays information about the song that is playing on this server. Use: '" + ReasonsMain.prefix + "now-playing'";
     }
 
     @Override
     public String[] names() {
-        return new String[] {"nowplaying", "now-playing"};
+        return new String[] {"nowplaying", "now-playing","playing"};
     }
 
 }

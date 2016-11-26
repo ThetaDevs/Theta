@@ -16,17 +16,7 @@ public class CommandAudioSearch implements AudioCommand {
 
     @Override
     public String help() {
-        return null;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return null;
+        return "";
     }
 
     @Override

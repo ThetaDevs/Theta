@@ -9,13 +9,6 @@ import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioRepeat implements AudioCommand {
-    private static final String HELP = "Used to repeat the audio that is playing on this server. Use: '" + ReasonsMain.prefix + "pause'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
-        return true;
-    }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
@@ -34,25 +27,13 @@ public class CommandAudioRepeat implements AudioCommand {
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Used to repeat the audio that is playing on this server. Use: '" + ReasonsMain.prefix + "pause'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
         
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.MUSIC_DJ;
     }
 
 

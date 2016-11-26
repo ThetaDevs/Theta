@@ -10,14 +10,6 @@ import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioSkip implements AudioCommand {
 
-    private static final String HELP = "Used to skip the current audio on this server. Use: '" + ReasonsMain.prefix + "skip'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         AudioManager manager = event.getGuild().getAudioManager();
@@ -25,30 +17,16 @@ public class CommandAudioSkip implements AudioCommand {
 
         player.skipToNext();
         event.getChannel().sendMessage("Skipped the current song.");
-
     }
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Used to skip the current audio on this server. Use: '" + ReasonsMain.prefix + "skip'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.MUSIC_DJ;
     }
 
     @Override

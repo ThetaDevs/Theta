@@ -9,43 +9,25 @@ import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioLeave implements AudioCommand {
 
-    private static final String HELP = "Makes Reasons leave the connected voice channel on this server. Use: '" + ReasonsMain.prefix + "leave'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-
         AudioManager manager = event.getGuild().getAudioManager();
-
         manager.closeAudioConnection();
     }
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Makes Reasons leave the connected voice channel on this server. Use: '" + ReasonsMain.prefix + "leave'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.MUSIC_DJ;
     }
 
     @Override
     public String[] names() {
-        return new String[] {"leave"};
+        return new String[] {"leave","leavechan","leavechannel","exit"};
     }
 
 }

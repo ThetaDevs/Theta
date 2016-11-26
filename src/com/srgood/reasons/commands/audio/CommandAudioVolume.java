@@ -10,12 +10,6 @@ import net.dv8tion.jda.managers.AudioManager;
 
 public class CommandAudioVolume implements AudioCommand {
 
-    private static final String HELP = "Used to get or set the audio volume on this server. No argument will get, one argument will set. Use: '" + ReasonsMain.prefix + "volume [0-100]'";
-
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     public void action(String[] args, GuildMessageReceivedEvent event) {
         AudioManager manager = event.getGuild().getAudioManager();
         MusicPlayer player = AudioCommand.initAndGetPlayer(manager);
@@ -31,25 +25,15 @@ public class CommandAudioVolume implements AudioCommand {
     }
 
     public String help() {
-        return HELP;
-    }
-
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    public PermissionLevels permissionLevel(Guild guild) {
-
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Used to get or set the audio volume on this server. No argument will get, one argument will set. Use: '" + ReasonsMain.prefix + "volume [0-100]'";
     }
 
     public PermissionLevels defaultPermissionLevel() {
-
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.MUSIC_DJ;
     }
 
     public String[] names() {
-        return new String[] { "volume" };
+        return new String[] { "volume","vol" };
     }
 
 }

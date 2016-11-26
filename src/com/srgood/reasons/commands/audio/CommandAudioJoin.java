@@ -11,9 +11,6 @@ import net.dv8tion.jda.utils.SimpleLog;
 
 public class CommandAudioJoin implements AudioCommand {
 
-
-    private static final String HELP = "Adds Reasons to a voice channel. Use: '" + ReasonsMain.prefix + "join [channel name]' Default is the channel you are currently in.";
-
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
         return true;
@@ -34,7 +31,6 @@ public class CommandAudioJoin implements AudioCommand {
             if (i < args.length - 1) {
                 chanName.append(" ");
             }
-
         }
 
         if (chanName.toString().equals("")) {
@@ -47,7 +43,6 @@ public class CommandAudioJoin implements AudioCommand {
             channel = event.getGuild().getVoiceChannels().stream().filter(vChan -> vChan.getName().equalsIgnoreCase(chanName.toString())).findFirst().orElse(null);
         }
 
-
         if (channel == null) {
             event.getChannel().sendMessage("I couldn't find a channel called: '" + chanName.toString() + "'");
             SimpleLog.getLog("Reasons").debug("Joined: " + chanName.toString());
@@ -57,35 +52,17 @@ public class CommandAudioJoin implements AudioCommand {
             manager.openAudioConnection(channel);
         } catch (IllegalStateException e){
             event.getChannel().sendMessage("Reasons is already connected to an audio channel");
-
         }
-
-
-
     }
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
+        return "Adds Reasons to a voice channel. Use: '" + ReasonsMain.prefix + "join [channel name]' Default is the channel you are currently in.";
     }
 
     @Override
     public String[] names() {
-        return new String[] {"join"};
+        return new String[] {"join","joinchan","joinchannel"};
     }
 
 }
