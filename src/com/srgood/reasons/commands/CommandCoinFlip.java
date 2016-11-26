@@ -13,10 +13,10 @@ public class CommandCoinFlip implements Command {
     public void action(String[] args, GuildMessageReceivedEvent event) {
         
         Random r = new Random();
-        int n = r.nextInt(6002);
+        int n = r.nextInt(6000) + 1;
         if (n < 3000) {
             event.getChannel().sendMessage("Heads");
-        } else if (n > 3001) {
+        } else if (n > 3000) {
             event.getChannel().sendMessage("Tails");
         } else {
             event.getChannel().sendMessage("Side");
