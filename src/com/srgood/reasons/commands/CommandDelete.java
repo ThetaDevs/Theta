@@ -1,14 +1,14 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandDelete implements Command {
 
@@ -16,9 +16,8 @@ public class CommandDelete implements Command {
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        total = event.getChannel().getHistory().retrieveAll().size();
-        if (!event.getChannel()
-                .checkPermission(jda.getSelfInfo(), Permission.MESSAGE_MANAGE)) {
+        total = event.getChannel().getHistory().getCachedHistory().size();
+        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_PERMISSIONS)) {
             event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.").queue();
             return false;
         }
@@ -27,9 +26,6 @@ public class CommandDelete implements Command {
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-
-
-
         String channel, delType;
         List<Message> messages = event.getChannel().getHistory().getCachedHistory();
         List<Message> buffer = new ArrayList<>();

@@ -15,10 +15,6 @@ public class ConfigUtils {
         ConfigPersistenceUtils.initConfig();
     }
 
-    public static String getGuildPrefix(Guild guild) {
-        return ConfigGuildUtils.getGuildPrefix(guild);
-    }
-
     public static void initFromStream(InputStream inputStream) throws Exception {
         ConfigPersistenceUtils.initConfigFromStream(inputStream);
     }
@@ -29,6 +25,34 @@ public class ConfigUtils {
 
     public static void ensureGuildInitted(Guild guild) {
         ConfigGuildUtils.ensureGuildInitted(guild);
+    }
+
+    public static String getGuildPrefix(Guild guild) {
+        return ConfigGuildUtils.getGuildPrefix(guild);
+    }
+
+    public static void registerRoleConfig(Guild guild, Role role, PermissionLevels permLevel) {
+        ConfigRoleUtils.registerRoleConfig(guild, role, permLevel);
+    }
+
+    public static PermissionLevels roleToPermission(Role role) {
+        return ConfigRoleUtils.roleToPermission(role.getGuild(), role);
+    }
+
+    public static Set<Role> getGuildRolesFromPermission(Guild guild, PermissionLevels permLevel) {
+        return ConfigRoleUtils.getGuildRolesFromPermissionLevel(guild, permLevel);
+    }
+
+    public static Set<String> getGuildRegisteredRoleIDs(Guild guild) {
+        return ConfigRoleUtils.getGuildRegisteredRoleIDs(guild);
+    }
+
+    public static void deregisterRoleConfig(Guild guild, String roleID) {
+        ConfigRoleUtils.deregisterRoleConfig(guild, roleID);
+    }
+
+    public static boolean guildHasRoleForPermission(Guild guild, PermissionLevels permLevel) {
+        return ConfigRoleUtils.guildHasRoleForPermission(guild, permLevel);
     }
 
     public static void initCommandConfigIfNotExists(CommandParser.CommandContainer cmd) {

@@ -30,7 +30,7 @@ public class GuildUtils {
             ConfigUtils.deregisterRoleConfig(guild,roleID);
             Role role = guild.getRoleById(roleID);
             if (role != null) {
-                    role.delete().queue();
+                role.delete().queue();
             }
         } );
         ConfigUtils.deleteGuild(guild);

@@ -2,8 +2,6 @@ package com.srgood.reasons.commands;
 
 
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;

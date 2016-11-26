@@ -4,6 +4,7 @@ import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.GuildUtils;
 import com.srgood.reasons.utils.ImageUtils;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -45,7 +46,6 @@ public class CommandDebug implements Command {
                     String x = seconds < 0 ? "-" + positive : positive;
                     event.getChannel().sendMessage(x).queue();
                     break;
-                case "except":
                 case "throw":
                     new Exception("Test Exception").printStackTrace();
                     break;
@@ -61,6 +61,7 @@ public class CommandDebug implements Command {
                         e.printStackTrace();
                     }
                     break;
+
                 default:
                     event.getChannel().sendMessage("Invalid argument").queue();
                     break;
@@ -76,5 +77,6 @@ public class CommandDebug implements Command {
         
         return "Used internally for debugging. Use: '" + ReasonsMain.prefix + "debug [debug arg]'";
     }
+
 
 }
