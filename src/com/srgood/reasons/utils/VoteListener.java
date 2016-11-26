@@ -1,9 +1,10 @@
 package com.srgood.reasons.utils;
 
-import net.dv8tion.jda.entities.Channel;
-import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.hooks.ListenerAdapter;
+
+import net.dv8tion.jda.core.entities.Channel;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,10 @@ public class VoteListener extends ListenerAdapter {
                 for (String choice : selections.keySet()) {
                     if (choice.equals(msg)) {
                         if (votedUsers.contains(event.getAuthor())) {
-                            event.getChannel().sendMessage("You have already voted " + event.getAuthor().getAsMention());
+                            event.getChannel().sendMessage("You have already voted " + event.getAuthor().getAsMention()).queue();
                         } else {
                             selections.replace(choice,selections.get(choice) + 1);
-                            event.getChannel().sendMessage("Your vote has been counted " + event.getAuthor().getAsMention());
+                            event.getChannel().sendMessage("Your vote has been counted " + event.getAuthor().getAsMention()).queue();
                             votedUsers.add(event.getAuthor());
                         }
                     }

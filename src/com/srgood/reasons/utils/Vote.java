@@ -1,7 +1,7 @@
 package com.srgood.reasons.utils;
 
 import com.srgood.reasons.ReasonsMain;
-import net.dv8tion.jda.entities.Channel;
+import net.dv8tion.jda.core.entities.Channel;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -17,18 +17,15 @@ public class Vote {
         VoteListener voteListener = new VoteListener(channel,choiceMap);
         ReasonsMain.jda.addEventListener(voteListener);
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    if (Duration.between(begin, Instant.now()).getSeconds() >=  voteDuration) {
-                        action.run();
-                        ReasonsMain.jda.removeEventListener(voteListener);
-                        break;
-                    }
+        Thread thread = new Thread(() -> {
+            while (true) {
+                if (Duration.between(begin, Instant.now()).getSeconds() >=  voteDuration) {
+                    action.run();
+                    ReasonsMain.jda.removeEventListener(voteListener);
+                    break;
                 }
             }
-        };
+        });
         thread.run();
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaProjectCodeInsightSettings">
+    <excluded-names>
+      <name>com.sun.corba.se.impl.protocol.giopmsgheaders.Message</name>
+      <name>com.sun.javafx.collections.MappingChange.Map</name>
+      <name>com.sun.xml.internal.ws.api.message.Message</name>
+      <name>com.sun.xml.internal.ws.wsdl.writer.document.Message</name>
+      <name>java.nio.channels.Channel</name>
+      <name>javax.management.relation.Role</name>
+      <name>sun.rmi.transport.Channel</name>
+    </excluded-names>
+  </component>
+</project>

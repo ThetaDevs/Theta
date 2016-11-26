@@ -1,15 +1,15 @@
 package com.srgood.reasons;
 
-import com.srgood.reasons.utils.GuildUtils;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.events.ReadyEvent;
-import net.dv8tion.jda.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.events.message.guild.GuildMessageUpdateEvent;
-import net.dv8tion.jda.events.voice.VoiceLeaveEvent;
-import net.dv8tion.jda.hooks.ListenerAdapter;
-import net.dv8tion.jda.managers.AudioManager;
-import net.dv8tion.jda.utils.SimpleLog;
+import com.srgood.reasons.utils.GuildUtils;
+import net.dv8tion.jda.core.events.ReadyEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.core.utils.SimpleLog;
 
 /**
  * <h1>DiscordEventListener</h1>
@@ -30,7 +30,11 @@ public class DiscordEventListener extends ListenerAdapter {
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
-        GuildUtils.doPreMessageGuildCheck(event.getGuild());
+        try {
+            GuildUtils.doPreMessageGuildCheck(event.getGuild());
+        } catch (RateLimitedException e) {
+            e.printStackTrace();
+        }
 
         String localPrefix = ConfigUtils.getGuildPrefix(event.getGuild());
 
@@ -38,13 +42,13 @@ public class DiscordEventListener extends ListenerAdapter {
             event.getChannel().sendMessage(com.srgood.reasons.Reference.Strings.TABLE_UNFLIP_JOKE);
         }
 
-        if (event.getMessage().getContent().startsWith(localPrefix) && !java.util.Objects.equals(event.getMessage().getAuthor().getId(), event.getJDA().getSelfInfo().getId())) {
+        if (event.getMessage().getContent().startsWith(localPrefix) && !java.util.Objects.equals(event.getMessage().getAuthor().getId(), event.getJDA().getSelfUser().getId())) {
             com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.parser.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
             SimpleLog.getLog("Reasons").info("Got prefixed input: " + event.getMessage().getContent());
         } else {
             try {
 
-                if (event.getJDA().getSelfInfo().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
+                if (event.getJDA().getSelfUser().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
 
                     SimpleLog.getLog("Reasons").info("Got prefixed input (mention): " + event.getMessage().getContent());
                     com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.parser.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
@@ -64,16 +68,17 @@ public class DiscordEventListener extends ListenerAdapter {
 
     @Override
     public void onGuildMessageUpdate(GuildMessageUpdateEvent event) {
-        GuildMessageReceivedEvent e = new GuildMessageReceivedEvent(event.getJDA(),event.getResponseNumber(),event.getMessage(),event.getChannel());
+        GuildMessageReceivedEvent e = new GuildMessageReceivedEvent(event.getJDA(),event.getResponseNumber(),event.getMessage());
         this.onGuildMessageReceived(e);
     }
 
     @Override
-    public void onVoiceLeave(VoiceLeaveEvent event) {
-        if (event.getOldChannel().getUsers().size() == 1) {
-            AudioManager manager = event.getGuild().getAudioManager();
-
-            manager.closeAudioConnection();
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
+        if (event.getChannelLeft().getMembers().size() == 1) {
+            // TODO FIX AUDIO
+//            AudioManager manager = event.getGuild();
+//
+//            manager.closeAudioConnection();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.srgood.reasons.commands;
 
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -11,8 +12,8 @@ public class CommandParser {
         ArrayList<String> split = new ArrayList<>();
         String beheaded;
         try {
-            if (event.getJDA().getSelfInfo().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
-                beheaded = event.getMessage().getRawContent().replaceFirst(event.getJDA().getSelfInfo().getAsMention() + " ", "");
+            if (event.getJDA().getSelfUser().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
+                beheaded = event.getMessage().getRawContent().replaceFirst(event.getJDA().getSelfUser().getAsMention() + " ", "");
             } else {
                 beheaded = rw.replaceFirst(prefix, "");
             }

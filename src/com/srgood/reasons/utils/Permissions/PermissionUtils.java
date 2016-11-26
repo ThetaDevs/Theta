@@ -1,19 +1,20 @@
-package com.srgood.reasons.utils;
+package com.srgood.reasons.utils.Permissions;
 
-import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.Reference;
+import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Role;
-import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.managers.RoleManager;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.managers.RoleManager;
 
 import java.util.Collection;
 
 public class PermissionUtils {
 
     public static Collection<PermissionLevels> getPermissions(Guild guild, User user) {
-        return rolesToPermissions(guild, guild.getRolesForUser(user));
+        return rolesToPermissions(guild, guild.getMember(user).getRoles());
     }
 
     public static PermissionLevels userPermissionLevel(Guild guild, User user) {
@@ -40,7 +41,7 @@ public class PermissionUtils {
         return maxFound;
     }
 
-    private static Collection<PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends net.dv8tion.jda.entities.Role> roles) {
+    private static Collection<PermissionLevels> rolesToPermissions(Guild guild, Collection<? extends Role> roles) {
         return roles.stream().map(role -> ConfigUtils.roleToPermission(role)).collect(java.util.stream.Collectors.toList());
     }
 
@@ -70,14 +71,12 @@ public class PermissionUtils {
     }
 
 
-    public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) {
+    public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) throws RateLimitedException {
         if (!roleLevel.isVisible()) return null;
 
-        RoleManager roleMgr = guild.createRole();
-        roleMgr.setName(roleLevel.getReadableName());
-        roleMgr.setColor(roleLevel.getColor());
-
-        roleMgr.update();
+        RoleManager roleMgr = guild.getController().createRole().block().getManager();
+        roleMgr.setName(roleLevel.getReadableName()).queue();
+        roleMgr.setColor(roleLevel.getColor()).queue();
 
         Role role = roleMgr.getRole();
 

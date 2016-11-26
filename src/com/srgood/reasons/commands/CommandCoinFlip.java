@@ -18,14 +18,18 @@ public class CommandCoinFlip implements Command {
             event.getChannel().sendMessage("Heads");
         } else if (n > 3000) {
             event.getChannel().sendMessage("Tails");
+            event.getChannel().sendMessage("Heads").queue();
+        } else if (n > 3001) {
+            event.getChannel().sendMessage("Tails").queue();
         } else {
-            event.getChannel().sendMessage("Side");
+            event.getChannel().sendMessage("Side").queue();
         }
     }
 
     @Override
     public String help() {
-        return "Flips a coin and prints the result. Use: '" + ReasonsMain.prefix + "flip'";
+        
+        return HELP;
     }
 
 

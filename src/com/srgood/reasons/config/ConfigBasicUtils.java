@@ -1,6 +1,6 @@
 package com.srgood.reasons.config;
 
-import net.dv8tion.jda.utils.SimpleLog;
+import net.dv8tion.jda.core.utils.SimpleLog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

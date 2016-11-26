@@ -2,15 +2,15 @@ package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandGetPrefix implements Command {
 
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Prefix: " + ConfigUtils.getGuildPrefix(event.getGuild()));
+        event.getChannel().sendMessage("Prefix: " + ConfigUtils.getGuildPrefix(event.getGuild())).queue();
     }
 
     @Override

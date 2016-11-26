@@ -1,10 +1,10 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.CommandUtils;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.CommandUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandDisable implements Command {
     private static final String HELP = "Disables a command on this server. Use: '" + ReasonsMain.prefix + "disable <command>'";
@@ -20,12 +20,12 @@ public class CommandDisable implements Command {
             Command mCommand = CommandUtils.getCommandByName(args[0]);
             try {
                 CommandUtils.setCommandEnabled(event.getGuild(), mCommand, false);
-                event.getChannel().sendMessage(String.format("Command %s disabled.", CommandUtils.getNameFromCommand(mCommand)));
+                event.getChannel().sendMessage(String.format("Command %s disabled.", CommandUtils.getNameFromCommand(mCommand))).queue();
             } catch (IllegalArgumentException e) {
-                event.getChannel().sendMessage(String.format("Cannot disable command %s.", CommandUtils.getNameFromCommand(mCommand)));
+                event.getChannel().sendMessage(String.format("Cannot disable command %s.", CommandUtils.getNameFromCommand(mCommand))).queue();
             }
         } else {
-            event.getChannel().sendMessage("Please specify a command to toggle");
+            event.getChannel().sendMessage("Please specify a command to toggle").queue();
         }
     }
 

@@ -1,10 +1,10 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.utils.CommandUtils;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import com.srgood.reasons.utils.CommandUtils;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandEnable implements Command {
 
@@ -14,12 +14,12 @@ public class CommandEnable implements Command {
             Command mCommand = CommandUtils.getCommandByName(args[0]);
             try {
                 CommandUtils.setCommandEnabled(event.getGuild(), mCommand, true);
-                event.getChannel().sendMessage(String.format("Command %s enabled.", CommandUtils.getNameFromCommand(mCommand)));
+                event.getChannel().sendMessage(String.format("Command %s enabled.", CommandUtils.getNameFromCommand(mCommand))).queue();
             } catch (IllegalArgumentException e) {
-                event.getChannel().sendMessage(String.format("Cannot enable command %s.", CommandUtils.getNameFromCommand(mCommand)));
+                event.getChannel().sendMessage(String.format("Cannot enable command %s.", CommandUtils.getNameFromCommand(mCommand))).queue();
             }
         } else {
-            event.getChannel().sendMessage("Please specify a command to enable.");
+            event.getChannel().sendMessage("Please specify a command to enable.").queue();
         }
     }
 

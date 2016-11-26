@@ -1,10 +1,11 @@
 package com.srgood.reasons.config;
 
-import com.srgood.reasons.commands.PermissionLevels;
+
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Role;
+import com.srgood.reasons.commands.PermissionLevels;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Role;
 
 import java.io.InputStream;
 import java.util.Set;

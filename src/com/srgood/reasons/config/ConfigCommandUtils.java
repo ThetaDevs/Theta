@@ -1,10 +1,10 @@
 package com.srgood.reasons.config;
 
-import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.commands.Command;
+import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.utils.CommandUtils;
-import com.srgood.reasons.utils.PermissionUtils;
-import net.dv8tion.jda.entities.Guild;
+import com.srgood.reasons.utils.Permissions.PermissionUtils;
+import net.dv8tion.jda.core.entities.Guild;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.srgood.reasons.config.ConfigBasicUtils.lockAndGetDocument;
-import static com.srgood.reasons.config.ConfigBasicUtils.lockDocument;
-import static com.srgood.reasons.config.ConfigBasicUtils.releaseDocument;
+import static com.srgood.reasons.config.ConfigBasicUtils.*;
 
 class ConfigCommandUtils {
     private static final Map<String, Function<String, Object>> requiredCommandSubElements = new HashMap<String, Function<String, Object>>() {

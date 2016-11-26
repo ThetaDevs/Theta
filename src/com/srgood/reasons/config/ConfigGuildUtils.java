@@ -1,6 +1,6 @@
 package com.srgood.reasons.config;
 
-import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.core.entities.Guild;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -2,15 +2,13 @@ package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.Permission;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.Message;
-import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandDelete implements Command {
 
@@ -21,7 +19,7 @@ public class CommandDelete implements Command {
         total = event.getChannel().getHistory().retrieveAll().size();
         if (!event.getChannel()
                 .checkPermission(jda.getSelfInfo(), Permission.MESSAGE_MANAGE)) {
-            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.");
+            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.").queue();
             return false;
         }
         return true;
@@ -33,7 +31,7 @@ public class CommandDelete implements Command {
 
 
         String channel, delType;
-        List<Message> messages = event.getChannel().getHistory().retrieveAll();
+        List<Message> messages = event.getChannel().getHistory().getCachedHistory();
         List<Message> buffer = new ArrayList<>();
         boolean needsRecursion = false;
 
@@ -54,12 +52,12 @@ public class CommandDelete implements Command {
         }
 */
 
-        event.getChannel().deleteMessages(messages);
+        event.getChannel().deleteMessages(messages).queue();
 
         if (needsRecursion) {
             this.action(args,event);
         } else {
-            event.getChannel().sendMessage("Successfully Deleted **" + total + "** messages");
+            event.getChannel().sendMessage("Successfully Deleted **" + messages.size() + "** messages").queue();
         }
 
 
