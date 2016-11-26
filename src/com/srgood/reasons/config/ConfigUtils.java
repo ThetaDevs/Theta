@@ -14,6 +14,10 @@ public class ConfigUtils {
         ConfigPersistenceUtils.initConfig();
     }
 
+    public static String getGuildPrefix(Guild guild) {
+        return ConfigGuildUtils.getGuildPrefix(guild);
+    }
+
     public static void initFromStream(InputStream inputStream) throws Exception {
         ConfigPersistenceUtils.initConfigFromStream(inputStream);
     }

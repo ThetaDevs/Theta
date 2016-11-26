@@ -1,7 +1,7 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.Constants;
+import com.srgood.reasons.Reference;
 import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.config.ConfigPersistenceUtils;
 import net.dv8tion.jda.entities.Guild;
@@ -10,21 +10,21 @@ import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import javax.xml.transform.TransformerException;
 
 public class CommandShutdown implements Command {
-    private static final String HELP = "Used to shutdown Reasons. Use: '" + ReasonsMain.prefix + "shutdown' -OR- '" + ReasonsMain.prefix + "shutdown override <override key>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
+
+        //TODO: shift user checks into called clause
         long uid = Long.parseLong(event.getAuthor().getId());
 
-
         try {
-            if (Constants.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
+            if (Reference.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
                 event.getChannel().sendMessage("Shutting down! " + event.getAuthor().getAsMention());
                 doShutdown();
             } else {
@@ -54,7 +54,7 @@ public class CommandShutdown implements Command {
         try {
             ConfigPersistenceUtils.writeXML();
         } catch (TransformerException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
         ReasonsMain.jda.shutdown();
@@ -62,25 +62,14 @@ public class CommandShutdown implements Command {
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
+        return "Used to shutdown Reasons. Use: '" + ReasonsMain.prefix + "shutdown' -OR- '" + ReasonsMain.prefix + "shutdown override <override key>'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
+        
         return PermissionLevels.ADMINISTRATOR;
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
-        return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override

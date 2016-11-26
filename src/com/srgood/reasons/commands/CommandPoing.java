@@ -10,13 +10,6 @@ import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
  */
 public class CommandPoing implements Command {
 
-    private static final String HELP = "Poing! Use: '" + ReasonsMain.prefix + "poing'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         event.getChannel().sendMessage("Plong " + event.getAuthor().getAsMention());
@@ -24,26 +17,7 @@ public class CommandPoing implements Command {
 
     @Override
     public String help() {
-        return HELP;
+        return "Poing! Use: '" + ReasonsMain.prefix + "poing'";
     }
 
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"poing"};
-    }
 }

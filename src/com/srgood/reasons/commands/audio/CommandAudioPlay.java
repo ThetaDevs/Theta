@@ -24,12 +24,6 @@ public class CommandAudioPlay implements AudioCommand {
     private static final String HELP = "Used to play audio on this server. Use: '" + ReasonsMain.prefix + "play [URL]'";
 
     @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         event.getChannel().sendTyping();
         AudioManager manager = event.getGuild().getAudioManager();
@@ -56,7 +50,7 @@ public class CommandAudioPlay implements AudioCommand {
                 }
             }
         } else if (args.length > 0) {
-            String url = event.getMessage().getContent().replace(ConfigUtils.getGuildPrefix(event.getGuild())+ "play ","");
+            String url = event.getMessage().getContent().toLowerCase().replace(ConfigUtils.getGuildPrefix(event.getGuild())+ "play ","");
             StringBuilder msg = new StringBuilder();
 
             Playlist playlist = Playlist.getPlaylist(url);
@@ -106,25 +100,25 @@ public class CommandAudioPlay implements AudioCommand {
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
+        
         return HELP;
     }
 
     @Override
     public void executed(boolean success, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
+        
 
     }
 
     @Override
     public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
+        
         return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
+        
         return PermissionLevels.STANDARD;
     }
 

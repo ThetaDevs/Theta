@@ -1,7 +1,7 @@
 package com.srgood.reasons.commands;
 
-import com.srgood.reasons.Constants;
 import com.srgood.reasons.ReasonsMain;
+import com.srgood.reasons.Reference;
 import com.srgood.reasons.utils.ImageUtils;
 import com.srgood.reasons.utils.Vote;
 import com.srgood.reasons.config.ConfigUtils;
@@ -17,8 +17,6 @@ import java.util.Map;
  */
 public class CommandVote implements Command{
 
-    private final static String HELP = "Begins a vote with the specified options that ends after the specified amount of seconds. Use: '" + ReasonsMain.prefix + "vote <duration (seconds)> <option 1> <option 2> [option 3 [option 4 [option 5 [option 6 [...]]]]]'";
-
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
         return true;
@@ -26,8 +24,8 @@ public class CommandVote implements Command{
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-
-        if (args.length >= 3 && args.length <= Constants.Strings.COLORS.length + 2) {
+        //TODO: shift arg checks to called
+        if (args.length >= 3 && args.length <= Reference.Strings.COLORS.length + 2) {
             Map<String,Integer> voteMap = new LinkedHashMap<>();
 
             for (int i = 2; i < args.length; i++) {
@@ -68,24 +66,15 @@ public class CommandVote implements Command{
                 }
             });
         } else {
-            event.getChannel().sendMessage("Incorrect arguments, correct usage: " + ConfigUtils.getGuildPrefix(event.getGuild()) + "vote <duration (seconds)> <option 1> <option 2> ... [option 5 (up to " +  Constants.Strings.COLORS.length + " max)]");
+            event.getChannel().sendMessage("Incorrect arguments, correct usage: " + ConfigUtils.getGuildPrefix(event.getGuild()) + "vote <duration (seconds)> <option 1> <option 2> ... [option 5 (up to " +  Reference.Strings.COLORS.length + " max)]");
         }
     }
 
     @Override
     public String help() {
-        return null;
+        return "Begins a vote with the specified options that ends after the specified amount of seconds. Use: '" + ReasonsMain.prefix + "vote <duration (seconds)> <option 1> <option 2> [option 3 [option 4 [option 5 [option 6 [...]]]]]'";
     }
 
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {

@@ -12,13 +12,6 @@ import java.util.stream.Collectors;
 
 public class CommandRoles implements Command {
 
-    private static final String HELP = "Lists all roles and their ID's in the guild. Use: " + ReasonsMain.prefix + "roles";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         Guild guild = event.getGuild();
@@ -33,22 +26,7 @@ public class CommandRoles implements Command {
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Lists all roles and their ID's in the guild. Use: " + ReasonsMain.prefix + "roles";
     }
 
     @Override
