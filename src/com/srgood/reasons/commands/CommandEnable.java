@@ -7,12 +7,6 @@ import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandEnable implements Command {
-    private static final String HELP = "Enables a command on this server. Use: '" + ReasonsMain.prefix + "enable <command>'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
@@ -31,27 +25,12 @@ public class CommandEnable implements Command {
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Enables a command on this server. Use: '" + ReasonsMain.prefix + "enable <command>'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
         return PermissionLevels.ADMINISTRATOR;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] { "enable" };
     }
 
 }

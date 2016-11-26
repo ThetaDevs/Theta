@@ -24,12 +24,6 @@ public class CommandAudioPlay implements AudioCommand {
     private static final String HELP = "Used to play audio on this server. Use: '" + ReasonsMain.prefix + "play [URL]'";
 
     @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
-        return true;
-    }
-
-    @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         event.getChannel().sendTyping();
         AudioManager manager = event.getGuild().getAudioManager();
@@ -56,7 +50,7 @@ public class CommandAudioPlay implements AudioCommand {
                 }
             }
         } else if (args.length > 0) {
-            String url = event.getMessage().getContent().replace(ConfigUtils.getGuildPrefix(event.getGuild())+ "play ","");
+            String url = event.getMessage().getContent().toLowerCase().replace(ConfigUtils.getGuildPrefix(event.getGuild())+ "play ","");
             StringBuilder msg = new StringBuilder();
 
             Playlist playlist = Playlist.getPlaylist(url);

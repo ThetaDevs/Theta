@@ -14,24 +14,23 @@ import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandDelete implements Command {
 
-    private static final String HELP = "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
-    int total;
+    private int total;
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
         total = event.getChannel().getHistory().retrieveAll().size();
+        if (!event.getChannel()
+                .checkPermission(jda.getSelfInfo(), Permission.MESSAGE_MANAGE)) {
+            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.");
+            return false;
+        }
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
 
-        if (!event.getChannel()
-                .checkPermission(jda.getSelfInfo(), Permission.MESSAGE_MANAGE)) {
-            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.");
-            return;
-        }
+
 
         String channel, delType;
         List<Message> messages = event.getChannel().getHistory().retrieveAll();
@@ -68,30 +67,7 @@ public class CommandDelete implements Command {
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"delete"};
+        return "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
     }
 
 }

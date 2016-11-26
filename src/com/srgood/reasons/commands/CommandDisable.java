@@ -36,18 +36,6 @@ public class CommandDisable implements Command {
     }
 
     @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
     public PermissionLevels defaultPermissionLevel() {
         
         return PermissionLevels.ADMINISTRATOR;
