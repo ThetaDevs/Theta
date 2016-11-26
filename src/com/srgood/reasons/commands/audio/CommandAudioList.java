@@ -16,14 +16,8 @@ import java.util.List;
 
 public class CommandAudioList implements AudioCommand {
 
-    private static final String HELP = "Lists the current audio queue for this server. Use: '" + ReasonsMain.prefix + "list'";
 
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
+    //TODO: migrate ifs to that thingy method thats inherited.
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         AudioManager manager = event.getGuild().getAudioManager();
@@ -78,29 +72,12 @@ public class CommandAudioList implements AudioCommand {
 
     @Override
     public String help() {
-        // TODO Auto-generated method stub
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        // TODO Auto-generated method stub
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Lists the current audio queue for this server. Use: '" + ReasonsMain.prefix + "list'";
     }
 
     @Override
     public String[] names() {
-        return new String[] {"list"};
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        // TODO Auto-generated method stub
-        return PermissionLevels.STANDARD;
+        return new String[] {"list","playlist","musiclist"};
     }
 
 }

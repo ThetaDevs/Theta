@@ -21,8 +21,6 @@ import static com.srgood.reasons.ReasonsMain.jda;
 
 public class CommandAudioPlay implements AudioCommand {
 
-    private static final String HELP = "Used to play audio on this server. Use: '" + ReasonsMain.prefix + "play [URL]'";
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         event.getChannel().sendTyping();
@@ -100,31 +98,18 @@ public class CommandAudioPlay implements AudioCommand {
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Used to play audio on this server. Use: '" + ReasonsMain.prefix + "play [URL]'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
         
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.MUSIC_DJ;
     }
 
     @Override
     public String[] names() {
-        return new String[] {"play"};
+        return new String[] {"play","addsong"};
     }
 
 }
