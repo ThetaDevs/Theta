@@ -26,7 +26,7 @@ public class ConfigUtils {
     public static void ensureGuildInitted(Guild guild) {
         ConfigGuildUtils.ensureGuildInitted(guild);
     }
-    
+
     public static String getGuildPrefix(Guild guild) {
         return ConfigGuildUtils.getGuildPrefix(guild);
     }

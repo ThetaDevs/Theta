@@ -13,12 +13,6 @@ import static com.srgood.reasons.utils.Permissions.PermissionUtils.stringToRole;
  * Created by dmanl on 9/11/2016.
  */
 public class CommandSetPermLevel implements Command {
-    private static final String HELP = "Sets the permission level required for a command on this server. Use: '" + ReasonsMain.prefix + "setpermlevel <command> <role ID>'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
@@ -33,26 +27,6 @@ public class CommandSetPermLevel implements Command {
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"setpermlevel"};
+        return "Sets the permission level required for a command on this server. Use: '" + ReasonsMain.prefix + "setpermlevel <command> <role ID>'";
     }
 }

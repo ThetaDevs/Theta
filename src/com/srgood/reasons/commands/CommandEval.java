@@ -13,30 +13,28 @@ import java.text.NumberFormat;
 
 public class CommandEval implements Command {
 
-    private static final String HELP = "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt. Use: '" + ReasonsMain.prefix + "eval <exp>'";
-
     private final static NumberFormat RESULT_FORMATTER = new DecimalFormat("#0.0###");
 
     public CommandEval() {
 
     }
 
+    private String exp;
+
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
+        exp = join(args);
+
+        if (!exp.matches("[()\\d\\w\\s.+\\-*/^]+")) {
+            event.getChannel().sendMessage("`MATH:` Expression contains invalid characters");
+            return false;
+        }
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         try {
-            String exp = join(args);
-
-            if (!exp.matches("[()\\d\\w\\s.+\\-*/^]+")) {
-                event.getChannel().sendMessage("`MATH:` Expression contains invalid characters").queue();
-                return;
-            }
-
             IMathGroup group = IMathHandler.getMathHandler().parse(exp);
             event.getChannel().sendMessage("`MATH:` " + RESULT_FORMATTER.format(group.eval())).queue();
         } catch (Exception e) {
@@ -63,27 +61,12 @@ public class CommandEval implements Command {
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
+        return "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt. Use: '" + ReasonsMain.prefix + "eval <exp>'";
     }
 
     @Override
     public String[] names() {
-        return new String[] {"eval"};
+        return new String[] {"eval","math"};
     }
 
 }

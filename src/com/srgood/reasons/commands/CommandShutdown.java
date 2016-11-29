@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import javax.xml.transform.TransformerException;
 
 public class CommandShutdown implements Command {
-    private static final String HELP = "Used to shutdown Reasons. Use: '" + ReasonsMain.prefix + "shutdown' -OR- '" + ReasonsMain.prefix + "shutdown override <override key>'";
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
@@ -20,8 +19,9 @@ public class CommandShutdown implements Command {
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-        long uid = Long.parseLong(event.getAuthor().getId());
 
+        //TODO: shift user checks into called clause
+        long uid = Long.parseLong(event.getAuthor().getId());
 
         try {
             if (Reference.Other.BOT_DEVELOPERS.contains(String.valueOf(uid))) {
@@ -63,24 +63,13 @@ public class CommandShutdown implements Command {
     @Override
     public String help() {
         
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
+        return "Used to shutdown Reasons. Use: '" + ReasonsMain.prefix + "shutdown' -OR- '" + ReasonsMain.prefix + "shutdown override <override key>'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
         
         return PermissionLevels.ADMINISTRATOR;
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
     }
 
     @Override

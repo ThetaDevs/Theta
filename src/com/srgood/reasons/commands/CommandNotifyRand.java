@@ -16,14 +16,7 @@ import java.util.Random;
  */
 public class CommandNotifyRand implements Command {
 
-    private static final String HELP = "Notifies a random member of a Role. Use: '" + ReasonsMain.prefix + "notifyrand <role ID>'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
-    public User getRandomUser(List<User> users, Boolean isOnline) {
+    public User getRandomUser(List<User> users,Boolean isOnline) {
         User user = null;
 
         if (isOnline) {
@@ -52,34 +45,18 @@ public class CommandNotifyRand implements Command {
 
         }
 
-
-
-
         member.getUser().getPrivateChannel().sendMessage(event.getMember().getUser().getName() + " has requested your presence at " + event.getGuild().getName() + " in #" + event.getChannel().getName()).queue();
         event.getChannel().sendMessage(member.getEffectiveName() + " has been notified").queue();
-
-
-
 
     }
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "Notifies a random member of a Role. Use: '" + ReasonsMain.prefix + "notifyrand <role ID>'";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
+        return PermissionLevels.ADMINISTRATOR;
     }
 }

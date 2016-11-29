@@ -5,7 +5,6 @@ import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.GuildUtils;
 import com.srgood.reasons.utils.ImageUtils;
 import com.srgood.reasons.utils.Permissions.PermissionUtils;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -15,12 +14,10 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class CommandDebug implements Command {
-    private static final String HELP = "Used internally for debugging. Use: '" + ReasonsMain.prefix + "debug [debug arg]'";
     private static final boolean ALLOW_DEBUG = true;
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
         return ALLOW_DEBUG;
     }
 
@@ -49,7 +46,6 @@ public class CommandDebug implements Command {
                     String x = seconds < 0 ? "-" + positive : positive;
                     event.getChannel().sendMessage(x).queue();
                     break;
-                case "except":
                 case "throw":
                     new Exception("Test Exception").printStackTrace();
                     break;
@@ -83,29 +79,8 @@ public class CommandDebug implements Command {
     @Override
     public String help() {
         
-        return HELP;
+        return "Used internally for debugging. Use: '" + ReasonsMain.prefix + "debug [debug arg]'";
     }
 
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"debug"};
-    }
 
 }

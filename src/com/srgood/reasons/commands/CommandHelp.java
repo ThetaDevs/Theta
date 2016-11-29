@@ -8,13 +8,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandHelp implements Command {
-    private static final String HELP = "Lists all commands (only primary aliases). Use: '" + ReasonsMain.prefix + "HELP'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
-        return true;
-    }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
@@ -32,35 +25,16 @@ public class CommandHelp implements Command {
             MessageUtils.sendMessageSafeSplitOnChar(privateChannel, message.toString(), '\n');
             event.getChannel().sendMessage("Commands were set to you in a private message").queue();
         });
-
     }
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
+        return "Lists all commands (only primary aliases). Use: '" + ReasonsMain.prefix + "HELP'";
     }
 
     @Override
     public String[] names() {
-        return new String[] { "help" };
+        return new String[] { "help","commands"};
     }
 
 }

@@ -1,32 +1,31 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.srgood.reasons.ReasonsMain.jda;
+
 public class CommandDelete implements Command {
 
-    private static final String HELP = "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
+    private int total;
 
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
+        total = event.getChannel().getHistory().getCachedHistory().size();
+        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_PERMISSIONS)) {
+            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.").queue();
+            return false;
+        }
         return true;
     }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-
-        if (!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_PERMISSIONS)) {
-            event.getChannel().sendMessage("Error, unable to delete messages! Please check permissions.").queue();
-            return;
-        }
-
         String channel, delType;
         List<Message> messages = event.getChannel().getHistory().getCachedHistory();
         List<Message> buffer = new ArrayList<>();
@@ -62,30 +61,7 @@ public class CommandDelete implements Command {
 
     @Override
     public String help() {
-        
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"delete"};
+        return "Deletes messages. Use: '" + ReasonsMain.prefix + "delete [all|bot] [channel name]' Default is all in current channel";
     }
 
 }

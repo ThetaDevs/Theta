@@ -1,28 +1,21 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.ReasonsMain;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Random;
 
 public class CommandCoinFlip implements Command {
 
-    private static final String HELP = "Flips a coin and prints the result. Use: '" + ReasonsMain.prefix + "flip'";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         
         Random r = new Random();
-        int n = r.nextInt(6002);
+        int n = r.nextInt(6000) + 1;
         if (n < 3000) {
+            event.getChannel().sendMessage("Heads");
+        } else if (n > 3000) {
+            event.getChannel().sendMessage("Tails");
             event.getChannel().sendMessage("Heads").queue();
         } else if (n > 3001) {
             event.getChannel().sendMessage("Tails").queue();
@@ -34,30 +27,8 @@ public class CommandCoinFlip implements Command {
     @Override
     public String help() {
         
-        return HELP;
+        return "Flips a coin and prints the result. Use: '" + ReasonsMain.prefix + "flip'";
     }
 
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-        
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"coinflip"};
-    }
 
 }

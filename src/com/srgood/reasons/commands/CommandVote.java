@@ -17,8 +17,6 @@ import java.util.Map;
  */
 public class CommandVote implements Command{
 
-    private final static String HELP = "Begins a vote with the specified options that ends after the specified amount of seconds. Use: '" + ReasonsMain.prefix + "vote <duration (seconds)> <option 1> <option 2> [option 3 [option 4 [option 5 [option 6 [...]]]]]'";
-
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
         return true;
@@ -26,7 +24,7 @@ public class CommandVote implements Command{
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-
+        //TODO: shift arg checks to called
         if (args.length >= 3 && args.length <= Reference.Strings.COLORS.length + 2) {
             Map<String,Integer> voteMap = new LinkedHashMap<>();
 
@@ -74,18 +72,9 @@ public class CommandVote implements Command{
 
     @Override
     public String help() {
-        return null;
+        return "Begins a vote with the specified options that ends after the specified amount of seconds. Use: '" + ReasonsMain.prefix + "vote <duration (seconds)> <option 1> <option 2> [option 3 [option 4 [option 5 [option 6 [...]]]]]'";
     }
 
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {

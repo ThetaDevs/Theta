@@ -1,12 +1,16 @@
 package com.srgood.reasons.commands;
 
+
+import com.srgood.reasons.config.ConfigUtils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
 public interface Command {
     //use this to decide if your commands action should run or not (if unneeded just return true)
-    boolean called(String[] args, GuildMessageReceivedEvent event);
+    default boolean called(String[] args, GuildMessageReceivedEvent event) {
+        return true;
+    }
 
     //the commands action
     void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException;
@@ -15,13 +19,19 @@ public interface Command {
     String help();
 
     //use this to run post command actions if need be
-    void executed(boolean success, GuildMessageReceivedEvent event);
+    default void executed(boolean success, GuildMessageReceivedEvent event) {
+
+    }
 
     //required permission
-    PermissionLevels permissionLevel(Guild guild);
+    default PermissionLevels permissionLevel(Guild guild) {
+        return ConfigUtils.getCommandPermission(guild, this);
+    }
 
     //used for XML
-    PermissionLevels defaultPermissionLevel();
+    default PermissionLevels defaultPermissionLevel() {
+        return PermissionLevels.STANDARD;
+    }
 
     default String[] names() {
         return new String[] {this.getClass().getSimpleName().toLowerCase().replaceAll("command(audio)?", "")};

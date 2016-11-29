@@ -9,13 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
  * Created by dmanl on 9/11/2016.
  */
 public class CommandChess implements Command {
-    private static final String HELP = "A WIP chess game. Use: no usage available";
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         if (args.length >= 1) {
@@ -25,26 +18,11 @@ public class CommandChess implements Command {
 
     @Override
     public String help() {
-        return HELP;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
+        return "A WIP chess game. Use: no usage available";
     }
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.STANDARD;
-    }
-
-    @Override
-    public String[] names() {
-        return new String[] {"chess"};
+        return PermissionLevels.ADMINISTRATOR;
     }
 }
