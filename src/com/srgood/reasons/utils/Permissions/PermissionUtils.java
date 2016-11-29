@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.managers.RoleManager;
+import net.dv8tion.jda.core.managers.RoleManagerUpdatable;
 
 import java.util.Collection;
 
@@ -74,11 +74,15 @@ public class PermissionUtils {
     public static Role createRole(PermissionLevels roleLevel, Guild guild, boolean addToXML) throws RateLimitedException {
         if (!roleLevel.isVisible()) return null;
 
-        RoleManager roleMgr = guild.getController().createRole().block().getManager();
-        roleMgr.setName(roleLevel.getReadableName()).queue();
-        roleMgr.setColor(roleLevel.getColor()).queue();
+        System.out.println("Creating role");
 
-        Role role = roleMgr.getRole();
+        Role role = guild.getController().createRole().block();
+
+        RoleManagerUpdatable roleManagerUpdatable = role.getManagerUpdatable();
+        roleManagerUpdatable.getNameField().setValue(roleLevel.getReadableName());
+        roleManagerUpdatable.getColorField().setValue(roleLevel.getColor());
+        roleManagerUpdatable.getPermissionField().setValue(0L);
+        roleManagerUpdatable.update().queue();
 
         if (addToXML) {
             ConfigUtils.registerRoleConfig(guild, role, roleLevel);

@@ -5,26 +5,26 @@ import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
 import com.srgood.reasons.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandHelp implements Command {
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
-        PrivateChannel privateChannel = event.getAuthor().getPrivateChannel();
+        event.getAuthor().openPrivateChannel().queue(privateChannel -> {
+            StringBuilder message = new StringBuilder();
+            message.append("All commands: ").append("\n\n");
 
-        StringBuilder message = new StringBuilder();
-        message.append("All commands: ").append("\n\n");
+            CommandUtils.getCommandsMap().values().stream()
+                        .sorted(new CommandUtils.CommandComparator())
+                        .distinct()
+                        .map(command ->
+                                "**" + CommandUtils.getNameFromCommand(command) + ":** " + " `" + command.help() + "`\n\n")
+                        .forEach(message::append);
 
-        CommandUtils.getCommandsMap().values().stream().sorted(new CommandUtils.CommandComparator())
-                .distinct()
-                .map(command ->
-                        "**" + CommandUtils.getNameFromCommand(command) + ":** " + " `" + command.help() + "`\n\n")
-                .forEach(message::append);
-
-        MessageUtils.sendMessageSafeSplitOnChar(privateChannel, message.toString(), '\n');
-        event.getChannel().sendMessage("Commands were set to you in a private message").queue();
+            MessageUtils.sendMessageSafeSplitOnChar(privateChannel, message.toString(), '\n');
+            event.getChannel().sendMessage("Commands were set to you in a private message").queue();
+        });
     }
 
     @Override
