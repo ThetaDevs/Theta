@@ -27,7 +27,7 @@ public class TicTacToeGame {
     public boolean dead = false;
     public TicTacToeGame(MessageChannel ch) {
         channel = ch;
-        output = "";
+        output = "```";
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 output += boardFormat[j];
@@ -35,6 +35,7 @@ public class TicTacToeGame {
             }
             output += boardFormat[3];
         }
+        output += "```";
         channel.sendMessage(output).queue();
     }
     public void play(int X, int Y) {
@@ -173,7 +174,7 @@ public class TicTacToeGame {
                 }
             }
         }
-        output = "";
+        output = "```";
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 output += boardFormat[j];
@@ -181,6 +182,7 @@ public class TicTacToeGame {
             }
             output += boardFormat[3];
         }
+        output += "```";
         channel.sendMessage(output).queue();
     }
     public void checkWin() {
