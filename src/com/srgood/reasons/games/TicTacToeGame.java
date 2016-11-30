@@ -107,7 +107,6 @@ public class TicTacToeGame {
                             t = x[i]+x[j];
                             if(t < 15) {
                                 t = 15 - t;
-                                System.out.println(t);
                                 if(t != x[i] && t != x[j]) {
                                     out = t;
                                     for(int k = 0; k < o.length-1; k++) {
@@ -203,7 +202,7 @@ public class TicTacToeGame {
                 for (int j = 0; j < x.length; j++) {
                     for (int k = 0; k < x.length; k++) {
                         if (i != j && i != k && j != k) {
-                            if(x[i] + x[j] + x[k] == 15) {
+                            if(x[i] + x[j] + x[k] == 15 && !dead) {
                                 dead = true;
                                 channel.sendMessage("X wins").queue();
                             }
@@ -217,7 +216,7 @@ public class TicTacToeGame {
                 for (int j = 0; j < o.length; j++) {
                     for (int k = 0; k < o.length; k++) {
                         if (i != j && i != k && j != k) {
-                            if(o[i] + o[j] + o[k] == 15) {
+                            if(o[i] + o[j] + o[k] == 15 && !dead) {
                                 dead = true;
                                 channel.sendMessage("O wins").queue();
                             }
