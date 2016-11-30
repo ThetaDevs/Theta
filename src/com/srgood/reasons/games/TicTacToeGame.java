@@ -69,7 +69,7 @@ public class TicTacToeGame {
         int out;
         int finout = 0;
         int t;
-        if(x.length > 1) {
+        if(o.length > 2) {
             for (int i = 0; i < o.length; i++) {
                 for (int j = 0; j < o.length; j++) {
                     if (i != j) {
