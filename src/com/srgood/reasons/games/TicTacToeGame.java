@@ -17,8 +17,8 @@ public class TicTacToeGame {
         {" ", " ", " "},
         {" ", " ", " "}
     };
-    public int[] x = {};
-    public int[] o = {};
+    public int[] x = new int[0];
+    public int[] o = new int[0];
     public boolean turn = false;
     public boolean ready = false;
     public String[] boardFormat = {" ", " | ", " | ", "\n-----------\n"};
