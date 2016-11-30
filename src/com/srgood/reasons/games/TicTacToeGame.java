@@ -160,6 +160,7 @@ public class TicTacToeGame {
                 }
             }
         }
+        System.out.println(o[o.length-1]);
         turn = false;
     }
     public void drawBoard() {
