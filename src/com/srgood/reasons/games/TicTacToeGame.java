@@ -41,18 +41,20 @@ public class TicTacToeGame {
     }
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
-        x[x.length-1] = magicSquare[X][Y];
+        x[x.length-1] = magicSquare[X-1][Y-1];
         boolean valid = true;
         if(X > 3 || X < 1 || Y > 3 || Y < 1) {
             valid = false;
         }
         for(int i = 0; i < o.length; i++) {
-            if(x[x.length-1] == o[i])
+            if(x[x.length-1] == o[i]) {
                 valid = false;
+            }
         }
         for(int i = 0; i < x.length - 1; i++) {
-            if(x[x.length-1] == x[i])
+            if(x[x.length-1] == x[i]) {
                 valid = false;
+            }
         }
         if(valid) {
             turn = true;
