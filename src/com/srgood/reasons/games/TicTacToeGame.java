@@ -93,6 +93,7 @@ public class TicTacToeGame {
                                 }
                             }
                         }
+                        System.out.println(finout + "+" + x[i] + "+" + x[j]);
                     }
                 }
             }
@@ -122,6 +123,7 @@ public class TicTacToeGame {
                                     }
                                 }
                             }
+                            System.out.println(finout + "+" + x[i] + "+" + x[j]);
                         }
                     }
                 } if(finout != 0) {
