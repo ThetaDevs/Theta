@@ -70,6 +70,7 @@ public class TicTacToeGame {
         int finout = 0;
         int t;
         if(o.length > 2) {
+            //Check for win
             for (int i = 0; i < o.length; i++) {
                 for (int j = 0; j < o.length; j++) {
                     if (i != j) {
@@ -100,6 +101,7 @@ public class TicTacToeGame {
             if(finout != 0) {
                 o[o.length - 1] = finout;
             } else {
+                //check for block
                 for (int i = 0; i < x.length; i++) {
                     for (int j = 0; j < x.length; i++) {
                         if(i != j) {
