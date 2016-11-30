@@ -71,7 +71,7 @@ public class TicTacToeGame {
         int t;
         if(x.length > 1) {
             for (int i = 0; i < o.length; i++) {
-                for (int j = 0; j < o.length; i++) {
+                for (int j = 0; j < o.length; j++) {
                     if (i != j) {
                         t = o[i] + o[j];
                         if (t < 15) {
