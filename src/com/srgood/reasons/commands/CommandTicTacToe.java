@@ -46,7 +46,7 @@ public class CommandTicTacToe implements Command {
                 } else {
                     int ex = Integer.parseInt(args[0]);
                     int why = Integer.parseInt(args[1]);
-                    tictactoe.get(event.getChannel()).play(ex, why);
+                    tictactoe.get(event.getChannel()).play(ex-1, why-1);
                     tictactoe.get(event.getChannel()).checkWin();
                     if(!tictactoe.get(event.getChannel()).dead) {
                         tictactoe.get(event.getChannel()).AIplay();

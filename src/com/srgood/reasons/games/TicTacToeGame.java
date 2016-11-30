@@ -40,7 +40,7 @@ public class TicTacToeGame {
     }
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
-        x[x.length-1] = magicSquare[X+1][Y+1];
+        x[x.length-1] = magicSquare[X][Y];
         boolean valid = true;
         if(X > 3 || X < 1 || Y > 3 || Y < 1) {
             valid = false;
