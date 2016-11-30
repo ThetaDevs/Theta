@@ -69,7 +69,7 @@ public class TicTacToeGame {
         int out;
         int finout = 0;
         int t;
-        if(o.length > 2) {
+        if(o.length >= 2) {
             //Check for win
             for (int i = 0; i < o.length; i++) {
                 for (int j = 0; j < o.length; j++) {
@@ -103,7 +103,7 @@ public class TicTacToeGame {
             } else {
                 //check for block
                 for (int i = 0; i < x.length; i++) {
-                    for (int j = 0; j < x.length; i++) {
+                    for (int j = 0; j < x.length; j++) {
                         if(i != j) {
                             t = x[i]+x[j];
                             if(t < 15) {
@@ -162,7 +162,10 @@ public class TicTacToeGame {
                 }
             }
         }
-        System.out.println(o[o.length-1]);
+        for(int i = 0; i < o.length; i++) {
+            System.out.print(o[i] + ", ");
+        }
+        System.out.println("");
         turn = false;
     }
     public void drawBoard() {
