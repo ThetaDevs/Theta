@@ -33,7 +33,8 @@ public class TicTacToeGame {
                 output += boardFormat[j];
                 output += board[i][j];
             }
-            output += boardFormat[3];
+            if(i < 2)
+                output += boardFormat[3];
         }
         output += "```";
         channel.sendMessage(output).queue();
@@ -141,7 +142,7 @@ public class TicTacToeGame {
         } else {
             boolean loop = true;
             while(loop) {
-                o[o.length] = (int)(Math.floor(Math.random()*9)+1);
+                o[o.length-1] = (int)(Math.floor(Math.random()*9)+1);
                 loop = false;
                 for(int i = 0; i < x.length; i++) {
                     if(o[o.length-1] == x[i])
@@ -180,7 +181,8 @@ public class TicTacToeGame {
                 output += boardFormat[j];
                 output += board[i][j];
             }
-            output += boardFormat[3];
+            if(i < 2)
+                output += boardFormat[3];
         }
         output += "```";
         channel.sendMessage(output).queue();
