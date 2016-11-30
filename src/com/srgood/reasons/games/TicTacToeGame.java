@@ -25,6 +25,7 @@ public class TicTacToeGame {
     public MessageChannel channel;
     public String output = "";
     public boolean dead = false;
+    public boolean valid = true;
     public TicTacToeGame(MessageChannel ch) {
         channel = ch;
         output = "```";
@@ -42,7 +43,6 @@ public class TicTacToeGame {
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
         x[x.length-1] = magicSquare[X-1][Y-1];
-        boolean valid = true;
         if(X > 3 || X < 1 || Y > 3 || Y < 1) {
             valid = false;
         }

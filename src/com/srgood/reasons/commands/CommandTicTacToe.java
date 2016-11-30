@@ -49,11 +49,13 @@ public class CommandTicTacToe implements Command {
                     tictactoe.get(event.getChannel()).play(ex, why);
                     tictactoe.get(event.getChannel()).checkWin();
                     if(!tictactoe.get(event.getChannel()).dead) {
-                        tictactoe.get(event.getChannel()).AIplay();
-                        tictactoe.get(event.getChannel()).checkWin();
-                        tictactoe.get(event.getChannel()).drawBoard();
-                        if(tictactoe.get(event.getChannel()).dead)
-                            tictactoe.remove(event.getChannel());
+                        if(tictactoe.get(event.getChannel()).valid) {
+                            tictactoe.get(event.getChannel()).AIplay();
+                            tictactoe.get(event.getChannel()).checkWin();
+                            tictactoe.get(event.getChannel()).drawBoard();
+                            if (tictactoe.get(event.getChannel()).dead)
+                                tictactoe.remove(event.getChannel());
+                        }
                     } else {
                         tictactoe.get(event.getChannel()).drawBoard();
                         tictactoe.remove(event.getChannel());
