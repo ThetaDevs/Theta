@@ -28,7 +28,7 @@ public class TicTacToeGame {
     public boolean valid = true;
     public TicTacToeGame(MessageChannel ch) {
         channel = ch;
-        output = "```";
+        output = "";
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 output += boardFormat[j];
@@ -37,13 +37,11 @@ public class TicTacToeGame {
             if(i < 2)
                 output += boardFormat[3];
         }
-        output += "```";
         channel.sendMessage(output).queue();
     }
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
         valid = true;
-        x[x.length-1] = magicSquare[X-1][Y-1];
         if(X > 3 || X < 1 || Y > 3 || Y < 1) {
             valid = false;
         }
@@ -59,6 +57,7 @@ public class TicTacToeGame {
         }
         if(valid) {
             turn = true;
+            x[x.length-1] = magicSquare[Y-1][X-1];
         } else {
             x = Arrays.copyOf(x, x.length-1);
             channel.sendMessage("Please input a valid position").queue();
@@ -77,7 +76,7 @@ public class TicTacToeGame {
                         t = o[i] + o[j];
                         if(t < 15) {
                             t = 15 - t;
-                            if(t != o[i] && t != o[j]) {
+                            if(t != o[i] && t != o[j] && t < 10) {
                                 out = t;
                                 for(int k = 0; k < x.length; k++) {
                                     if (x[k] == t) {
@@ -91,6 +90,7 @@ public class TicTacToeGame {
                                 }
                                 if (out != 0) {
                                     finout = out;
+                                    //System.out.println(finout + ", " + o[i] + ", " + o[j]);
                                 }
                             }
                         }
@@ -107,7 +107,7 @@ public class TicTacToeGame {
                             t = x[i]+x[j];
                             if(t < 15) {
                                 t = 15 - t;
-                                if(t != x[i] && t != x[j]) {
+                                if(t != x[i] && t != x[j] && t < 10) {
                                     out = t;
                                     for(int k = 0; k < o.length-1; k++) {
                                         if(o[k] == t) {
@@ -121,6 +121,7 @@ public class TicTacToeGame {
                                     }
                                     if(out != 0) {
                                         finout = out;
+                                        //System.out.println(finout + ", " + x[i] + ", " + x[j]);
                                     }
                                 }
                             }
@@ -180,7 +181,7 @@ public class TicTacToeGame {
                 }
             }
         }
-        output = "```";
+        output = "";
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 output += boardFormat[j];
@@ -189,7 +190,6 @@ public class TicTacToeGame {
             if(i < 2)
                 output += boardFormat[3];
         }
-        output += "```";
         channel.sendMessage(output).queue();
     }
     public void checkWin() {
@@ -224,6 +224,14 @@ public class TicTacToeGame {
                     }
                 }
             }
+        }
+    }
+    public void debug() {
+        for(int i = 0; i < o.length; i++) {
+            System.out.println("O" + i + ": " + o[i]);
+        }
+        for(int i = 0; i < x.length; i++) {
+            System.out.println("X" + i + ": " + x[i]);
         }
     }
 }

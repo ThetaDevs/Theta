@@ -20,7 +20,7 @@ public class CommandTicTacToe implements Command {
     @Override
     public boolean called(String[] args, GuildMessageReceivedEvent event) {
         boolean o = true;
-        if(args.length == 0) {} else if(args.length == 2) {
+        if(args.length == 0) {} else if(args.length == 1 && args[0].equals("check")) {} else if(args.length == 2) {
             try {
                 int n = Integer.parseInt(args[0]);
                 n = Integer.parseInt(args[1]);
@@ -64,6 +64,9 @@ public class CommandTicTacToe implements Command {
             } else {
                 event.getChannel().sendMessage("No game currently in this channel").queue();
             }
+        } else if(args.length == 1) {
+            if(tictactoe.containsKey(event.getChannel()))
+                tictactoe.get(event.getChannel()).debug();
         } else {
             if(tictactoe.containsKey(event.getChannel())) {
                 event.getChannel().sendMessage("There is already a game in this channel");
