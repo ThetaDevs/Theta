@@ -3,8 +3,6 @@ package com.srgood.reasons.commands;
 import com.srgood.reasons.ReasonsMain;
 import com.srgood.reasons.Reference;
 import com.srgood.reasons.config.ConfigPersistenceUtils;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.xml.transform.TransformerException;
@@ -57,7 +55,7 @@ public class CommandShutdown implements Command {
             
             e.printStackTrace();
         }
-        ReasonsMain.jda.shutdown();
+        ReasonsMain.getJda().shutdown();
     }
 
     @Override

@@ -43,7 +43,7 @@ public class DiscordEventListener extends ListenerAdapter {
         }
 
         if (event.getMessage().getContent().startsWith(localPrefix) && !java.util.Objects.equals(event.getMessage().getAuthor().getId(), event.getJDA().getSelfUser().getId())) {
-            com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.parser.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
+            com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
             SimpleLog.getLog("Reasons").info("Got prefixed input: " + event.getMessage().getContent());
         } else {
             try {
@@ -51,7 +51,7 @@ public class DiscordEventListener extends ListenerAdapter {
                 if (event.getJDA().getSelfUser().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
 
                     SimpleLog.getLog("Reasons").info("Got prefixed input (mention): " + event.getMessage().getContent());
-                    com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.parser.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
+                    com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
                 }
             } catch (Exception ignored) {
 

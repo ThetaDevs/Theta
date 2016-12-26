@@ -15,7 +15,7 @@ public class ShutdownThread extends Thread {
             e.printStackTrace();
         }
 
-        ReasonsMain.jda.shutdown();
+        ReasonsMain.getJda().shutdown();
 
         System.out.println("Successfully shutdown from termination");
     }

@@ -1,9 +1,11 @@
 package com.srgood.reasons;
 
+import com.srgood.reasons.app.Controller;
 import com.srgood.reasons.commands.Command;
 import com.srgood.reasons.commands.CommandParser;
 import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.CommandUtils;
+import com.srgood.reasons.utils.SecureOverrideKeyGenerator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -30,90 +32,100 @@ import java.util.Arrays;
 
 public class ReasonsMain extends Application {
 
+    public static final Instant START_INSTANT = Instant.now();
+    public static final CommandParser COMMAND_PARSER = new CommandParser();
+
     public static JDA jda;
-
-    //Global
-    public static final Instant startInstant = Instant.now();
-    // prefix and shutdown override key
     public static String prefix;
-    public static String overrideKey = com.srgood.reasons.utils.SecureOverrideKeyGenerator.nextOverrideKey();
-    public static PrintStream outPS,errOutPS;
-    public static ByteArrayOutputStream out,errOut;
-
-    public static final CommandParser parser = new CommandParser();
-
-    private static com.srgood.reasons.app.Controller controller = null;
+    public static String overrideKey = SecureOverrideKeyGenerator.nextOverrideKey();
+    public static ByteArrayOutputStream out, errOut;
+    private static Controller controller = null;
 
     private boolean firstTime;
     private TrayIcon trayIcon;
 
-    @Override public void init() throws RateLimitedException {
+    public static JDA getJda() {
+        return jda;
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void init() {
+        initSystemOutputStreams();
+        initJDA();
+        initConfig();
+        initCommands();
+    }
+
+    private void initSystemOutputStreams() {
         out = new ByteArrayOutputStream();
         errOut = new ByteArrayOutputStream();
 
-        outPS = new PrintStream(out) {
+        PrintStream outPS = new PrintStream(out) {
             @Override
             public void println(Object o) {
                 super.println(o);
-                if (controller != null)
-                    controller.updateConsole();
+                if (controller != null) controller.updateConsole();
             }
 
             @Override
             public void println(String s) {
                 super.println(s);
-                if (controller != null)
-                    controller.updateConsole();
+                if (controller != null) controller.updateConsole();
             }
         };
 
-        errOutPS = new PrintStream(errOut) {
+        PrintStream errOutPS = new PrintStream(errOut) {
             @Override
             public void println(Object o) {
                 super.println(o);
-                if (controller != null)
-                    controller.updateErrConsole();
+                if (controller != null) controller.updateErrConsole();
             }
 
             @Override
             public void println(String s) {
                 super.println(s);
-                if (controller != null)
-                    controller.updateErrConsole();
+                if (controller != null) controller.updateErrConsole();
             }
 
         };
-
 
 
         System.setOut(outPS);
         System.setErr(errOutPS);
+    }
 
-        //catch exceptions when building JDA
-
+    private void initJDA() {
         try {
-            //create a JDA with one Event listener
-            jda = new JDABuilder(AccountType.BOT).addListener(new DiscordEventListener()).setToken(Reference.Strings.BOT_TOKEN_REASONS).setGame(Game.of("Type @Reasons help")).setAutoReconnect(true).buildBlocking();
-        } catch (LoginException e) {
-            SimpleLog.getLog("Reasons").fatal("**COULD NOT LOG IN**");
-        } catch (InterruptedException e) {
-            SimpleLog.getLog("JDA").fatal("**AN UNKNOWN ERROR OCCURRED DURING LOGIN**");
+            jda = new JDABuilder(AccountType.BOT).addListener(new DiscordEventListener())
+                                                 .setToken(Reference.Strings.BOT_TOKEN_REASONS)
+                                                 .setGame(Game.of("Type @Reasons help"))
+                                                 .setAutoReconnect(true)
+                                                 .buildBlocking();
+        } catch (LoginException | IllegalArgumentException e) {
+            SimpleLog.getLog("Reasons").fatal("**COULD NOT LOG IN** An invalid token was provided.");
+        } catch (RateLimitedException e) {
+            SimpleLog.getLog("Reasons").fatal("**We are being ratelimited**");
             e.printStackTrace();
-        }
+        }  catch (InterruptedException e) {
 
-        //load global parameters
+        }
+    }
+
+    private void initConfig() {
         try {
             ConfigUtils.initConfig();
         } catch (Exception e1) {
-            
             e1.printStackTrace();
         }
+    }
 
-        //TODO make the null checks modular and in the LoadParams method, not here
-
+    private void initCommands() {
         SimpleLog.getLog("Reasons").info("Session override Key: " + overrideKey);
 
-        //catch null pointer exceptions when creating commands
         try {
             String[] packages = { "com.srgood.reasons" };
 
@@ -127,12 +139,10 @@ public class ReasonsMain extends Application {
                     }
                 }
             }
-
-        }  catch (Exception e) {
+        } catch (Exception e) {
             SimpleLog.getLog("Reasons").warn("One or more of the commands failed to map");
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -154,16 +164,6 @@ public class ReasonsMain extends Application {
 
         primaryStage.show();
     }
-
-    public void stop () {
-        jda.shutdown();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
 
     public void addToTray(Stage stage) {
         if (SystemTray.isSupported()) {
@@ -194,8 +194,7 @@ public class ReasonsMain extends Application {
             closeItem.addActionListener(closeListener);
             popup.add(closeItem);
 
-            trayIcon = new TrayIcon(image,"Reasons",popup);
-
+            trayIcon = new TrayIcon(image, "Reasons", popup);
             trayIcon.addActionListener(showListener);
 
             try {
@@ -204,14 +203,6 @@ public class ReasonsMain extends Application {
             } catch (AWTException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void showPrgmIsMinimizedMsg() {
-        if (firstTime) {
-            trayIcon.displayMessage("Alert","Reasons has been minimised to tray",TrayIcon.MessageType.INFO);
-            firstTime = false;
-
         }
     }
 
@@ -226,11 +217,15 @@ public class ReasonsMain extends Application {
         });
     }
 
+    public void showPrgmIsMinimizedMsg() {
+        if (firstTime) {
+            trayIcon.displayMessage("Alert", "Reasons has been minimised to tray", TrayIcon.MessageType.INFO);
+            firstTime = false;
+        }
+    }
 
-//    private final static int[] illegalChars = { 34, 60, 62, 124, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 58, 42, 63, 92, 46, 47 };
-
-//    static {
-//        Arrays.sort(illegalChars);
-//    }
+    public void stop() {
+        jda.shutdown();
+    }
 
 }
