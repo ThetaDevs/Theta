@@ -15,13 +15,13 @@ public class Vote {
     public Vote(Map<String,Integer> choiceMap, int voteDuration, Channel channel, Runnable action) {
         final Instant begin = Instant.now();
         VoteListener voteListener = new VoteListener(channel,choiceMap);
-        ReasonsMain.jda.addEventListener(voteListener);
+        ReasonsMain.getJda().addEventListener(voteListener);
 
         Thread thread = new Thread(() -> {
             while (true) {
                 if (Duration.between(begin, Instant.now()).getSeconds() >=  voteDuration) {
                     action.run();
-                    ReasonsMain.jda.removeEventListener(voteListener);
+                    ReasonsMain.getJda().removeEventListener(voteListener);
                     break;
                 }
             }

@@ -40,7 +40,7 @@ public class CommandDebug implements Command {
                     event.getChannel().sendMessage("" + ConfigUtils.verifyConfig()).queue();
                     break;
                 case "getuptime":
-                    long seconds = Duration.between(ReasonsMain.startInstant, Instant.now()).getSeconds();
+                    long seconds = Duration.between(ReasonsMain.START_INSTANT, Instant.now()).getSeconds();
                     long absSeconds = Math.abs(seconds);
                     String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
                     String x = seconds < 0 ? "-" + positive : positive;
@@ -71,7 +71,11 @@ public class CommandDebug implements Command {
                     break;
             }
         } else {
-            event.getChannel().sendMessage("Author Name: " + event.getMember().getEffectiveName() + "\n" + "Author Nick: " + event.getMember().getEffectiveName() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention().length()" + ReasonsMain.jda.getSelfUser().getAsMention().length() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention()" + ReasonsMain.jda.getSelfUser().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig()).queue();
+            event.getChannel().sendMessage("Author Name: " + event.getMember().getEffectiveName() + "\n" + "Author Nick: " + event.getMember().getEffectiveName() + "\n" + "id: " + event.getAuthor().getId() + "\n" + event.getAuthor().getAsMention() + "\n" + "Picture url: " + event.getAuthor().getAvatarUrl() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention().length()" + ReasonsMain
+                    .getJda()
+                    .getSelfUser().getAsMention().length() + "\n" + "ReasonsMain.jda.getSelfInfo().getAsMention()" + ReasonsMain
+                    .getJda()
+                    .getSelfUser().getAsMention() + "\n" + "ConfigUtils.verifyConfig() = " + ConfigUtils.verifyConfig()).queue();
         }
 
     }

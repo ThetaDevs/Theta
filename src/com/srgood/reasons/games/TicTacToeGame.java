@@ -17,14 +17,15 @@ public class TicTacToeGame {
         {" ", " ", " "},
         {" ", " ", " "}
     };
-    public int[] x = {};
-    public int[] o = {};
+    public int[] x = new int[0];
+    public int[] o = new int[0];
     public boolean turn = false;
     public boolean ready = false;
     public String[] boardFormat = {" ", " | ", " | ", "\n-----------\n"};
     public MessageChannel channel;
     public String output = "";
     public boolean dead = false;
+    public boolean valid = true;
     public TicTacToeGame(MessageChannel ch) {
         channel = ch;
         output = "";
@@ -33,27 +34,30 @@ public class TicTacToeGame {
                 output += boardFormat[j];
                 output += board[i][j];
             }
-            output += boardFormat[3];
+            if(i < 2)
+                output += boardFormat[3];
         }
         channel.sendMessage(output).queue();
     }
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
-        x[x.length-1] = magicSquare[X+1][Y+1];
-        boolean valid = true;
+        valid = true;
         if(X > 3 || X < 1 || Y > 3 || Y < 1) {
             valid = false;
         }
         for(int i = 0; i < o.length; i++) {
-            if(x[x.length-1] == o[i])
+            if(x[x.length-1] == o[i]) {
                 valid = false;
+            }
         }
         for(int i = 0; i < x.length - 1; i++) {
-            if(x[x.length-1] == x[i])
+            if(x[x.length-1] == x[i]) {
                 valid = false;
+            }
         }
         if(valid) {
             turn = true;
+            x[x.length-1] = magicSquare[Y-1][X-1];
         } else {
             x = Arrays.copyOf(x, x.length-1);
             channel.sendMessage("Please input a valid position").queue();
@@ -64,27 +68,29 @@ public class TicTacToeGame {
         int out;
         int finout = 0;
         int t;
-        if(x.length > 1) {
-            for (int i = 0; i < o.length; i++) {
-                for (int j = 0; j < o.length; i++) {
-                    if (i != j) {
+        if(o.length >= 2) {
+            //Check for win
+            for(int i = 0; i < o.length-1; i++) {
+                for(int j = 0; j < o.length-1; j++) {
+                    if(i != j) {
                         t = o[i] + o[j];
-                        if (t < 15) {
+                        if(t < 15) {
                             t = 15 - t;
-                            if (t != o[i] && t != o[j]) {
+                            if(t != o[i] && t != o[j] && t < 10) {
                                 out = t;
                                 for(int k = 0; k < x.length; k++) {
                                     if (x[k] == t) {
                                         out = 0;
                                     }
                                 }
-                                for(int k = 0; k < o.length; k++) {
+                                for(int k = 0; k < o.length-1; k++) {
                                     if(o[k] == t) {
                                         out = 0;
                                     }
                                 }
                                 if (out != 0) {
                                     finout = out;
+                                    //System.out.println(finout + ", " + o[i] + ", " + o[j]);
                                 }
                             }
                         }
@@ -94,15 +100,16 @@ public class TicTacToeGame {
             if(finout != 0) {
                 o[o.length - 1] = finout;
             } else {
+                //check for block
                 for (int i = 0; i < x.length; i++) {
-                    for (int j = 0; j < x.length; i++) {
+                    for (int j = 0; j < x.length; j++) {
                         if(i != j) {
                             t = x[i]+x[j];
                             if(t < 15) {
                                 t = 15 - t;
-                                if(t != x[i] && t != x[j]) {
+                                if(t != x[i] && t != x[j] && t < 10) {
                                     out = t;
-                                    for(int k = 0; k < o.length; k++) {
+                                    for(int k = 0; k < o.length-1; k++) {
                                         if(o[k] == t) {
                                             out = 0;
                                         }
@@ -114,6 +121,7 @@ public class TicTacToeGame {
                                     }
                                     if(out != 0) {
                                         finout = out;
+                                        //System.out.println(finout + ", " + x[i] + ", " + x[j]);
                                     }
                                 }
                             }
@@ -124,7 +132,7 @@ public class TicTacToeGame {
                 } else {
                     boolean loop = true;
                     while(loop) {
-                        o[o.length] = (int)(Math.floor(Math.random()*9)+1);
+                        o[o.length-1] = (int)(Math.floor(Math.random()*9)+1);
                         loop = false;
                         for(int i = 0; i < x.length; i++) {
                             if(o[o.length-1] == x[i])
@@ -140,7 +148,7 @@ public class TicTacToeGame {
         } else {
             boolean loop = true;
             while(loop) {
-                o[o.length] = (int)(Math.floor(Math.random()*9)+1);
+                o[o.length-1] = (int)(Math.floor(Math.random()*9)+1);
                 loop = false;
                 for(int i = 0; i < x.length; i++) {
                     if(o[o.length-1] == x[i])
@@ -179,7 +187,8 @@ public class TicTacToeGame {
                 output += boardFormat[j];
                 output += board[i][j];
             }
-            output += boardFormat[3];
+            if(i < 2)
+                output += boardFormat[3];
         }
         channel.sendMessage(output).queue();
     }
@@ -193,7 +202,7 @@ public class TicTacToeGame {
                 for (int j = 0; j < x.length; j++) {
                     for (int k = 0; k < x.length; k++) {
                         if (i != j && i != k && j != k) {
-                            if(x[i] + x[j] + x[k] == 15) {
+                            if(x[i] + x[j] + x[k] == 15 && !dead) {
                                 dead = true;
                                 channel.sendMessage("X wins").queue();
                             }
@@ -207,7 +216,7 @@ public class TicTacToeGame {
                 for (int j = 0; j < o.length; j++) {
                     for (int k = 0; k < o.length; k++) {
                         if (i != j && i != k && j != k) {
-                            if(o[i] + o[j] + o[k] == 15) {
+                            if(o[i] + o[j] + o[k] == 15 && !dead) {
                                 dead = true;
                                 channel.sendMessage("O wins").queue();
                             }
@@ -215,6 +224,14 @@ public class TicTacToeGame {
                     }
                 }
             }
+        }
+    }
+    public void debug() {
+        for(int i = 0; i < o.length; i++) {
+            System.out.println("O" + i + ": " + o[i]);
+        }
+        for(int i = 0; i < x.length; i++) {
+            System.out.println("X" + i + ": " + x[i]);
         }
     }
 }
