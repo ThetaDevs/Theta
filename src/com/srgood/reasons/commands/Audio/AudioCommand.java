@@ -1,6 +1,7 @@
 package com.srgood.reasons.commands.Audio;
 
 import com.srgood.reasons.commands.Command;
+import com.srgood.reasons.utils.audio.player;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -19,14 +20,19 @@ interface AudioCommand extends Command {
 
     class AudioContainer {
         AudioManager manager;
+        player player;
 
         public AudioContainer(AudioManager manager) {
             this.manager = manager;
+            player player;
+
             if(manager.getSendingHandler() == null){
-                manager.getSendingHandler().
-            }
+                player = new player();
+                player.volume = DEFAULT_VOLUME;
+                manager.setSendingHandler(player);
+            } else player = (player) manager.getSendingHandler();
+
+            this.player = player;
         }
-
-
     }
 }

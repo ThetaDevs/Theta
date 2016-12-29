@@ -30,8 +30,8 @@
     <server id="201020472702402560">
             <prefix>#!</prefix>
             <roles>
-                <role name="ADMIN">245377596995534850</role>
-                <role name="MUSIC_DJ">245377598929108992</role>
+            <role name="ADMIN">263838693813387265</role>
+                <role name="MUSIC_DJ">263838695302496256</role>
             </roles>
             <commands>
                 <command name="8ball">

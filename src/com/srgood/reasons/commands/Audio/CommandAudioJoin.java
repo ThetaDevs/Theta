@@ -27,13 +27,7 @@ public class CommandAudioJoin implements AudioCommand {
     public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
         manager = AudioCommand.init(event).manager;
 
-        manager.
-
         List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels();
-
-
-
-
 
         for(VoiceChannel channel : voiceChannels) {
             if (channel.getName().toLowerCase().trim().equals(args[0])) {
@@ -52,6 +46,6 @@ public class CommandAudioJoin implements AudioCommand {
 
     @Override
     public PermissionLevels defaultPermissionLevel() {
-        return null;
+        return PermissionLevels.MUSIC_DJ;
     }
 }
