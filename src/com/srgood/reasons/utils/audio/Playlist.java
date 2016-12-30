@@ -45,8 +45,7 @@ public class Playlist {
         try {
             Process infoProcess = new ProcessBuilder().command(infoArgs).start();
             byte[] infoData = IOUtils.readFully(infoProcess.getInputStream(), -1, false);
-            if (infoData == null || infoData.length == 0)
-                throw new NullPointerException("The YT-DL playlist process resulted in a null or zero-length INFO!");
+            if (infoData == null || infoData.length == 0) throw new NullPointerException("The YT-DL playlist process resulted in a null or zero-length INFO!");
 
             String sInfo = new String(infoData);
             scan = new Scanner(sInfo);

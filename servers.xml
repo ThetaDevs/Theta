@@ -172,5 +172,21 @@
                 </command>
             </commands>
         </server>
+    <server id="230516291176235019">
+            <prefix>#!</prefix>
+            <roles>
+                <role name="ADMIN">263908616132624386</role>
+                <role name="MUSIC_DJ">263908617592373249</role>
+            </roles>
+            <commands/>
+        </server>
+        <server id="136871834451705856">
+            <prefix>#!</prefix>
+            <roles>
+                <role name="ADMIN">263911447795466240</role>
+                <role name="MUSIC_DJ">263911448596447254</role>
+            </roles>
+            <commands/>
+        </server>
     </servers>
 </config>
