@@ -2,6 +2,8 @@ package com.srgood.reasons;
 
 import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.GuildUtils;
+import net.dv8tion.jda.client.events.relationship.FriendAddedEvent;
+import net.dv8tion.jda.client.events.relationship.FriendRequestReceivedEvent;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
@@ -10,6 +12,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.utils.SimpleLog;
+
+import static com.srgood.reasons.ReasonsMain.*;
 
 /**
  * <h1>DiscordEventListener</h1>
@@ -43,15 +47,15 @@ public class DiscordEventListener extends ListenerAdapter {
         }
 
         if (event.getMessage().getContent().startsWith(localPrefix) && !java.util.Objects.equals(event.getMessage().getAuthor().getId(), event.getJDA().getSelfUser().getId())) {
-            com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
-            SimpleLog.getLog("Reasons").info("Got prefixed input: " + event.getMessage().getContent());
+            com.srgood.reasons.utils.CommandUtils.handleCommand(COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
+            log.info("Got prefixed input: " + event.getMessage().getContent());
         } else {
             try {
 
                 if (event.getJDA().getSelfUser().getAsMention().equals(event.getMessage().getMentionedUsers().get(0).getAsMention())) {
 
-                    SimpleLog.getLog("Reasons").info("Got prefixed input (mention): " + event.getMessage().getContent());
-                    com.srgood.reasons.utils.CommandUtils.handleCommand(ReasonsMain.COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
+                    log.info("Got prefixed input (mention): " + event.getMessage().getContent());
+                    com.srgood.reasons.utils.CommandUtils.handleCommand(COMMAND_PARSER.parse(event.getMessage().getContent().toLowerCase(), event, localPrefix));
                 }
             } catch (Exception ignored) {
 
@@ -80,6 +84,11 @@ public class DiscordEventListener extends ListenerAdapter {
 //
 //            manager.closeAudioConnection();
         }
+    }
+
+    @Override
+    public void onFriendRequestReceived(FriendRequestReceivedEvent event) {
+        event.getFriendRequest().accept();
     }
 
 }

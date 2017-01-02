@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static com.srgood.reasons.ReasonsMain.log;
+
 class ConfigBasicUtils {
     private static Document document;
     private static Lock documentLock = new ReentrantLock();
@@ -50,27 +52,27 @@ class ConfigBasicUtils {
     public static boolean verifyConfig() {
         try {
             Document doc = lockAndGetDocument();
-            SimpleLog.getLog("Reasons").warn("**XML IS BEING VERIFIED**");
+            log.warn("**XML IS BEING VERIFIED**");
 
             if (!doc.getDocumentElement().getTagName().equals("config")) {
-                SimpleLog.getLog("Reasons").info("Invalid document element");
+                log.info("Invalid document element");
                 return false;
             }
 
             NodeList defaultNodeList = doc.getDocumentElement().getElementsByTagName("default");
             if (defaultNodeList.getLength() != 1) {
-                SimpleLog.getLog("Reasons").info("Not 1 default element");
+                log.info("Not 1 default element");
                 return false;
             }
             Element defaultElement = (Element) defaultNodeList.item(0);
             if (defaultElement.getElementsByTagName("prefix").getLength() != 1) {
-                SimpleLog.getLog("Reasons").info("Not 1 default/prefix element");
+                log.info("Not 1 default/prefix element");
                 return false;
             }
 
 
             if (doc.getDocumentElement().getElementsByTagName("servers").getLength() != 1) {
-                SimpleLog.getLog("Reasons").info("Not 1 servers element");
+                log.info("Not 1 servers element");
                 return false;
             }
 
@@ -78,40 +80,40 @@ class ConfigBasicUtils {
                 Element serverElement = (Element) n;
 
                 if (serverElement.getElementsByTagName("prefix").getLength() != 1) {
-                    SimpleLog.getLog("Reasons").info("Not 1 servers/server/prefix element");
+                    log.info("Not 1 servers/server/prefix element");
                     return false;
                 }
 
                 NodeList rolesNodeList = serverElement.getElementsByTagName("roles");
                 if (rolesNodeList.getLength() != 1) {
-                    SimpleLog.getLog("Reasons").info("Not 1 servers/server/roles element");
+                    log.info("Not 1 servers/server/roles element");
                     return false;
                 }
                 if (((Element) rolesNodeList.item(0)).getElementsByTagName("role").getLength() < 1) {
-                    SimpleLog.getLog("Reasons").info("Less than 1 servers/server/roles/role element");
+                    log.info("Less than 1 servers/server/roles/role element");
                     return false;
                 }
 
                 NodeList commandsNodeList = serverElement.getElementsByTagName("commands");
 
                 if (commandsNodeList.getLength() != 1) {
-                    SimpleLog.getLog("Reasons").info("Not 1 servers/server/commands element");
+                    log.info("Not 1 servers/server/commands element");
                     return false;
                 }
                 NodeList commandNodeList = ((Element) commandsNodeList.item(0)).getElementsByTagName("command");
                 if (commandNodeList.getLength() < 1) {
-                    SimpleLog.getLog("Reasons").info("Less than 1 servers/server/commands/command element");
+                    log.info("Less than 1 servers/server/commands/command element");
                     return false;
                 }
                 {
                     for (Node node : nodeListToList(commandNodeList)) {
                         Element commandElement = (Element) node;
                         if (commandElement.getElementsByTagName("permLevel").getLength() != 1) {
-                            SimpleLog.getLog("Reasons").info("Not 1 servers/server/commands/command/permLevel element");
+                            log.info("Not 1 servers/server/commands/command/permLevel element");
                             return false;
                         }
                         if (commandElement.getElementsByTagName("isEnabled").getLength() != 1) {
-                            SimpleLog.getLog("Reasons").info("Not 1 servers/server/commands/command/isEnabled element");
+                            log.info("Not 1 servers/server/commands/command/isEnabled element");
                             return false;
                         }
                     }

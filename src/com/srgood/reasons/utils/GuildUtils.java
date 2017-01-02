@@ -10,6 +10,8 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.utils.SimpleLog;
 
+import static com.srgood.reasons.ReasonsMain.log;
+
 public class GuildUtils {
     public static void initGuild(Guild guild) throws RateLimitedException {
         ConfigUtils.ensureGuildInitted(guild);
@@ -19,7 +21,7 @@ public class GuildUtils {
                 PermissionUtils.createRole(permission, guild, true);
             }
         } catch (PermissionException e3) {
-            SimpleLog.getLog("Reasons").warn("Could not create custom role! Possible permissions problem?");
+           log.warn("Could not create custom role! Possible permissions problem?");
         }
 
         ConfigUtils.ensureGuildInitted(guild);
