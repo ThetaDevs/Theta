@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
 
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
+import static com.srgood.reasons.utils.audio.AudioUtils.playerManager;
+
 public class ReasonsMain {
 
     public static final Instant START_INSTANT = Instant.now();
@@ -57,6 +61,8 @@ public class ReasonsMain {
         initJDA(token);
         initConfig();
         initCommands();
+
+        initAudio();
 
         addToTray();
     }
@@ -110,6 +116,11 @@ public class ReasonsMain {
             SimpleLog.getLog("Reasons").warn("One or more of the commands failed to map");
             e.printStackTrace();
         }
+    }
+
+    private void initAudio() {
+        registerRemoteSources(playerManager);
+        registerLocalSource(playerManager);
     }
 
     public void addToTray() {
