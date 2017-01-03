@@ -66,7 +66,7 @@
         <dependency>
             <groupId>com.sedmelluq</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>LATEST</version>
+            <version>1.1.36</version>
         </dependency>
     </dependencies>
 

@@ -28,6 +28,11 @@ import java.io.PrintStream;
 import java.time.Instant;
 import java.util.Arrays;
 
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
+import static com.srgood.reasons.utils.audio.AudioUtils.playerManager;
+
+
 public class ReasonsMain extends Application {
 
     public static JDA jda;
@@ -85,6 +90,8 @@ public class ReasonsMain extends Application {
         };
 
 
+        registerRemoteSources(playerManager);
+        registerLocalSource(playerManager);
 
         System.setOut(outPS);
         System.setErr(errOutPS);
