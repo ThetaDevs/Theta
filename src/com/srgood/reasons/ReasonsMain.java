@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
+import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
+import static com.srgood.reasons.utils.audio.AudioUtils.playerManager
 
 import static net.dv8tion.jda.core.utils.SimpleLog.Level.ALL;
 import static net.dv8tion.jda.core.utils.SimpleLog.Level.WARNING;
@@ -48,6 +51,8 @@ public class ReasonsMain {
         initJDA();
         initConfig();
         initCommands();
+        registerRemoteSources(playerManager);
+        registerLocalSource(playerManager);
 
     }
 

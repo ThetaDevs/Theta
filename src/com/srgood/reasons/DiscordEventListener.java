@@ -1,5 +1,6 @@
 package com.srgood.reasons;
 
+import com.srgood.reasons.commands.Audio.AudioCommand;
 import com.srgood.reasons.config.ConfigUtils;
 import com.srgood.reasons.utils.GuildUtils;
 import net.dv8tion.jda.client.events.relationship.FriendAddedEvent;
@@ -79,10 +80,7 @@ public class DiscordEventListener extends ListenerAdapter {
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         if (event.getChannelLeft().getMembers().size() == 1) {
-            // TODO FIX AUDIO
-//            AudioManager manager = event.getGuild();
-//
-//            manager.closeAudioConnection();
+            event.getGuild().getAudioManager().closeAudioConnection();
         }
     }
 
