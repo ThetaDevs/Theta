@@ -56,4 +56,25 @@ class ConfigBasicUtils {
         }
     }
 
+    static Element getOrCreateFirstSubElement(Element parent, String subTagName) {
+        return getOrCreateFirstSubElement(parent, subTagName, null);
+    }
+
+    static Element getOrCreateFirstSubElement(Element parent, String subTagName, String defaultValue) {
+        try {
+            Document doc = lockAndGetDocument();
+            Element ret = getFirstSubElement(parent, subTagName);
+            if (ret == null) {
+                ret = doc.createElement(subTagName);
+                parent.appendChild(ret);
+                if (defaultValue != null) {
+                    ret.setTextContent(defaultValue);
+                }
+            }
+            return ret;
+        } finally {
+            releaseDocument();
+        }
+    }
+
 }

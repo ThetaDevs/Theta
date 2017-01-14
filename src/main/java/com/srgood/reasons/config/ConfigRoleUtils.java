@@ -84,7 +84,7 @@ class ConfigRoleUtils {
     static void registerRoleConfig(Guild guild, Role role, PermissionLevels roleLevel) {
         try {
             Document doc = lockAndGetDocument();
-            Element elementRoles = ConfigBasicUtils.getFirstSubElement(ConfigGuildUtils.getGuildNode(guild), "roles");
+            Element elementRoles = ConfigBasicUtils.getOrCreateFirstSubElement(ConfigGuildUtils.getGuildNode(guild), "roles");
 
             Element elementRole = doc.createElement("role");
             Attr roleAttr = doc.createAttribute("name");

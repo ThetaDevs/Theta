@@ -102,7 +102,7 @@ public class ConfigPersistenceUtils {
 
                 ConfigGuildUtils.addServer(ServerNode.getAttribute("id"), ServerNode);
             }
-            ReasonsMain.prefix = ConfigBasicUtils.getFirstSubElement(ConfigBasicUtils.getFirstSubElement(rootElem, "default"), "prefix")
+            ReasonsMain.prefix = ConfigBasicUtils.getOrCreateFirstSubElement(ConfigBasicUtils.getOrCreateFirstSubElement(rootElem, "default"), "prefix", "#!")
                                                  .getTextContent();
         } catch (Exception e) {
             e.printStackTrace();
