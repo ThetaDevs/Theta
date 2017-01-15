@@ -73,7 +73,7 @@ class ConfigGuildUtils {
     static String getGuildSimpleProperty(Guild guild, String property) {
         try {
             lockDocument();
-            Element propertyElement = getFirstSubElement(getGuildNode(guild), property);
+            Element propertyElement = ConfigBasicUtils.getElementFromPath(getGuildNode(guild), property);
             return propertyElement != null ? propertyElement.getTextContent() : null;
         } finally {
             releaseDocument();
@@ -82,10 +82,9 @@ class ConfigGuildUtils {
 
     static void setGuildSimpleProperty(Guild guild, String property, String value) {
         try {
-            Document document = lockAndGetDocument();
-            Element guildElement = getGuildNode(guild);
-            Element targetElement = getOrCreateFirstSubElement(guildElement, property);
-            targetElement.setTextContent(value);
+            lockDocument();
+            Element propertyElement = ConfigBasicUtils.getOrCreateElementFromPath(getGuildNode(guild), property);
+            propertyElement.setTextContent(value);
         } finally {
             releaseDocument();
         }
