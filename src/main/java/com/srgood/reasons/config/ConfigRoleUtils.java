@@ -17,7 +17,7 @@ import static com.srgood.reasons.config.ConfigBasicUtils.*;
 
 class ConfigRoleUtils {
     private static Element getRolesElement(Guild guild) {
-        return ConfigGuildUtils.getGuildComplexPropertyElement(guild, "roles");
+        return ConfigBasicUtils.getOrCreateFirstSubElement(ConfigGuildUtils.getGuildNode(guild), "roles");
     }
 
     private static List<Node> getRoleNodeListFromGuild(Guild guild) {
