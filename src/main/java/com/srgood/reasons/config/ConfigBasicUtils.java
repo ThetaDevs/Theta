@@ -56,6 +56,45 @@ class ConfigBasicUtils {
         }
     }
 
+    private static final String PATH_SPLIT_REGEX = "[/.@\\\\]";
+
+    static Element getElementFromPath(Element parent, String path) {
+        try {
+            Document doc = lockAndGetDocument();
+            String[] parts = path.split(PATH_SPLIT_REGEX);
+            Element firstPartElement = getFirstSubElement(parent, parts[0]);
+            if (firstPartElement == null) {
+                return null;
+            }
+            if (parts.length == 1) {
+                return firstPartElement;
+            } else {
+                return getElementFromPath(firstPartElement, path.substring(parts[0].length() + 1));
+            }
+        } finally {
+            releaseDocument();
+        }
+    }
+
+    static Element getOrCreateElementFromPath(Element parent, String path) {
+        try {
+            Document doc = lockAndGetDocument();
+            String[] parts = path.split(PATH_SPLIT_REGEX);
+            Element firstPartElement = getFirstSubElement(parent, parts[0]);
+            if (firstPartElement == null) {
+                Element newFirst = doc.createElement(parts[0]);
+                parent.appendChild(newFirst);
+                firstPartElement = newFirst;
+            }
+            if (parts.length == 1) {
+                return firstPartElement;
+            }
+            return getOrCreateElementFromPath(firstPartElement, path.substring(parts[0].length() + 1));
+        } finally {
+            releaseDocument();
+        }
+    }
+
     static Element getOrCreateFirstSubElement(Element parent, String subTagName) {
         return getOrCreateFirstSubElement(parent, subTagName, null);
     }
