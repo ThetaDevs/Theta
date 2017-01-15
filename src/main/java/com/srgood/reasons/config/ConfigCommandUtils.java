@@ -88,7 +88,7 @@ class ConfigCommandUtils {
     }
 
     private static Element getCommandsElement(Guild guild) {
-        return ConfigBasicUtils.getFirstSubElement(ConfigGuildUtils.getGuildNode(guild), "commands");
+        return ConfigBasicUtils.getOrCreateFirstSubElement(ConfigGuildUtils.getGuildNode(guild), "commands");
     }
 
     private static void initGuildCommands(Guild guild) {

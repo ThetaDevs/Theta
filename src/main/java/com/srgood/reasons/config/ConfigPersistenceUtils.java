@@ -17,7 +17,7 @@ import java.io.*;
 import java.nio.file.Files;
 
 public class ConfigPersistenceUtils {
-    private static final String DEFAULT_CONFIG_TEXT = "<servers />";
+    private static final String DEFAULT_CONFIG_TEXT = "<config />";
 
     public static String generateDirtyXML() throws TransformerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
