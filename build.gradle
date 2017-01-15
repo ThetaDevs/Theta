@@ -16,5 +16,7 @@ repositories {
 dependencies {
     compile group: 'net.dv8tion', name: 'JDA', version:'3.0.BETA2_121'
     compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
+    compile group: 'com.sedmelluq', name: 'lavaplayer', version: '1.145'
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.5.1'
     compile group: 'com.github.meowingtwurtle', name: 'mathParser', version:'1.0.1'
 }
