@@ -13,7 +13,7 @@ public class CommandAudioVolume implements AudioCommand {
     public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
         AudioCommand.init(event).getMusicManager().player.setVolume(Integer.parseInt(args[0]));
         event.getChannel()
-             .sendMessage("Volume set to : " + args[0] + "\n" + "Note to self... add a fancy volume meter here[------0000]")
+             .sendMessage("Volume set to : " + args[0] + "\n")
              .queue();
     }
 

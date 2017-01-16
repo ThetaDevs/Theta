@@ -3,25 +3,19 @@ package com.srgood.reasons.utils.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
-import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
+import static java.util.concurrent.TimeUnit.*;
 
 /**
  * Created by srgood on 1/1/2017.
@@ -68,9 +62,12 @@ public class AudioUtils {
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                channel.sendMessage("Adding to queue " + playlist.getName() + " ( " + playlist.getTracks().size() + " tracks)").queue();
 
-                play(channel.getGuild(), musicManager, firstTrack);
+                for (AudioTrack t : playlist.getTracks()) {
+                    play(channel.getGuild(),musicManager,t);
+                }
+
             }
 
             @Override
@@ -98,6 +95,11 @@ public class AudioUtils {
         channel.sendMessage("Skipped to next track.").queue();
     }
 
+    public static void skipTrack(Guild guild) {
+        GuildMusicManager musicManager = getGuildAudioPlayer(guild);
+        musicManager.scheduler.nextTrack();
+    }
+
     private static void connectToFirstVoiceChannel(AudioManager audioManager) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
             for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
@@ -109,5 +111,25 @@ public class AudioUtils {
 
     public static void pause(GuildMusicManager musicManager) {
         musicManager.player.setPaused(true);
+    }
+
+    public static String formatTimeMilis(Long len) {
+        long hours = MILLISECONDS.toHours(len),min = MILLISECONDS.toMinutes(len) - HOURS.toMinutes(hours),sec = MILLISECONDS.toSeconds(len) - HOURS.toSeconds(hours) - MINUTES.toSeconds(min);
+
+        StringBuilder sb = new StringBuilder();
+
+        if (hours > 0) {
+            sb.append(hours).append(":");
+        }
+
+        sb.append(min).append(":");
+
+        if (sec < 10) {
+            sb.append("0").append(sec);
+        } else {
+            sb.append(sec);
+        }
+
+        return sb.toString();
     }
 }
