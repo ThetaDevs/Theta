@@ -1,9 +1,7 @@
 package com.srgood.reasons.commands.audio;
 
 
-import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import org.apache.commons.validator.routines.UrlValidator;
@@ -18,11 +16,6 @@ public class CommandAudioPlay implements AudioCommand {
     private UrlValidator validator = new UrlValidator();
 
     @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
-
-    @Override
     public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
         AudioContainer container = AudioCommand.init(event);
 
@@ -34,21 +27,6 @@ public class CommandAudioPlay implements AudioCommand {
         } else {
             container.getMusicManager().player.setPaused(false);
         }
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.MUSIC_DJ;
     }
 
     @Override

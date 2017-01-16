@@ -1,8 +1,5 @@
 package com.srgood.reasons.commands.audio;
 
-import com.srgood.reasons.commands.PermissionLevels;
-import com.srgood.reasons.config.ConfigUtils;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
@@ -15,11 +12,6 @@ import java.util.List;
  */
 public class CommandAudioJoin implements AudioCommand {
     private AudioManager manager;
-
-    @Override
-    public boolean called(String[] args, GuildMessageReceivedEvent event) {
-        return true;
-    }
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) throws RateLimitedException {
@@ -49,20 +41,5 @@ public class CommandAudioJoin implements AudioCommand {
     @Override
     public String help() {
         return null;
-    }
-
-    @Override
-    public void executed(boolean success, GuildMessageReceivedEvent event) {
-
-    }
-
-    @Override
-    public PermissionLevels permissionLevel(Guild guild) {
-        return ConfigUtils.getCommandPermission(guild, this);
-    }
-
-    @Override
-    public PermissionLevels defaultPermissionLevel() {
-        return PermissionLevels.MUSIC_DJ;
     }
 }
