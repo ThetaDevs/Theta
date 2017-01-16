@@ -1,6 +1,7 @@
 package com.srgood.reasons.commands.audio;
 
 import com.srgood.reasons.commands.Command;
+import com.srgood.reasons.commands.PermissionLevels;
 import com.srgood.reasons.utils.audio.AudioUtils;
 import com.srgood.reasons.utils.audio.GuildMusicManager;
 import net.dv8tion.jda.core.entities.Guild;
@@ -11,6 +12,11 @@ import net.dv8tion.jda.core.managers.AudioManager;
  * Created by srgood on 12/26/2016.
  */
 public interface AudioCommand extends Command {
+
+    @Override
+    default PermissionLevels defaultPermissionLevel() {
+        return PermissionLevels.MUSIC_DJ;
+    }
 
     static AudioContainer init(GuildMessageReceivedEvent event) {
 
