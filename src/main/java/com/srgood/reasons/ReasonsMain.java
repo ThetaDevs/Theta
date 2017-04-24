@@ -16,10 +16,6 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.time.Instant;
 
-import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
-import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
-import static com.srgood.reasons.utils.audio.AudioUtils.playerManager;
-
 public class ReasonsMain {
     public static final Instant START_INSTANT = Instant.now();
 
@@ -48,8 +44,6 @@ public class ReasonsMain {
         initJDA(token);
         initConfig();
         initCommands();
-
-        initAudio();
 
         addToTray();
     }
@@ -87,16 +81,7 @@ public class ReasonsMain {
         CommandRegistrar.registerCommands();
     }
 
-
-    private void initAudio() {
-        registerRemoteSources(playerManager);
-        registerLocalSource(playerManager);
-    }
-
-
-
     private void addToTray() {
-
         if (SystemTray.isSupported()) {
             SystemTray systemTray = SystemTray.getSystemTray();
             //load image here

@@ -19,10 +19,8 @@ repositories {
 }
 
 dependencies {
-
     compile group: 'net.dv8tion', name: 'JDA', version: '3.0.0_175'
     compile group: 'com.github.meowingtwurtle', name: 'mathParser', version: '1.0.1'
-    compile group: 'com.sedmelluq', name: 'lavaplayer', version: '1.2.36'
     compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.7.0.201704051617-r'
     compile group: 'com.google.guava', name: 'guava', version: '21.0'
 }
@@ -34,5 +32,4 @@ jar {
                 'Implementation-Version': version,
                 'Main-Class': mainClassName)
     }
-
 }
