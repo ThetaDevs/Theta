@@ -3,16 +3,13 @@ package com.srgood.reasons.games;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import java.util.Arrays;
 
-/**
- * Created by HiItsMe on 11/27/2016.
- */
 public class TicTacToeGame {
     public final int[][] magicSquare = {
         {4, 9, 2},
         {3, 5, 7},
         {8, 1, 6}
     };
-    public String[][] board = {
+    public final String[][] board = {
         {" ", " ", " "},
         {" ", " ", " "},
         {" ", " ", " "}
@@ -21,23 +18,23 @@ public class TicTacToeGame {
     public int[] o = new int[0];
     public boolean turn = false;
     public boolean ready = false;
-    public String[] boardFormat = {" ", " | ", " | ", "\n-----------\n"};
-    public MessageChannel channel;
-    public String output = "";
+    public final String[] boardFormat = {" ", " | ", " | ", "\n-----------\n"};
+    public final MessageChannel channel;
     public boolean dead = false;
     public boolean valid = true;
     public TicTacToeGame(MessageChannel ch) {
         channel = ch;
-        output = "";
+        StringBuilder outputBuilder = new StringBuilder();
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                output += boardFormat[j];
-                output += board[i][j];
+                outputBuilder.append(boardFormat[j]);
+                outputBuilder.append(board[i][j]);
             }
-            if(i < 2)
-                output += boardFormat[3];
+            if(i < 2) {
+                outputBuilder.append(boardFormat[3]);
+            }
         }
-        channel.sendMessage(output).queue();
+        channel.sendMessage(outputBuilder.toString()).queue();
     }
     public void play(int X, int Y) {
         x = Arrays.copyOf(x, x.length+1);
@@ -181,16 +178,16 @@ public class TicTacToeGame {
                 }
             }
         }
-        output = "";
+        StringBuilder output = new StringBuilder();
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                output += boardFormat[j];
-                output += board[i][j];
+                output.append(boardFormat[j]);
+                output.append(board[i][j]);
             }
             if(i < 2)
-                output += boardFormat[3];
+                output.append(boardFormat[3]);
         }
-        channel.sendMessage(output).queue();
+        channel.sendMessage(output.toString()).queue();
     }
     public void checkWin() {
         if(x.length == 5 || o.length == 5) {

@@ -1,11 +1,8 @@
 package com.srgood.reasons.config;
 
 
-import com.srgood.reasons.commands.Command;
-import com.srgood.reasons.commands.CommandParser;
-import com.srgood.reasons.commands.PermissionLevels;
+import com.srgood.reasons.commands.CommandDescriptor;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Role;
 
 import java.io.InputStream;
 import java.util.Set;
@@ -15,7 +12,7 @@ public class ConfigUtils {
         ConfigPersistenceUtils.initConfig();
     }
 
-    public static void initFromStream(InputStream inputStream) throws Exception {
+    public static void initFromStream(InputStream inputStream) {
         ConfigPersistenceUtils.initConfigFromStream(inputStream);
     }
 
@@ -31,18 +28,6 @@ public class ConfigUtils {
         return ConfigGuildUtils.getGuildPrefix(guild);
     }
 
-    public static void registerRoleConfig(Guild guild, Role role, PermissionLevels permLevel) {
-        ConfigRoleUtils.registerRoleConfig(guild, role, permLevel);
-    }
-
-    public static PermissionLevels roleToPermission(Role role) {
-        return ConfigRoleUtils.roleToPermission(role.getGuild(), role);
-    }
-
-    public static Set<Role> getGuildRolesFromPermission(Guild guild, PermissionLevels permLevel) {
-        return ConfigRoleUtils.getGuildRolesFromPermissionLevel(guild, permLevel);
-    }
-
     public static Set<String> getGuildRegisteredRoleIDs(Guild guild) {
         return ConfigRoleUtils.getGuildRegisteredRoleIDs(guild);
     }
@@ -51,36 +36,20 @@ public class ConfigUtils {
         ConfigRoleUtils.deregisterRoleConfig(guild, roleID);
     }
 
-    public static boolean guildHasRoleForPermission(Guild guild, PermissionLevels permLevel) {
-        return ConfigRoleUtils.guildHasRoleForPermission(guild, permLevel);
-    }
-
-    public static void initCommandConfigIfNotExists(CommandParser.CommandContainer cmd) {
-        ConfigCommandUtils.initCommandConfigIfNotExists(cmd);
-    }
-
-    public static void initCommandConfigIfNotExists(Guild guild, Command cmd) {
+    public static void initCommandConfigIfNotExists(Guild guild, String cmd) {
         ConfigCommandUtils.initCommandConfigIfNotExists(guild, cmd);
     }
 
-    public static boolean isCommandEnabled(Guild guild, Command command) {
+    public static boolean isCommandEnabled(Guild guild, CommandDescriptor command) {
         return ConfigCommandUtils.isCommandEnabled(guild, command);
     }
 
-    public static void setCommandEnabled(Guild guild, Command command, boolean enabled) {
+    public static void setCommandEnabled(Guild guild, CommandDescriptor command, boolean enabled) {
         ConfigCommandUtils.setCommandIsEnabled(guild, command, enabled);
-    }
-
-    public static PermissionLevels getCommandPermission(Guild guild, Command command) {
-        return ConfigCommandUtils.getCommandPermission(guild, command);
     }
 
     public static void setGuildPrefix(Guild guild, String prefix) {
         ConfigGuildUtils.setGuildPrefix(guild, prefix);
-    }
-
-    public static void setCommandPermission(Guild guild, Command command, PermissionLevels permLevel) {
-        ConfigCommandUtils.setCommandPermission(guild, command, permLevel);
     }
 
     public static boolean guildPropertyExists(Guild guild, String property) {

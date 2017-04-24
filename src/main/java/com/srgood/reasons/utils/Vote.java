@@ -7,9 +7,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
-/**
- * Created by dmanl on 9/25/2016.
- */
 public class Vote {
 
     public Vote(Map<String,Integer> choiceMap, int voteDuration, Channel channel, Runnable action) {
@@ -26,6 +23,6 @@ public class Vote {
                 }
             }
         });
-        thread.run();
+        thread.start();
     }
 }

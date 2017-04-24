@@ -8,10 +8,11 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.IntStream;
 
-import static com.srgood.reasons.Reference.Numbers.VOTE_IMAGE_HEIGHT;
-import static com.srgood.reasons.Reference.Numbers.VOTE_IMAGE_WIDTH;
+import static com.srgood.reasons.Reference.VOTE_IMAGE_HEIGHT;
+import static com.srgood.reasons.Reference.VOTE_IMAGE_WIDTH;
 
 public class ImageUtils {
 
@@ -44,7 +45,7 @@ public class ImageUtils {
         for (int i : categoryVotes) {
             float percent = (float) i / (float) totalVotes;
             float angleM = percent * 360;
-            graphics.setColor(Reference.Strings.COLORS[colorInt]);
+            graphics.setColor(Reference.COLORS[colorInt]);
             graphics.fillArc(VOTE_IMAGE_WIDTH / 4 - 175,VOTE_IMAGE_HEIGHT / 2 - 175, 350,350, (int) angle,(int) angleM);
             angle += angleM;
             colorInt++;
@@ -57,7 +58,7 @@ public class ImageUtils {
             graphics.drawString(categoryNames[i] + " (" + categoryVotes[i] + ")",((VOTE_IMAGE_WIDTH / 3) * 2) + 80 + (shadowOffset / 2),(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + metrics.getHeight()) + (shadowOffset / 2));
             graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15 + (shadowOffset / 2),(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15) + (shadowOffset / 2),30,30);
 
-            graphics.setColor(Reference.Strings.COLORS[i]);
+            graphics.setColor(Reference.COLORS[i]);
             graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15,(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15),30,30);
             graphics.setColor(Color.WHITE);
 
@@ -67,7 +68,7 @@ public class ImageUtils {
 
         graphics.dispose();
         workImage.flush();
-        File file = File.createTempFile(SecureOverrideKeyGenerator.nextOverrideKey(), ".png");
+        File file = File.createTempFile("" + new Random().nextLong(), ".png");
         file.deleteOnExit();
         ImageIO.write(workImage, "png", file);
         return file;

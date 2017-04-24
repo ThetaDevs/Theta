@@ -1,8 +1,12 @@
 package com.srgood.reasons.utils;
 
 import com.srgood.reasons.config.ConfigUtils;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.utils.PermissionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +30,13 @@ public class CensorUtils {
     }
 
     public static void checkCensor(Message message) {
+        if (!PermissionUtil.checkPermission(
+                ((Channel) message.getChannel()),
+                message.getGuild().getSelfMember(),
+                Permission.MESSAGE_MANAGE)) {
+            return;
+        }
+
         if (message.getContent().startsWith(ConfigUtils.getGuildPrefix(message.getGuild()) + "censor")) return;
 
         if (ConfigUtils.guildPropertyExists(message.getGuild(), "moderation/censorlist")) {
@@ -38,7 +49,8 @@ public class CensorUtils {
                            .openPrivateChannel()
                            .queue(channel -> channel.sendMessage(String.format("The word `%s` is not allowed on this server.", aCensorList))
                                                     .queue());
-                    message.deleteMessage().queue();
+                    // noinspection unchecked [For IntelliJ]
+                    message.delete().queue(RestAction.DEFAULT_SUCCESS, RestAction.DEFAULT_SUCCESS);
                     break;
                 }
             }

@@ -7,11 +7,9 @@ import net.dv8tion.jda.core.entities.Role;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * Created by srgood on 1/18/2017.
- */
 public class MemberUtils {
 
     public static List<Member> getOnlineMembers(Guild guild) {
@@ -19,7 +17,7 @@ public class MemberUtils {
     }
 
     public static List<Member> getOnlineMembers(List<Member> memberList) {
-        return memberList.stream().filter(m -> m.getOnlineStatus().equals(OnlineStatus.ONLINE)).collect(Collectors.toCollection(LinkedList::new));
+        return memberList.stream().filter(m -> Objects.equals(m.getOnlineStatus(), OnlineStatus.ONLINE)).collect(Collectors.toCollection(LinkedList::new));
     }
 
 

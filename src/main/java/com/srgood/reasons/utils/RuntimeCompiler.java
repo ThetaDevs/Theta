@@ -7,10 +7,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.*;
 
-/**
- * Created by srgood on 1/17/2017.
- */
-
 
 /**
  * Utility class for compiling classes whose source code is given as
@@ -57,12 +53,12 @@ public class RuntimeCompiler {
         if (javaCompiler == null) {
             throw new NullPointerException("No JavaCompiler found. Make sure to run this with " + "a JDK, and not only with a JRE");
         }
-        this.classData = new LinkedHashMap<String, byte[]>();
+        this.classData = new LinkedHashMap<>();
         this.mapClassLoader = new MapClassLoader();
         this.classDataFileManager = new ClassDataFileManager(
 
                 javaCompiler.getStandardFileManager(null, null, null));
-        this.compilationUnits = new ArrayList<JavaFileObject>();
+        this.compilationUnits = new ArrayList<>();
     }
 
     /**
@@ -85,9 +81,9 @@ public class RuntimeCompiler {
      * @return Whether the compilation succeeded
      */
     public boolean compile() {
-        DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<JavaFileObject>();
+        DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<>();
 
-        List<String> optionList = new ArrayList<String>();
+        List<String> optionList = new ArrayList<>();
 
         optionList.addAll(Arrays.asList("-classpath", System.getProperty("java.class.path")));
 

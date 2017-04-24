@@ -10,15 +10,15 @@ import java.util.Arrays;
 public class GreetingUtils {
     private static final String PROP_PREFIX = "moderation";
 
-    public static final void tryGreeting(Member member) {
+    public static void tryGreeting(Member member) {
         tryBasic(member, "welcome");
     }
 
-    public static final void tryGoodbye(Member member) {
+    public static void tryGoodbye(Member member) {
         tryBasic(member, "goodbye");
     }
 
-    private static final void tryBasic(Member member, String type) {
+    private static void tryBasic(Member member, String type) {
         String message = getPropertyContent(member.getGuild(), type);
 
         if (!Arrays.asList(null, "", "OFF").contains(message)) { // Evil wizard hax
@@ -33,17 +33,17 @@ public class GreetingUtils {
         }
     }
 
-    private static final String getPropertyContent(Guild guild, String basicName) {
+    private static String getPropertyContent(Guild guild, String basicName) {
         return ConfigUtils.getGuildProperty(guild, formatPropertyName(basicName));
     }
 
-    private static final String formatMessage(String message, Member member) {
+    private static String formatMessage(String message, Member member) {
         return message.replace("@USER", member.getAsMention())
                       .replace("@SERVER", member.getGuild().getName())
                       .replace("@GUILD", member.getGuild().getName());
     }
 
-    public static final String formatPropertyName(String basicName) {
+    public static String formatPropertyName(String basicName) {
         return String.format("%s/%s", PROP_PREFIX, basicName);
     }
 }

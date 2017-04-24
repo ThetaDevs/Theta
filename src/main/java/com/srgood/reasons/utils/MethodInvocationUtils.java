@@ -1,12 +1,9 @@
 package com.srgood.reasons.utils;
 
-/**
- * Created by srgood on 1/17/2017.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Objects;
 
 /**
  * Utility methods not directly related to the RuntimeCompiler
@@ -32,13 +29,7 @@ public class MethodInvocationUtils {
         }
         try {
             return m.invoke(null, args);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
+        } catch (IllegalAccessException | SecurityException | InvocationTargetException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
@@ -58,7 +49,7 @@ public class MethodInvocationUtils {
     private static Method findFirstMatchingStaticMethod(Class<?> c, String methodName, Object... args) {
         Method methods[] = c.getDeclaredMethods();
         for (Method m : methods) {
-            if (m.getName().equals(methodName) && Modifier.isStatic(m.getModifiers())) {
+            if (Objects.equals(m.getName(), methodName) && Modifier.isStatic(m.getModifiers())) {
                 Class<?>[] parameterTypes = m.getParameterTypes();
                 if (areAssignable(parameterTypes, args)) {
                     return m;

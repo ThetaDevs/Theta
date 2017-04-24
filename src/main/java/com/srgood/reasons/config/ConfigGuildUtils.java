@@ -1,6 +1,5 @@
 package com.srgood.reasons.config;
 
-import com.google.common.base.Throwables;
 import net.dv8tion.jda.core.entities.Guild;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -33,23 +32,25 @@ class ConfigGuildUtils {
 
     private static void addMissingDefaultElementsToGuild(Element elementServer) {
         try {
-            Document doc = lockAndGetDocument();
+            getDocumentLock().writeLock().lock();
+            Document doc = getDocument();
             Element elementDefault = getOrCreateFirstSubElement(doc.getDocumentElement(), "default");
 
-            ConfigBasicUtils.nodeListToList(elementDefault.getChildNodes()).stream().filter(n -> n instanceof Element).forEach(n -> {
+            ConfigBasicUtils.nodeListToList(elementDefault.getChildNodes()).stream().filter(Element.class::isInstance).forEach(n -> {
                 Element elem = (Element) n;
                 if (getFirstSubElement(elementServer, elem.getTagName()) == null) {
                     elementServer.appendChild(elem.cloneNode(true));
                 }
             });
         } finally {
-            releaseDocument();
+            getDocumentLock().writeLock().unlock();
         }
     }
 
     private static void initGuildConfig(Guild guild) {
         try {
-            Document doc = lockAndGetDocument();
+            getDocumentLock().writeLock().lock();
+            Document doc = getDocument();
             Element elementServer = doc.createElement("server");
 
             Element elementServers = getOrCreateFirstSubElement(doc.getDocumentElement(), "servers");
@@ -63,32 +64,32 @@ class ConfigGuildUtils {
             elementServers.appendChild(elementServer);
             servers.put(guild.getId(), elementServer);
         } finally {
-            releaseDocument();
+            getDocumentLock().writeLock().unlock();
         }
     }
 
     static void deleteGuildConfig(Guild guild) {
         try {
-            lockDocument();
+            getDocumentLock().writeLock().lock();
             getGuildNode(guild).getParentNode().removeChild(getGuildNode(guild));
         } finally {
-            releaseDocument();
+            getDocumentLock().writeLock().unlock();
         }
     }
 
     static boolean guildPropertyExists(Guild guild, String property) {
         try {
-            lockDocument();
+            getDocumentLock().readLock().lock();
             Element propertyElement = ConfigBasicUtils.getElementFromPath(getGuildNode(guild), property);
             return propertyElement != null;
         } finally {
-          releaseDocument();
+            getDocumentLock().readLock().unlock();
         }
     }
 
     static String getGuildSimpleProperty(Guild guild, String property) {
         try {
-            lockDocument();
+            getDocumentLock().readLock().lock();
 
             if (!guildPropertyExists(guild, property)) {
                 return null;
@@ -97,7 +98,7 @@ class ConfigGuildUtils {
             Element propertyElement = ConfigBasicUtils.getElementFromPath(getGuildNode(guild), property);
             return propertyElement.getTextContent();
         } finally {
-            releaseDocument();
+            getDocumentLock().readLock().unlock();
         }
     }
 
@@ -115,18 +116,17 @@ class ConfigGuildUtils {
             Object deserialized = objectInputStream.readObject();
             return propertyClass.cast(deserialized);
         } catch (Exception e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
-        return null; // Should never happen, either returns within try-catch or propagates an exception
     }
 
     static void setGuildSimpleProperty(Guild guild, String property, String value) {
         try {
-            lockDocument();
+            getDocumentLock().writeLock().lock();
             Element propertyElement = ConfigBasicUtils.getOrCreateElementFromPath(getGuildNode(guild), property);
             propertyElement.setTextContent(value);
         } finally {
-            releaseDocument();
+            getDocumentLock().writeLock().unlock();
         }
     }
 
@@ -144,7 +144,7 @@ class ConfigGuildUtils {
             String base64 = Base64.getEncoder().encodeToString(serialized);
             setGuildSimpleProperty(guild, property, base64);
         } catch (Exception e) {
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 
