@@ -9,8 +9,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import org.w3c.dom.Element;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
 public class GuildConfigManagerImpl extends BasicConfigManagerImpl implements GuildConfigManager {
     private static final String ROLES_TAG_NAME = "roles";
@@ -33,42 +32,35 @@ public class GuildConfigManagerImpl extends BasicConfigManagerImpl implements Gu
     @Override
     public MemberConfigManager getMemberConfigManager(Member member) {
         checkState();
-        Map<String, String> attributeMap = new HashMap<>();
-        attributeMap.put(MEMBER_ID_ATTRIBUTE_NAME, member.getUser().getId());
         Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(
                 ConfigUtils.getOrCreateChildElement(
                         guildElement,
                         MEMBERS_TAG_NAME),
                 MEMBER_TAG_NAME,
-                attributeMap);
+                Collections.singletonMap(MEMBER_ID_ATTRIBUTE_NAME, member.getUser().getId()));
         return new MemberConfigManagerImpl(roleElement);
     }
 
     @Override
     public RoleConfigManager getRoleConfigManager(Role role) {
         checkState();
-        Map<String, String> attributeMap = new HashMap<>();
-        attributeMap.put(ROLE_ID_ATTRIBUTE_NAME, role.getId());
         Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(
                 ConfigUtils.getOrCreateChildElement(
                         guildElement,
                         ROLES_TAG_NAME),
-                ROLE_TAG_NAME,
-                attributeMap);
+                ROLE_TAG_NAME, Collections.singletonMap(ROLE_ID_ATTRIBUTE_NAME, role.getId()));
         return new RoleConfigManagerImpl(roleElement);
     }
 
     @Override
     public CommandConfigManager getCommandConfigManager(CommandDescriptor command) {
         checkState();
-        Map<String, String> attributeMap = new HashMap<>();
-        attributeMap.put(COMMAND_NAME_ATTRIBUTE_NAME, command.getPrimaryName());
         Element commandElement = ConfigUtils.getOrCreateChildElementWithAttributes(
                 ConfigUtils.getOrCreateChildElement(
                         guildElement,
                         COMMANDS_TAG_NAME),
                 COMMAND_TAG_NAME,
-                attributeMap);
+                Collections.singletonMap(COMMAND_NAME_ATTRIBUTE_NAME, command.getPrimaryName()));
         return new CommandConfigManagerImpl(commandElement);
     }
 
