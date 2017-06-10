@@ -72,7 +72,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dmTargetUsers.size(); i++) {
                 User u = dmTargetUsers.get(i);
-                u.getPrivateChannel().sendMessage(String.format("%s, your presence was requested by *%s* in *%s -> #%s*", u
+                u.openPrivateChannel().complete().sendMessage(String.format("%s, your presence was requested by *%s* in *%s -> #%s*", u
                         .getName(), executionData.getSender().getAsMention(), executionData.getGuild()
                                                                                            .getName(), executionData.getChannel()
                                                                                                                     .getName())).queue();

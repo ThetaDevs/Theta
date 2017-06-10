@@ -13,7 +13,7 @@ public abstract class DMOutputCommandExecutor extends BaseCommandExecutor {
         executionData.getSender()
                      .getUser()
                      .openPrivateChannel()
-                     .queue(chan -> chan.sendMessage(format, arguments).queue());
+                     .queue(chan -> chan.sendMessageFormat(format, arguments).queue());
     }
 
     @Override

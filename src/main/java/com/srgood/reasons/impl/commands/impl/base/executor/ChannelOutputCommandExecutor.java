@@ -10,7 +10,7 @@ public abstract class ChannelOutputCommandExecutor extends BaseCommandExecutor {
 
     @Override
     protected void sendOutput(String format, Object... arguments) {
-        executionData.getChannel().sendMessage(format, arguments).queue();
+        executionData.getChannel().sendMessageFormat(format, arguments).queue();
     }
 
     @Override
