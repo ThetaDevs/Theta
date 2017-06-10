@@ -52,6 +52,13 @@ public class DiscordEventListener extends ListenerAdapter {
     private void handleMessage(Message message) {
         if (Objects.equals(message.getAuthor(), message.getJDA().getSelfUser())) return;
 
+        if (!Objects.equals(botManager.getConfigManager()
+                                      .getGuildConfigManager(message.getGuild())
+                                      .getChannelConfigManager(message.getTextChannel())
+                                      .getProperty("listening", "true"), "true")) {
+            return;
+        }
+
         if (Objects.equals(message.getContent(), Reference.TABLE_FLIP)) {
             message.getChannel().sendMessage(Reference.TABLE_UNFLIP_JOKE).queue();
         }

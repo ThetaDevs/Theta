@@ -21,6 +21,7 @@ public class CommandRegistrar {
         commandManager.registerCommand(new CommandImportDescriptor());
         commandManager.registerCommand(new CommandInfoDescriptor());
         commandManager.registerCommand(new CommandInviteDescriptor());
+        commandManager.registerCommand(new CommandListenDescriptor());
         commandManager.registerCommand(new CommandNotifyRandDescriptor());
         commandManager.registerCommand(new CommandPermissionsDescriptor());
         commandManager.registerCommand(new CommandPingDescriptor());
