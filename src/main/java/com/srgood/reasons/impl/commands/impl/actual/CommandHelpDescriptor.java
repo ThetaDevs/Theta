@@ -34,6 +34,7 @@ public class CommandHelpDescriptor extends BaseCommandDescriptor {
                                          .getRegisteredCommands()
                                          .stream()
                                          .distinct()
+                                         .filter(commandDescriptor -> commandDescriptor.help().visible())
                                          .map(CommandDescriptor::getPrimaryName)
                                          .sorted()
                                          .collect(Collectors.toList()));

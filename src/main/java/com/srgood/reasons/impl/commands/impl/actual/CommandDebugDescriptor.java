@@ -24,6 +24,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
                         new UptimeDescriptor())),
               "FOR DEBUG ONLY",
               "<deleteguild | removeroles | uptime>",
+              false,
               "debug");
     }
 

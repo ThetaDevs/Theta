@@ -13,7 +13,7 @@ import java.lang.management.ManagementFactory;
 
 public class CommandStatusDescriptor extends BaseCommandDescriptor {
     public CommandStatusDescriptor() {
-        super(Executor::new, "Displays the current status of the bot","<>", "status");
+        super(Executor::new, "Displays the current status of the bot","<>", false, "status");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

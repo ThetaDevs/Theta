@@ -17,8 +17,12 @@ public class BaseCommandDescriptor implements CommandDescriptor {
     private final Function<CommandExecutionData, CommandExecutor> executorFunction;
 
     protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, String args, String... name) {
+        this(executorFunction, help, args, true, name);
+    }
+
+    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, String args, boolean visible, String... name) {
         this.names = new ArrayList<>(Arrays.asList(name));
-        this.help = new HelpDataImpl(args, help);
+        this.help = new HelpDataImpl(args, help, visible);
         this.executorFunction = executorFunction;
     }
 
@@ -40,11 +44,12 @@ public class BaseCommandDescriptor implements CommandDescriptor {
     private static class HelpDataImpl implements HelpData {
         private final String args;
         private final String description;
+        private final boolean visible;
 
-        public HelpDataImpl(String args, String description) {
-
+        public HelpDataImpl(String args, String description, boolean visible) {
             this.args = args;
             this.description = description;
+            this.visible = visible;
         }
 
         @Override
@@ -55,6 +60,11 @@ public class BaseCommandDescriptor implements CommandDescriptor {
         @Override
         public String description() {
             return description;
+        }
+
+        @Override
+        public boolean visible() {
+            return visible;
         }
     }
 }

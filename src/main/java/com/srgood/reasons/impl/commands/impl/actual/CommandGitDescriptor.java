@@ -15,7 +15,7 @@ import static com.srgood.reasons.impl.utils.GitUtils.localRepoExists;
 
 public class CommandGitDescriptor extends MultiTierCommandDescriptor {
     public CommandGitDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", "<info | update>", "git", "vcs");
+        super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", "<info | update>", false, "git", "vcs");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
