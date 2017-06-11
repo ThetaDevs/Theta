@@ -32,7 +32,9 @@ public class ConfigFileManager {
         try {
             File file = new File(fileName);
             if (!file.exists()) {
-                file.createNewFile();
+                if (file.createNewFile()) {
+                    throw new RuntimeException("Could not create config file.");
+                }
                 Files.write(DEFAULT_FILE_CONTENT, file, Reference.FILE_CHARSET);
             }
             parsedDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
