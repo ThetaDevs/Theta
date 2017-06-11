@@ -1,7 +1,7 @@
 # REASONS!
 A Discord bot for every server! 
 
-[![Build Status](https://travis-ci.com/srgood/Reasons.svg?token=FmxyPzr12XaUHxwzpgp8&branch=master)](https://travis-ci.com/srgood/Reasons)
+[![Build Status](https://travis-ci.org/ThetaDevs/Theta.svg?branch=master)](https://travis-ci.org/ThetaDevs/Theta)
 
 ***
 
