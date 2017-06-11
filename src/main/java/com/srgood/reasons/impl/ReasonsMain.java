@@ -25,7 +25,6 @@ public class ReasonsMain implements BotManager {
     public final Instant START_INSTANT = Instant.now();
 
     private JDA jda;
-    private String prefix;
 
     private final CommandManager commandManager = new CommandManagerImpl(this);
     private final ConfigFileManager configFileManager = new ConfigFileManager("theta.xml");
