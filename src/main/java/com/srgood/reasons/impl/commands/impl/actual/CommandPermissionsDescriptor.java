@@ -13,14 +13,12 @@ import com.srgood.reasons.impl.utils.RoleUtils;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 
 public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
     public CommandPermissionsDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", "<list | set> <...>", Collections
-                .singletonList("permissions"));
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", "<list | set> <...>", "permissions");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {

@@ -16,12 +16,12 @@ import java.util.List;
 
 public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
     public CommandBlacklistDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "<list | add | remove> <...>", Arrays.asList("blacklist"));
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "<list | add | remove> <...>", "blacklist");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
         public ListDescriptor() {
-            super(Executor::new, "Lists the IDs on this Guild's blacklist", "<>", Arrays.asList("list", "get"));
+            super(Executor::new, "Lists the IDs on this Guild's blacklist", "<>", "list", "get");
         }
 
         private static class Executor extends ChannelOutputCommandExecutor {

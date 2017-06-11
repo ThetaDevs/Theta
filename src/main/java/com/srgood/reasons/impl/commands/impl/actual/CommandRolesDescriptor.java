@@ -5,15 +5,13 @@ import com.srgood.reasons.impl.commands.impl.base.descriptor.BaseCommandDescript
 import com.srgood.reasons.impl.commands.impl.base.executor.DMOutputCommandExecutor;
 import com.srgood.reasons.impl.utils.StringUtils;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandRolesDescriptor extends BaseCommandDescriptor {
     public CommandRolesDescriptor() {
-        super(Executor::new, "Lists the roles and their IDs in the current Guild", "<>", Collections
-                .singletonList("roles"));
+        super(Executor::new, "Lists the roles and their IDs in the current Guild", "<>", "roles");
     }
 
         private static class Executor extends DMOutputCommandExecutor {

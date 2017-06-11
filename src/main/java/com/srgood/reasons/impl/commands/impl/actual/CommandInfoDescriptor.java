@@ -6,14 +6,13 @@ import com.srgood.reasons.impl.commands.impl.base.descriptor.BaseCommandDescript
 import com.srgood.reasons.impl.commands.impl.base.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.utils.GitUtils;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static com.srgood.reasons.impl.Reference.LIBRARIES;
 
 public class CommandInfoDescriptor extends BaseCommandDescriptor {
     public CommandInfoDescriptor() {
-        super(Executor::new, "Returns information about the bot, including the current version","<>", Arrays.asList("info", "version", "about"));
+        super(Executor::new, "Returns information about the bot, including the current version","<>", "info", "version", "about");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

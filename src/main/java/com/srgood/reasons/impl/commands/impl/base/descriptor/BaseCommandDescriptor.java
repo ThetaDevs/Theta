@@ -6,6 +6,7 @@ import com.srgood.reasons.commands.CommandExecutor;
 import com.srgood.reasons.commands.HelpData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -15,14 +16,8 @@ public class BaseCommandDescriptor implements CommandDescriptor {
     private final HelpData help;
     private final Function<CommandExecutionData, CommandExecutor> executorFunction;
 
-    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, String args, String name) {
-        this.names = Collections.singletonList(name);
-        this.help = new HelpDataImpl(args, help);
-        this.executorFunction = executorFunction;
-    }
-
-    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, String args, List<String> names) {
-        this.names = new ArrayList<>(names);
+    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, String args, String... name) {
+        this.names = new ArrayList<>(Arrays.asList(name));
         this.help = new HelpDataImpl(args, help);
         this.executorFunction = executorFunction;
     }

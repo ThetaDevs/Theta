@@ -6,13 +6,12 @@ import com.srgood.reasons.impl.commands.impl.base.executor.ChannelOutputCommandE
 import com.srgood.reasons.impl.permissions.Permission;
 import com.srgood.reasons.impl.permissions.PermissionChecker;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
 public class CommandCoinFlipDescriptor extends BaseCommandDescriptor {
     public CommandCoinFlipDescriptor() {
-        super(Executor::new, "Flips a coin", "<>", Arrays.asList("coinflip", "flip", "flipcoin", "flipacoin"));
+        super(Executor::new, "Flips a coin", "<>", "coinflip", "flip", "flipcoin", "flipacoin");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

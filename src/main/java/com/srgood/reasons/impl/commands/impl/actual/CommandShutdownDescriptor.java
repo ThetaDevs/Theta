@@ -5,12 +5,11 @@ import com.srgood.reasons.impl.commands.impl.base.descriptor.BaseCommandDescript
 import com.srgood.reasons.impl.commands.impl.base.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.permissions.PermissionChecker;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 public class CommandShutdownDescriptor extends BaseCommandDescriptor {
     public CommandShutdownDescriptor() {
-        super(Executor::new, "Shuts down the bot. You SHOULD be an developer to use this", "<>", Arrays.asList("shutdown", "die", "halt", "stop"));
+        super(Executor::new, "Shuts down the bot. You SHOULD be an developer to use this", "<>", "shutdown", "die", "halt", "stop");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

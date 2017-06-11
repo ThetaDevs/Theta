@@ -15,7 +15,7 @@ import static com.srgood.reasons.impl.utils.GitUtils.localRepoExists;
 
 public class CommandGitDescriptor extends MultiTierCommandDescriptor {
     public CommandGitDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", "<info | update>", Arrays.asList("git", "vcs"));
+        super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", "<info | update>", "git", "vcs");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -42,7 +42,7 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
 
     private static class InfoDescriptor extends BaseCommandDescriptor {
         public InfoDescriptor() {
-            super(Executor::new, "Prints the branch and commit of the current local repo, if present", "<>", Arrays.asList("info", "version"));
+            super(Executor::new, "Prints the branch and commit of the current local repo, if present", "<>", "info", "version");
         }
 
         private static class Executor extends BaseExecutor {
@@ -67,7 +67,7 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
     }
     private static class UpdateDescriptor extends BaseCommandDescriptor {
         public UpdateDescriptor() {
-            super(Executor::new, "Updates the local repo, if present", "<>", Arrays.asList("update", "pull"));
+            super(Executor::new, "Updates the local repo, if present", "<>", "update", "pull");
         }
 
         private static class Executor extends BaseExecutor {

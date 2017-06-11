@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.entities.Role;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
                         new UptimeDescriptor())),
               "FOR DEBUG ONLY",
               "<deleteguild | removeroles | uptime>",
-              Collections.singletonList("debug"));
+              "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {

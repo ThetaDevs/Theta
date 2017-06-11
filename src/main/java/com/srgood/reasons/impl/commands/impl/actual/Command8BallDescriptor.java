@@ -6,7 +6,6 @@ import com.srgood.reasons.impl.commands.impl.base.executor.ChannelOutputCommandE
 import com.srgood.reasons.impl.permissions.Permission;
 import com.srgood.reasons.impl.permissions.PermissionChecker;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
@@ -14,7 +13,7 @@ import static com.srgood.reasons.impl.Reference.EIGHT_BALL;
 
 public class Command8BallDescriptor extends BaseCommandDescriptor {
     public Command8BallDescriptor() {
-        super(Executor::new, "Tells your fortune", "<>", Arrays.asList("8ball", "fortune", "magic", "idiothelper"));
+        super(Executor::new, "Tells your fortune", "<>", "8ball", "fortune", "magic", "idiothelper");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

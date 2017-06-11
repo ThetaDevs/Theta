@@ -20,7 +20,7 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
                         new RemoveDescriptor())),
                 "Performs operations with the censorlist of the current Guild",
                 "<list | add | remove> <...>",
-                Collections.singletonList("censor"));
+                "censor");
     }
 
     private static abstract class BaseExecutor extends DMOutputCommandExecutor {
