@@ -21,6 +21,8 @@ import java.io.ObjectInputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.srgood.reasons.impl.Reference.GLOBAL_RANDOM;
+
 public class CommandImportDescriptor extends BaseCommandDescriptor {
     public CommandImportDescriptor() {
         super(Executor::new, "Runs a script of bot commands","<>", "import");
@@ -113,7 +115,7 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
         private List<String> getCommands(Message.Attachment attachment) {
             String encrypted;
             try {
-                File tempFile = new File("" + new Random().nextLong() + ".txt");
+                File tempFile = new File("" + GLOBAL_RANDOM.nextLong() + ".txt");
                 tempFile.deleteOnExit();
 
                 attachment.download(tempFile);

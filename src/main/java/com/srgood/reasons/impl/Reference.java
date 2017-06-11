@@ -1,11 +1,12 @@
 package com.srgood.reasons.impl;
 
-import java.awt.Color;
+import java.awt.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Reference {
     public static final String TABLE_FLIP = "(\u256F\u00B0\u25A1\u00B0\uFF09\u256F\uFE35 \u253B\u2501\u253B";
@@ -42,4 +43,6 @@ public class Reference {
             "164117897025683456", // MeowingTwurtle
             "181061030799998977" // HiItsMe
     ));
+
+    public static final Random GLOBAL_RANDOM = new Random();
 }

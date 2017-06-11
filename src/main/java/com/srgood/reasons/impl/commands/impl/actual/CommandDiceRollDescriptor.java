@@ -9,8 +9,9 @@ import com.srgood.reasons.impl.permissions.PermissionChecker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
+
+import static com.srgood.reasons.impl.Reference.GLOBAL_RANDOM;
 
 public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
     private static final int MAX_ROLL = 6;
@@ -27,8 +28,6 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            Random r = new Random();
-
             if (executionData.getParsedArguments().size() > 0) {
                 int numRolls;
                 if (Integer.parseInt(executionData.getParsedArguments().get(0)) > MAX_DICE) {
@@ -42,7 +41,7 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
                 List<Integer> results = new ArrayList<>();
 
                 for (int roll = 0; roll < numRolls; roll++) {
-                    int randNum = r.nextInt(MAX_ROLL) + 1;
+                    int randNum = GLOBAL_RANDOM.nextInt(MAX_ROLL) + 1;
                     results.add(randNum);
                 }
 
@@ -52,7 +51,7 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
 
                 sendOutput(output);
             } else {
-                sendOutput(r.nextInt(MAX_ROLL) + 1 + ".");
+                sendOutput(GLOBAL_RANDOM.nextInt(MAX_ROLL) + 1 + ".");
             }
         }
 

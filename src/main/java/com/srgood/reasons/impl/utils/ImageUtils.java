@@ -8,11 +8,9 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.IntStream;
 
-import static com.srgood.reasons.impl.Reference.VOTE_IMAGE_HEIGHT;
-import static com.srgood.reasons.impl.Reference.VOTE_IMAGE_WIDTH;
+import static com.srgood.reasons.impl.Reference.*;
 
 public class ImageUtils {
 
@@ -66,7 +64,7 @@ public class ImageUtils {
 
         graphics.dispose();
         workImage.flush();
-        File file = File.createTempFile("" + new Random().nextLong(), ".png");
+        File file = File.createTempFile("" + GLOBAL_RANDOM.nextLong(), ".png");
         file.deleteOnExit();
         ImageIO.write(workImage, "png", file);
         return file;

@@ -12,8 +12,8 @@ import net.dv8tion.jda.core.entities.User;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
+import static com.srgood.reasons.impl.Reference.GLOBAL_RANDOM;
 import static com.srgood.reasons.impl.utils.MemberUtils.getMembersWithRole;
 import static com.srgood.reasons.impl.utils.MemberUtils.getOnlineMembers;
 import static com.srgood.reasons.impl.utils.RoleUtils.getUniqueRole;
@@ -47,7 +47,6 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
                 return; // Error already handled in getAndCheckRole()
             }
 
-            Random random = new Random();
             int amount = getAmount();
 
             List<Member> foundMembers = getMembersWithRole(getOnlineMembers(executionData.getGuild()), targetRole);
@@ -63,7 +62,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
             int actualMax = Math.min(amount, foundMembers.size());
 
             for (int i = 0;i < actualMax; i++) {
-                Member m = foundMembers.get(random.nextInt(foundMembers.size() + 1));
+                Member m = foundMembers.get(GLOBAL_RANDOM.nextInt(foundMembers.size() + 1));
                 assert m != null;
                 foundMembers.remove(m);
                 dmTargetUsers.add(m.getUser());

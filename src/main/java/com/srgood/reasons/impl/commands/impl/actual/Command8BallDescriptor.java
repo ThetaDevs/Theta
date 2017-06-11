@@ -7,9 +7,9 @@ import com.srgood.reasons.impl.permissions.Permission;
 import com.srgood.reasons.impl.permissions.PermissionChecker;
 
 import java.util.Optional;
-import java.util.Random;
 
 import static com.srgood.reasons.impl.Reference.EIGHT_BALL;
+import static com.srgood.reasons.impl.Reference.GLOBAL_RANDOM;
 
 public class Command8BallDescriptor extends BaseCommandDescriptor {
     public Command8BallDescriptor() {
@@ -23,9 +23,8 @@ public class Command8BallDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            Random random = new Random();
             int numChoices = EIGHT_BALL.length;
-            int randIndex = random.nextInt(numChoices);
+            int randIndex = GLOBAL_RANDOM.nextInt(numChoices);
             sendOutput(EIGHT_BALL[randIndex]);
         }
 

@@ -7,7 +7,8 @@ import com.srgood.reasons.impl.permissions.Permission;
 import com.srgood.reasons.impl.permissions.PermissionChecker;
 
 import java.util.Optional;
-import java.util.Random;
+
+import static com.srgood.reasons.impl.Reference.GLOBAL_RANDOM;
 
 public class CommandCoinFlipDescriptor extends BaseCommandDescriptor {
     public CommandCoinFlipDescriptor() {
@@ -21,8 +22,7 @@ public class CommandCoinFlipDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            Random r = new Random();
-            int n = r.nextInt(6002);
+            int n = GLOBAL_RANDOM.nextInt(6002);
             if (n < 3000) {
                 sendOutput("Heads");
             } else if (n > 3001) {
