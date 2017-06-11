@@ -1,10 +1,8 @@
 package com.srgood.reasons.impl.config;
 
 import com.srgood.reasons.commands.CommandDescriptor;
-import com.srgood.reasons.config.CommandConfigManager;
-import com.srgood.reasons.config.GuildConfigManager;
-import com.srgood.reasons.config.MemberConfigManager;
-import com.srgood.reasons.config.RoleConfigManager;
+import com.srgood.reasons.config.*;
+import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import org.w3c.dom.Element;
@@ -18,6 +16,9 @@ public class GuildConfigManagerImpl extends BasicConfigManagerImpl implements Gu
     private static final String MEMBERS_TAG_NAME = "members";
     private static final String MEMBER_TAG_NAME = "member";
     private static final String MEMBER_ID_ATTRIBUTE_NAME = "id";
+    private static final String CHANNELS_TAG_NAME = "channels";
+    private static final String CHANNEL_TAG_NAME = "channel";
+    private static final String CHANNEL_ID_ATTRIBUTE_NAME = "id";
     private static final String COMMANDS_TAG_NAME = "commands";
     private static final String COMMAND_TAG_NAME = "command";
     private static final String COMMAND_NAME_ATTRIBUTE_NAME = "name";
@@ -50,6 +51,18 @@ public class GuildConfigManagerImpl extends BasicConfigManagerImpl implements Gu
                         ROLES_TAG_NAME),
                 ROLE_TAG_NAME, Collections.singletonMap(ROLE_ID_ATTRIBUTE_NAME, role.getId()));
         return new RoleConfigManagerImpl(roleElement);
+    }
+
+    @Override
+    public ChannelConfigManager getChannelConfigManager(Channel channel) {
+        checkState();
+        Element channelElement = ConfigUtils.getOrCreateChildElementWithAttributes(
+                ConfigUtils.getOrCreateChildElement(
+                        guildElement,
+                        CHANNELS_TAG_NAME),
+                CHANNEL_TAG_NAME,
+                Collections.singletonMap(CHANNEL_ID_ATTRIBUTE_NAME, channel.getId()));
+        return new ChannelConfigManagerImpl(channelElement);
     }
 
     @Override
