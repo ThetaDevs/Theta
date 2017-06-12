@@ -84,11 +84,6 @@ public class BotManagerImpl implements BotManager {
     }
 
     @Override
-    public JDA getJDA() {
-        return jda;
-    }
-
-    @Override
     public Instant getStartTime() {
         return START_INSTANT;
     }
