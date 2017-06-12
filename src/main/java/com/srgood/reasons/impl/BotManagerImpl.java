@@ -21,7 +21,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.*;
 
-public class ReasonsMain implements BotManager {
+public class BotManagerImpl implements BotManager {
     public final Instant START_INSTANT = Instant.now();
 
     private JDA jda;
@@ -37,7 +37,7 @@ public class ReasonsMain implements BotManager {
 
     public static void main(String[] args) {
         String token = getToken(args);
-        new ReasonsMain().init(token);
+        new BotManagerImpl().init(token);
     }
 
     private static String getToken(String[] args) {
