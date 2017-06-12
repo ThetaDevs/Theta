@@ -23,17 +23,11 @@ import java.util.logging.*;
 
 public class BotManagerImpl implements BotManager {
     private final Instant START_INSTANT = Instant.now();
-
-    private JDA jda;
-
     private final CommandManager commandManager = new CommandManagerImpl(this);
     private final ConfigFileManager configFileManager = new ConfigFileManager("theta.xml");
     private final BotConfigManager configManager = new BotConfigManagerImpl(configFileManager);
     private final Logger logger = Logger.getLogger("Theta");
-
-    public JDA getJda() {
-        return jda;
-    }
+    private JDA jda;
 
     public static void main(String[] args) {
         String token = getToken(args);
@@ -54,12 +48,49 @@ public class BotManagerImpl implements BotManager {
         initLogger();
         getLogger().info("Logger initialized.");
         getLogger().info("Initializing JDA.");
-        initJDA(token);
         getLogger().info("JDA initialized.");
         getLogger().info("Initializing commands.");
+        initJDA(token);
         initCommands();
         getLogger().info("Commands initialized.");
         getLogger().info("Bot initialized. Ready to receive commands.");
+    }
+
+    @Override
+    public void shutdown() {
+        configFileManager.save();
+        jda.shutdown(false);
+    }
+
+    @Override
+    public void shutdown(boolean force) {
+        // TODO force shutdown
+        shutdown();
+    }
+
+    @Override
+    public BotConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
+    }
+
+    @Override
+    public JDA getJDA() {
+        return jda;
+    }
+
+    @Override
+    public Instant getStartTime() {
+        return START_INSTANT;
     }
 
     private void initLogger() {
@@ -68,7 +99,10 @@ public class BotManagerImpl implements BotManager {
             public String format(LogRecord record) {
                 ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneOffset.systemDefault());
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                return String.format("[%s] [%s] [%s]: %s %n", dateFormatter.format(dateTime), StringUtils.capitalize(record.getLevel().toString().toLowerCase()), record.getLoggerName(), record.getMessage());
+                return String.format("[%s] [%s] [%s]: %s %n", dateFormatter.format(dateTime), StringUtils.capitalize(record
+                        .getLevel()
+                        .toString()
+                        .toLowerCase()), record.getLoggerName(), record.getMessage());
             }
         };
 
@@ -109,42 +143,5 @@ public class BotManagerImpl implements BotManager {
 
     private void initCommands() {
         CommandRegistrar.registerCommands(getCommandManager());
-    }
-
-    @Override
-    public void shutdown() {
-        configFileManager.save();
-        jda.shutdown(false);
-    }
-
-    @Override
-    public void shutdown(boolean force) {
-        // TODO force shutdown
-        shutdown();
-    }
-
-    @Override
-    public BotConfigManager getConfigManager() {
-        return configManager;
-    }
-
-    @Override
-    public JDA getJDA() {
-        return jda;
-    }
-
-    @Override
-    public CommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    @Override
-    public Logger getLogger() {
-        return logger;
-    }
-
-    @Override
-    public Instant getStartTime() {
-        return START_INSTANT;
     }
 }
