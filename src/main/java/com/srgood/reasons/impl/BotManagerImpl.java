@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.*;
 
 public class BotManagerImpl implements BotManager {
-    public final Instant START_INSTANT = Instant.now();
+    private final Instant START_INSTANT = Instant.now();
 
     private JDA jda;
 
