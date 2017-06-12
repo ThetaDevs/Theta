@@ -31,17 +31,14 @@ public class ConfigFileManager {
     public ConfigFileManager parse() {
         try {
             File file = new File(fileName);
-            if (!file.exists()) {
-                if (file.createNewFile()) {
-                    throw new RuntimeException("Could not create config file.");
-                }
+            if (file.createNewFile()) {
                 Files.write(DEFAULT_FILE_CONTENT, file, Reference.FILE_CHARSET);
             }
             parsedDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             parseCompleted = true;
             return this;
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
