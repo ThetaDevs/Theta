@@ -25,8 +25,7 @@ public class CommandShutdownDescriptor extends BaseCommandDescriptor {
                 executionData.getBotManager().shutdown();
             } catch (Exception e) {
                 e.printStackTrace();
-                sendOutput("Error, shutdown failed with an exception. Force exiting!");
-                executionData.getBotManager().shutdown(true);
+                sendOutput("Error, shutdown failed with an exception. The bot may be in an inconsistent state!");
             }
         }
 

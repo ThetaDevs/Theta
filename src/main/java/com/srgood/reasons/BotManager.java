@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 public interface BotManager {
     void init(String token);
     void shutdown();
-    void shutdown(boolean force);
 
     BotConfigManager getConfigManager();
     CommandManager getCommandManager();

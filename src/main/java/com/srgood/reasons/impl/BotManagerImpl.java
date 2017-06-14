@@ -63,12 +63,6 @@ public class BotManagerImpl implements BotManager {
     }
 
     @Override
-    public void shutdown(boolean force) {
-        // TODO force shutdown
-        shutdown();
-    }
-
-    @Override
     public BotConfigManager getConfigManager() {
         return configManager;
     }
