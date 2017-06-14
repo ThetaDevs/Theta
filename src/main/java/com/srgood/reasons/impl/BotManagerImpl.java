@@ -22,12 +22,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.*;
 
 public class BotManagerImpl implements BotManager {
-    private final Instant START_INSTANT = Instant.now();
-    private final CommandManager commandManager = new CommandManagerImpl(this);
-    private final ConfigFileManager configFileManager = new ConfigFileManager("theta.xml");
-    private final BotConfigManager configManager = new BotConfigManagerImpl(configFileManager);
-    private final Logger logger = Logger.getLogger("Theta");
+    private Instant START_INSTANT;
+    private CommandManager commandManager;
+    private ConfigFileManager configFileManager;
+    private BotConfigManager configManager;
+    private Logger logger;
     private JDA jda;
+    private boolean active;
 
     public static void main(String[] args) {
         String token = getToken(args);
@@ -43,46 +44,81 @@ public class BotManagerImpl implements BotManager {
         return args[0];
     }
 
+    public BotManagerImpl() {
+        clearFields();
+    }
+
     @Override
     public void init(String token) {
-        initLogger();
-        getLogger().info("Logger initialized.");
-        getLogger().info("Initializing JDA.");
-        getLogger().info("JDA initialized.");
-        getLogger().info("Initializing commands.");
-        initJDA(token);
-        initCommands();
-        getLogger().info("Commands initialized.");
-        getLogger().info("Bot initialized. Ready to receive commands.");
+        checkInactive();
+
+        try {
+            active = true;
+
+            initLogger();
+            getLogger().info("Logger initialized.");
+            getLogger().info("Initializing JDA.");
+            getLogger().info("JDA initialized.");
+            getLogger().info("Initializing config.");
+            initConfig();
+            getLogger().info("Config initialized.");
+            getLogger().info("Initializing commands.");
+            initJDA(token);
+            initCommands();
+            getLogger().info("Commands initialized.");
+            getLogger().info("Bot initialized. Ready to receive commands.");
+            START_INSTANT = Instant.now();
+        } catch (Exception e) {
+            clearFields();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void shutdown() {
+        checkActive();
+
         configFileManager.save();
         jda.shutdown(false);
+
+        clearFields();
     }
 
     @Override
     public BotConfigManager getConfigManager() {
+        checkActive();
         return configManager;
     }
 
     @Override
     public CommandManager getCommandManager() {
+        checkActive();
         return commandManager;
     }
 
     @Override
     public Logger getLogger() {
+        checkActive();
         return logger;
     }
 
     @Override
     public Instant getStartTime() {
+        checkActive();
         return START_INSTANT;
     }
 
+    private void clearFields() {
+        START_INSTANT = null;
+        commandManager = null;
+        configFileManager = null;
+        configManager = null;
+        logger = null;
+        active = false;
+    }
+
     private void initLogger() {
+        logger = Logger.getLogger("Theta");
         Formatter loggerFormatter = new Formatter() {
             @Override
             public String format(LogRecord record) {
@@ -130,7 +166,25 @@ public class BotManagerImpl implements BotManager {
         }
     }
 
+    private void initConfig() {
+        configFileManager = new ConfigFileManager("theta.xml");
+        configManager = new BotConfigManagerImpl(configFileManager);
+    }
+
     private void initCommands() {
+        commandManager = new CommandManagerImpl(this);
         CommandRegistrar.registerCommands(getCommandManager());
+    }
+
+    private void checkActive() {
+        if (!active) {
+            throw new IllegalStateException("This action cannot be performed unless the BotManager has been initialized.");
+        }
+    }
+
+    private void checkInactive() {
+        if (active) {
+            throw new IllegalStateException("This action cannot be performed unless the BotManager has not yet been initialized.");
+        }
     }
 }
