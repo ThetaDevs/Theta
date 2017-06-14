@@ -58,12 +58,12 @@ public class BotManagerImpl implements BotManager {
             initLogger();
             getLogger().info("Logger initialized.");
             getLogger().info("Initializing JDA.");
+            initJDA(token);
             getLogger().info("JDA initialized.");
             getLogger().info("Initializing config.");
             initConfig();
             getLogger().info("Config initialized.");
             getLogger().info("Initializing commands.");
-            initJDA(token);
             initCommands();
             getLogger().info("Commands initialized.");
             getLogger().info("Bot initialized. Ready to receive commands.");
