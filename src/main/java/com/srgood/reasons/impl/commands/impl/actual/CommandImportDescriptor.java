@@ -89,13 +89,25 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
         private void handleEnableCommand(String command) {
             String[] parts = command.split(" ");
             CommandDescriptor commandDescriptor = executionData.getBotManager().getCommandManager().getCommandByName(parts[1]);
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).getCommandConfigManager(commandDescriptor).setEnabled(true);
+            if (commandDescriptor != null) {
+                executionData.getBotManager()
+                             .getConfigManager()
+                             .getGuildConfigManager(executionData.getGuild())
+                             .getCommandConfigManager(commandDescriptor)
+                             .setEnabled(true);
+            }
         }
 
         private void handleDisableCommand(String command) {
             String[] parts = command.split(" ");
             CommandDescriptor commandDescriptor = executionData.getBotManager().getCommandManager().getCommandByName(parts[1]);
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).getCommandConfigManager(commandDescriptor).setEnabled(false);
+            if (commandDescriptor != null) {
+                executionData.getBotManager()
+                             .getConfigManager()
+                             .getGuildConfigManager(executionData.getGuild())
+                             .getCommandConfigManager(commandDescriptor)
+                             .setEnabled(false);
+            }
         }
 
         private void handleBlacklistCommand(String command) {
