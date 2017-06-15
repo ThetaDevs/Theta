@@ -128,10 +128,13 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
             String encrypted;
             try {
                 File tempFile = new File("" + GLOBAL_RANDOM.nextLong() + ".txt");
-                tempFile.deleteOnExit();
 
                 attachment.download(tempFile);
                 encrypted = Files.readFirstLine(tempFile, Reference.FILE_CHARSET);
+
+                if (!tempFile.delete()) {
+                    executionData.getBotManager().getLogger().warning("Unable to delete an CommandImportDescriptor tempfile.");
+                }
 
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(encrypted));
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
