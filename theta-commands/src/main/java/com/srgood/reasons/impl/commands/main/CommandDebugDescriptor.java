@@ -10,12 +10,18 @@ import net.dv8tion.jda.core.entities.Role;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
     private static final boolean ALLOW_DEBUG = true;
 
     public CommandDebugDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", "<deleteguild | removeroles>", false, "debug");
+        super(Set.of(new DeleteGuildDescriptor(),
+                     new RemoveRolesDescriptor()),
+              "FOR DEBUG ONLY",
+              "<deleteguild | removeroles | uptime>",
+              false,
+              "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {

@@ -18,8 +18,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.*;
 
@@ -48,7 +47,7 @@ public class Runner {
         try {
             ShardManager shardManager = new DefaultShardManagerBuilder().setEventManager(new InterfacedEventManager())
                                                                         .addEventListeners(new DiscordEventListener(botManager,
-                                                                                Collections.unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED))))
+                                                                                List.of(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED)))
                                                                         .setGame(Game.playing("Type @Theta help"))
                                                                         .setAutoReconnect(true)
                                                                         .setShardsTotal(-1) // Get recommended number from Discord
