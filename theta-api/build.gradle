@@ -1,0 +1,15 @@
+group 'com.srgood'
+version '2.3.4'
+
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile group: 'net.dv8tion', name: 'JDA', version: '3.1.1_212'
+}

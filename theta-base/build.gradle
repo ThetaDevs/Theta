@@ -1,0 +1,20 @@
+group 'com.srgood'
+version '2.3.4'
+
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile project(":theta-api")
+    compile group: 'net.dv8tion', name: 'JDA', version: '3.1.1_212'
+    compile group: 'com.github.meowingtwurtle', name: 'mathParser', version: '1.0.1'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.7.0.201704051617-r'
+    compile group: 'com.google.guava', name: 'guava', version: '21.0'
+    runtime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.2'
+}
