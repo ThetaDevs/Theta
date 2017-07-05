@@ -15,7 +15,7 @@ public interface GuildConfigManager extends BasicConfigManager {
     CommandConfigManager getCommandConfigManager(CommandDescriptor command);
 
     default String getPrefix() {
-        return getProperty(PREFIX_PROPERTY_NAME, DEFAULT_PREFIX, true);
+        return getProperty(PREFIX_PROPERTY_NAME, DEFAULT_PREFIX);
     }
 
     default void setPrefix(String prefix) {

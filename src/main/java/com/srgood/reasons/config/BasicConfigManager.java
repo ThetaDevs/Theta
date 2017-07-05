@@ -7,10 +7,7 @@ public interface BasicConfigManager {
     default String getProperty(String property) {
         return getProperty(property, null);
     }
-    default String getProperty(String property, String defaultValue) {
-        return getProperty(property, defaultValue, false);
-    }
-    String getProperty(String property, String defaultValue, boolean setIfMissing);
+    String getProperty(String property, String defaultValue);
     void setProperty(String property, String value);
 
     default <T> T getSerializedProperty(String property) {
