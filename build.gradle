@@ -1,35 +1,28 @@
-apply plugin: 'java'
-apply plugin: 'application'
-
-group = 'com.srgood'
-
-mainClassName = 'com.srgood.reasons.impl.ReasonsMain'
-
 description = """The Theta Discord Bot"""
 
-JavaVersion javaVersion = JavaVersion.VERSION_1_8
+allprojects {
+    ext {
+        botDependencies = [
+                JDA          : 'net.dv8tion:JDA:3.3.0_263',
+                Guava        : 'com.google.guava:guava:21.0',
+                Math         : 'com.github.meowingtwurtle:mathParser:1.0.1',
+                JGit         : 'org.eclipse.jgit:org.eclipse.jgit:4.7.0.201704051617-r',
+                NoOpLogger   : 'org.slf4j:slf4j-nop:1.7.2',
+                ApacheCommons: 'org.apache.commons:commons-lang3:3.6',
+                ThetaAPI     : project(':theta-api'),
+                ThetaBase    : project(':theta-base'),
+                ThetaCommands: project(':theta-commands')
+        ]
+    }
 
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
+    apply plugin: 'java'
 
-repositories {
-    jcenter()
-    mavenCentral()
-}
+    group = 'com.srgood'
+    version = '2.3.7'
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
-dependencies {
-    compile group: 'net.dv8tion', name: 'JDA', version: '3.3.0_263'
-    compile group: 'com.github.meowingtwurtle', name: 'mathParser', version: '1.0.1'
-    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.7.0.201704051617-r'
-    compile group: 'com.google.guava', name: 'guava', version: '21.0'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
-    runtime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.2'
-}
-
-jar {
-    manifest {
-        manifest.attributes(
-                'Implementation-Title': "Theta Discord Bot",
-                'Main-Class': mainClassName)
+    repositories {
+        mavenCentral()
+        jcenter()
     }
 }
