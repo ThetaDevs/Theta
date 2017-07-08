@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.logging.Logger;
 
 public interface BotManager extends AutoCloseable {
-    void init(String token);
+    void init();
 
     BotConfigManager getConfigManager();
     CommandManager getCommandManager();
