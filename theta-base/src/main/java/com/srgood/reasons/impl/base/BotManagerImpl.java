@@ -71,7 +71,7 @@ public class BotManagerImpl implements BotManager {
     }
 
     @Override
-    public void shutdown() {
+    public void close() {
         checkActive();
 
         configFileManager.save();

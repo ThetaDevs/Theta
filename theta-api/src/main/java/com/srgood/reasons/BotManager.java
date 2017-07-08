@@ -6,9 +6,8 @@ import com.srgood.reasons.config.BotConfigManager;
 import java.time.Instant;
 import java.util.logging.Logger;
 
-public interface BotManager {
+public interface BotManager extends AutoCloseable {
     void init(String token);
-    void shutdown();
 
     BotConfigManager getConfigManager();
     CommandManager getCommandManager();

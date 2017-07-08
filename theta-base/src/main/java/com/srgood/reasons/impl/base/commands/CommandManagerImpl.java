@@ -95,4 +95,7 @@ public class CommandManagerImpl implements CommandManager {
         }
         botManager.getConfigManager().getGuildConfigManager(guild).getCommandConfigManager(cmd).setEnabled(enabled);
     }
+
+    @Override
+    public void close() {}
 }

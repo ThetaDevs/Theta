@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 
 import java.util.Set;
 
-public interface CommandManager {
+public interface CommandManager extends AutoCloseable {
     void registerCommand(CommandDescriptor command);
     Set<CommandDescriptor> getRegisteredCommands();
 

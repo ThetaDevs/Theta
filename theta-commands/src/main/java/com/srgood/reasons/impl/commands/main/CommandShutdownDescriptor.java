@@ -22,7 +22,7 @@ public class CommandShutdownDescriptor extends BaseCommandDescriptor {
             sendOutput("Shutting down! %s", executionData.getSender().getAsMention());
 
             try {
-                executionData.getBotManager().shutdown();
+                executionData.getBotManager().close();
             } catch (Exception e) {
                 e.printStackTrace();
                 sendOutput("Error, shutdown failed with an exception. The bot may be in an inconsistent state!");

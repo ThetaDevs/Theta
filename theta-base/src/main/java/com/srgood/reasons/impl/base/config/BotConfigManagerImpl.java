@@ -54,4 +54,7 @@ public class BotConfigManagerImpl extends BasicConfigManagerImpl implements BotC
             actualLock.unlock();
         }
     }
+
+    @Override
+    public void close() {}
 }
