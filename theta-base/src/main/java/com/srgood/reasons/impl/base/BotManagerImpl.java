@@ -21,20 +21,6 @@ public class BotManagerImpl implements BotManager {
     private Instant startInstant;
     private boolean active;
 
-    public static void main(String[] args) {
-        String token = getToken(args);
-        //new BotManagerImpl().init(token);
-    }
-
-    private static String getToken(String[] args) {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("No token was provided");
-        } else if (args.length > 1) {
-            throw new IllegalArgumentException("Only one argument should be provided");
-        }
-        return args[0];
-    }
-
     public BotManagerImpl(Supplier<JDA> jdaSupplier, Supplier<BotConfigManager> configManagerSupplier, Supplier<CommandManager> commandManagerSupplier, Supplier<Logger> loggerSupplier) {
         this.jdaSupplier = jdaSupplier;
         this.configManagerSupplier = configManagerSupplier;
@@ -105,60 +91,6 @@ public class BotManagerImpl implements BotManager {
         startInstant = null;
         active = false;
     }
-
-    //private void initLogger() {
-    //    loggerCache = Logger.getLogger("Theta");
-    //    Formatter loggerFormatter = new Formatter() {
-    //        @Override
-    //        public String format(LogRecord record) {
-    //            ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneOffset.systemDefault());
-    //            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    //            return String.format("[%s] [%s] [%s]: %s %n", dateFormatter.format(dateTime), StringUtils.capitalize(record
-    //                    .getLevel()
-    //                    .toString()
-    //                    .toLowerCase()), record.getLoggerName(), record.getMessage());
-    //        }
-    //    };
-    //
-    //    StreamHandler streamHandler = new StreamHandler(System.out, loggerFormatter) {
-    //        @Override
-    //        public synchronized void publish(LogRecord record) {
-    //            super.publish(record);
-    //            super.flush();
-    //        }
-    //    };
-    //    streamHandler.flush();
-    //
-    //    loggerCache.setUseParentHandlers(false);
-    //    loggerCache.addHandler(streamHandler);
-    //    loggerCache.setLevel(Level.ALL);
-    //}
-    //
-    //private void initJDA(String token) {
-    //    try {
-    //        jdaCache = new JDABuilder(AccountType.BOT).addEventListener(new DiscordEventListener(this, Collections.emptyList())) // TODO Add messageChecks for eventlistener
-    //                                                  .setToken(token)
-    //                                                  .setGame(Game.of("Type @Theta help"))
-    //                                                  .setAutoReconnect(true)
-    //                                                  .buildBlocking();
-    //    } catch (LoginException | IllegalArgumentException e) {
-    //        getLogger().severe("**COULD NOT LOG IN** An invalid token was provided.");
-    //        throw new RuntimeException(e);
-    //    } catch (RateLimitedException e) {
-    //        getLogger().severe("**We are being ratelimited**");
-    //        e.printStackTrace();
-    //        throw new RuntimeException(e);
-    //    } catch (InterruptedException e) {
-    //        getLogger().severe("InterruptedException");
-    //        e.printStackTrace();
-    //        throw new RuntimeException(e);
-    //    }
-    //}
-    //
-    //private void initConfig() {
-    //    //configFileManager = new ConfigFileManager("theta.xml");
-    //    //configManagerCache = new BotConfigManagerImpl(configFileManager);
-    //}
 
     private void checkActive() {
         if (!active) {

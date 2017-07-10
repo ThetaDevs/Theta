@@ -11,7 +11,8 @@ allprojects {
                 ApacheCommons: 'org.apache.commons:commons-lang3:3.6',
                 ThetaAPI     : project(':theta-api'),
                 ThetaBase    : project(':theta-base'),
-                ThetaCommands: project(':theta-commands')
+                ThetaCommands: project(':theta-commands'),
+                ThetaRunner  : project(':theta-runner')
         ]
     }
 

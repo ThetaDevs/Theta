@@ -2,4 +2,5 @@ rootProject.name = 'theta'
 include 'theta-api'
 include 'theta-base'
 include 'theta-commands'
+include 'theta-runner'
 

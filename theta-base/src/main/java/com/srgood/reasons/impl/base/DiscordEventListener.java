@@ -15,6 +15,8 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.function.BiPredicate;
 
 import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossiblePrefixesForGuild;
@@ -30,17 +32,23 @@ import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossibl
  */
 public class DiscordEventListener extends ListenerAdapter {
 
-    private final BotManager botManager;
+    private BotManager botManager;
     private final Collection<BiPredicate<Message, BotManager>> messageFilters;
+    private Future<BotManager> botManagerFuture;
 
-    public DiscordEventListener(BotManager botManager, Collection<BiPredicate<Message, BotManager>> messageFilters) {
-        this.botManager = botManager;
+    public DiscordEventListener(Future<BotManager> botManagerFuture, Collection<BiPredicate<Message, BotManager>> messageFilters) {
+        this.botManagerFuture = botManagerFuture;
         this.messageFilters = messageFilters;
     }
 
     @Override
     public void onReady(ReadyEvent event) {
-
+        try {
+            botManager = botManagerFuture.get();
+            botManagerFuture = null;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
