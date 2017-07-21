@@ -1,9 +1,9 @@
 package com.srgood.reasons.impl.commands.impl.actual;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.Reference;
 import com.srgood.reasons.impl.commands.impl.base.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.commands.impl.base.executor.ChannelOutputCommandExecutor;
+import net.dv8tion.jda.core.Permission;
 
 public class CommandInviteDescriptor extends BaseCommandDescriptor {
     public CommandInviteDescriptor() {
@@ -17,7 +17,7 @@ public class CommandInviteDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("Theta authorization link: %s", Reference.INVITE_LINK);
+            sendOutput("Theta authorization link: %s", executionData.getGuild().getJDA().asBot().getInviteUrl(Permission.ADMINISTRATOR));
         }
     }
 }

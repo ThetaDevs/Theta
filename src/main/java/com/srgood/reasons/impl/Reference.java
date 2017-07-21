@@ -23,8 +23,6 @@ public class Reference {
             "Google Guava (https://github.com/google/guava)"
     ));
 
-    public static final String INVITE_LINK = "https://discordapp.com/oauth2/authorize?client_id=201810822131875840&scope=bot&permissions=0x8";
-
     public static final Color[] COLORS = {
             new Color(58, 96, 110),
             new Color(0, 166, 166),
