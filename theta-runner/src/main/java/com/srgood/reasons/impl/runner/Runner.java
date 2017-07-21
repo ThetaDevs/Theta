@@ -19,10 +19,13 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.logging.*;
+
+import static com.srgood.reasons.impl.runner.MessageReceivedPredicates.*;
 
 public class Runner {
     public static void main(String[] args) {
@@ -45,11 +48,12 @@ public class Runner {
 
     private static JDA createJDA(String token, Logger logger, Future<BotManager> botManagerFuture) {
         try {
-            return new JDABuilder(AccountType.BOT).addEventListener(new DiscordEventListener(botManagerFuture, Collections.emptyList())) // TODO Add messageChecks for eventlistener
-                                                      .setToken(token)
-                                                      .setGame(Game.of("Type @Theta help"))
-                                                      .setAutoReconnect(true)
-                                                      .buildBlocking();
+            return new JDABuilder(AccountType.BOT).addEventListener(new DiscordEventListener(botManagerFuture, Collections
+                    .unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED)))) // TODO Add messageChecks for eventlistener
+                                                  .setToken(token)
+                                                  .setGame(Game.of("Type @Theta help"))
+                                                  .setAutoReconnect(true)
+                                                  .buildBlocking();
         } catch (LoginException | IllegalArgumentException e) {
             logger.severe("**COULD NOT LOG IN** An invalid token was provided.");
             throw new RuntimeException(e);
