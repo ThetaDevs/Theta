@@ -59,7 +59,12 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public CommandDescriptor getCommandByName(String name) {
-        return commands.get(name);
+        for (Map.Entry<String, CommandDescriptor> entry : commands.entrySet()) {
+            if (name.matches(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     Lock getChannelThreadMapLock() {
@@ -76,11 +81,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void registerCommand(CommandDescriptor descriptor) {
-        List<String> names = descriptor.getNames();
-        for (String name : names) {
-            commands.put(name, descriptor);
-            botManager.getLogger().info("Registered command " + name);
-        }
+        commands.put(descriptor.getNameRegex(), descriptor);
+        botManager.getLogger().info("Registered command by regex: " + descriptor.getNameRegex());
     }
 
     @Override
