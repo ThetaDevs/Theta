@@ -1,7 +1,6 @@
 package com.srgood.reasons.commands;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public interface CommandDescriptor {
@@ -9,11 +8,9 @@ public interface CommandDescriptor {
 
     HelpData help();
 
-    List<String> getNames();
+    String getNameRegex();
 
-    default String getPrimaryName() {
-        return getNames().get(0);
-    }
+    String getPrimaryName();
 
     default boolean canSetEnabled() {
         return true;

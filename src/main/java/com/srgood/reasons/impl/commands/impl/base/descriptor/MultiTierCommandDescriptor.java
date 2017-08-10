@@ -13,20 +13,20 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
 
     private final Set<CommandDescriptor> subCommands;
 
-    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, String help, String args, String... names) {
-        this(subCommands, help, args, true, names);
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, String help, String args, String primaryName, String... names) {
+        this(subCommands, help, args, true, primaryName, names);
     }
 
-    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, String help, String args, boolean visible, String... names) {
-        this(subCommands, executionData -> EmptyCommandExecutor.INSTANCE, help, args, visible, names);
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, String help, String args, boolean visible, String primaryName, String... names) {
+        this(subCommands, executionData -> EmptyCommandExecutor.INSTANCE, help, args, visible, primaryName, names);
     }
 
-    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, String args, String... names) {
-        this(subCommands, defaultExecutorFunction, help, args, true, names);
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, String args, String primaryName, String... names) {
+        this(subCommands, defaultExecutorFunction, help, args, true, primaryName, names);
     }
 
-    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, String args, boolean visible, String... names) {
-        super(generateDataToExecutorFunction(subCommands, defaultExecutorFunction), help, args, visible, names);
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, String args, boolean visible, String primaryName, String... names) {
+        super(generateDataToExecutorFunction(subCommands, defaultExecutorFunction), help, args, visible, primaryName, names);
         this.subCommands = new HashSet<>(subCommands);
     }
 
@@ -40,7 +40,7 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
             String targetName = executionData.getParsedArguments().get(0);
 
             for (CommandDescriptor subDescriptor : subCommandDescriptors) {
-                if (subDescriptor.getNames().stream().anyMatch(targetName::equals)) {
+                if (targetName.matches(subDescriptor.getNameRegex())) {
                     return subDescriptor.getExecutor(patchExecutionDataForSubCommand(executionData));
                 }
             }
