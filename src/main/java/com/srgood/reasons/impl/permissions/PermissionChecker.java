@@ -21,7 +21,7 @@ public class PermissionChecker {
      * @return A non-empty {@link java.util.Optional} if the {@link net.dv8tion.jda.core.entities.Member} does not have the permission required, otherwise an empty {@link java.util.Optional}
      */
     public static Optional<String> checkMemberPermission(BotConfigManager botConfigManager, Member member, Permission action) {
-        if (member.isOwner() || member.hasPermission(net.dv8tion.jda.core.Permission.MANAGE_SERVER) || !checkBotAdmin(member).isPresent()) {
+        if (member.isOwner() || member.hasPermission(net.dv8tion.jda.core.Permission.ADMINISTRATOR) || !checkBotAdmin(member).isPresent()) {
             return Optional.empty();
         }
         if (!GuildDataManager.getGuildPermissionSet(botConfigManager, member.getGuild()).checkMemberPermission(member, action)) {
