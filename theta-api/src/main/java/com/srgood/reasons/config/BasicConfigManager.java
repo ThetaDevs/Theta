@@ -14,11 +14,8 @@ public interface BasicConfigManager {
         return getSerializedProperty(property,  null);
     }
     default <T> T getSerializedProperty(String property, T defaultValue) {
-        return getSerializedProperty(property, defaultValue, false);
+        return getSerializedProperty(property, defaultValue, Collections.emptyMap());
     }
-    default<T> T getSerializedProperty(String property, T defaultValue, boolean setIfMissing) {
-        return getSerializedProperty(property, defaultValue, setIfMissing, Collections.emptyMap());
-    }
-    <T> T getSerializedProperty(String property, T defaultValue, boolean setIfMissing, Map<String, String> classReplacements);
+    <T> T getSerializedProperty(String property, T defaultValue, Map<String, String> classReplacements);
     void setSerializedProperty(String property, Object value);
 }

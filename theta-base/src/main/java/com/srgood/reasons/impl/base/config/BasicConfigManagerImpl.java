@@ -55,12 +55,9 @@ public class BasicConfigManagerImpl implements BasicConfigManager {
     }
 
     @Override
-    public <T> T getSerializedProperty(String property, T defaultValue, boolean setIfMissing, Map<String, String> classReplacements) {
+    public <T> T getSerializedProperty(String property, T defaultValue, Map<String, String> classReplacements) {
         String rawText = getProperty(property);
         if (rawText == null) {
-            if (setIfMissing) {
-                setSerializedProperty(property, defaultValue);
-            }
             return defaultValue;
         }
 
