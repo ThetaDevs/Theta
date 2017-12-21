@@ -25,7 +25,7 @@ allprojects {
     group = 'com.srgood'
     version = grgit.head().getAbbreviatedId()
 
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_9
 
     repositories {
         mavenCentral()
