@@ -7,11 +7,10 @@ import com.srgood.reasons.impl.base.commands.CommandManagerImpl;
 import com.srgood.reasons.impl.base.config.BotConfigManagerImpl;
 import com.srgood.reasons.impl.base.config.ConfigFileManager;
 import com.srgood.reasons.impl.commands.main.CommandRegistrar;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.security.auth.login.LoginException;
@@ -31,7 +30,7 @@ public class Runner {
     public static void main(String[] args) {
         String token = getToken(args);
         CompletableFuture<BotManager> botManagerFuture = new CompletableFuture<>();
-        BotManager botManager = new BotManagerImpl(() -> createJDA(token, createLogger("ThetaInit"), botManagerFuture), () -> new BotConfigManagerImpl(new ConfigFileManager("theta.xml")), () -> new CommandManagerImpl(botManagerFuture), () -> createLogger("Theta"));
+        BotManager botManager = new BotManagerImpl(() -> createShardManager(token, createLogger("ThetaInit"), botManagerFuture), () -> new BotConfigManagerImpl(new ConfigFileManager("theta.xml")), () -> new CommandManagerImpl(botManagerFuture), () -> createLogger("Theta"));
         botManagerFuture.complete(botManager);
         botManager.init();
         CommandRegistrar.registerCommands(botManager.getCommandManager());
@@ -46,24 +45,20 @@ public class Runner {
         return args[0];
     }
 
-    private static JDA createJDA(String token, Logger logger, Future<BotManager> botManagerFuture) {
+    private static ShardManager createShardManager(String token, Logger logger, Future<BotManager> botManagerFuture) {
         try {
-            return new JDABuilder(AccountType.BOT).addEventListener(new DiscordEventListener(botManagerFuture, Collections
-                    .unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED)))) // TODO Add messageChecks for eventlistener
-                                                  .setToken(token)
-                                                  .setGame(Game.playing("Type @Theta help"))
-                                                  .setAutoReconnect(true)
-                                                  .buildBlocking();
+            ShardManager shardManager = new DefaultShardManagerBuilder().setEventManager(new InterfacedEventManager())
+                                                                        .addEventListeners(new DiscordEventListener(botManagerFuture, Collections
+                                                                                .unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED))))
+                                                                        .setGame(Game.playing("Type @Theta help"))
+                                                                        .setAutoReconnect(true)
+                                                                        .setShardsTotal(-1) // Get recommended number from Discord
+                                                                        .setToken(token)
+                                                                        .build();
+            logger.info("Using sharding with shard count of " + shardManager.getShardsTotal());
+            return shardManager;
         } catch (LoginException | IllegalArgumentException e) {
             logger.severe("**COULD NOT LOG IN** An invalid token was provided.");
-            throw new RuntimeException(e);
-        } catch (RateLimitedException e) {
-            logger.severe("**We are being ratelimited**");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            logger.severe("InterruptedException");
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -3,26 +3,26 @@ package com.srgood.reasons.impl.base;
 import com.srgood.reasons.BotManager;
 import com.srgood.reasons.commands.CommandManager;
 import com.srgood.reasons.config.BotConfigManager;
-import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.bot.sharding.ShardManager;
 
 import java.time.Instant;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class BotManagerImpl implements BotManager {
-    private final Supplier<JDA> jdaSupplier;
+    private final Supplier<ShardManager> shardManagerSupplier;
     private final Supplier<BotConfigManager> configManagerSupplier;
     private final Supplier<CommandManager> commandManagerSupplier;
     private final Supplier<Logger> loggerSupplier;
-    private JDA jdaCache;
+    private ShardManager shardManagerCache;
     private BotConfigManager configManagerCache;
     private CommandManager commandManagerCache;
     private Logger loggerCache;
     private Instant startInstant;
     private boolean active;
 
-    public BotManagerImpl(Supplier<JDA> jdaSupplier, Supplier<BotConfigManager> configManagerSupplier, Supplier<CommandManager> commandManagerSupplier, Supplier<Logger> loggerSupplier) {
-        this.jdaSupplier = jdaSupplier;
+    public BotManagerImpl(Supplier<ShardManager> shardManagerSupplier, Supplier<BotConfigManager> configManagerSupplier, Supplier<CommandManager> commandManagerSupplier, Supplier<Logger> loggerSupplier) {
+        this.shardManagerSupplier = shardManagerSupplier;
         this.configManagerSupplier = configManagerSupplier;
         this.commandManagerSupplier = commandManagerSupplier;
         this.loggerSupplier = loggerSupplier;
@@ -34,7 +34,7 @@ public class BotManagerImpl implements BotManager {
         checkInactive();
 
         try {
-            jdaCache = jdaSupplier.get();
+            shardManagerCache = shardManagerSupplier.get();
             configManagerCache = configManagerSupplier.get();
             commandManagerCache = commandManagerSupplier.get();
             loggerCache = loggerSupplier.get();
@@ -50,7 +50,7 @@ public class BotManagerImpl implements BotManager {
     public void close() {
         checkActive();
         try {
-            jdaCache.shutdown();
+            shardManagerCache.shutdown();
             configManagerCache.close();
             commandManagerCache.close();
             clearFields();
@@ -84,7 +84,7 @@ public class BotManagerImpl implements BotManager {
     }
 
     private void clearFields() {
-        jdaCache = null;
+        shardManagerCache = null;
         configManagerCache = null;
         commandManagerCache = null;
         loggerCache = null;
