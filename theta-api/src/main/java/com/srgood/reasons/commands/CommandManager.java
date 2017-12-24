@@ -7,6 +7,7 @@ import java.util.Set;
 
 public interface CommandManager extends AutoCloseable {
     void registerCommand(CommandDescriptor command);
+
     Set<CommandDescriptor> getRegisteredCommands();
 
     void handleCommandMessage(Message message);

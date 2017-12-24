@@ -33,47 +33,32 @@ public class GuildConfigManagerImpl extends BasicConfigManagerImpl implements Gu
     @Override
     public MemberConfigManager getMemberConfigManager(Member member) {
         checkState();
-        Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(
-                ConfigUtils.getOrCreateChildElement(
-                        guildElement,
-                        MEMBERS_TAG_NAME),
-                MEMBER_TAG_NAME,
-                Collections.singletonMap(MEMBER_ID_ATTRIBUTE_NAME, member.getUser().getId()));
+        Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(ConfigUtils.getOrCreateChildElement(guildElement, MEMBERS_TAG_NAME), MEMBER_TAG_NAME, Collections
+                .singletonMap(MEMBER_ID_ATTRIBUTE_NAME, member.getUser().getId()));
         return new MemberConfigManagerImpl(roleElement);
     }
 
     @Override
     public RoleConfigManager getRoleConfigManager(Role role) {
         checkState();
-        Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(
-                ConfigUtils.getOrCreateChildElement(
-                        guildElement,
-                        ROLES_TAG_NAME),
-                ROLE_TAG_NAME, Collections.singletonMap(ROLE_ID_ATTRIBUTE_NAME, role.getId()));
+        Element roleElement = ConfigUtils.getOrCreateChildElementWithAttributes(ConfigUtils.getOrCreateChildElement(guildElement, ROLES_TAG_NAME), ROLE_TAG_NAME, Collections
+                .singletonMap(ROLE_ID_ATTRIBUTE_NAME, role.getId()));
         return new RoleConfigManagerImpl(roleElement);
     }
 
     @Override
     public ChannelConfigManager getChannelConfigManager(Channel channel) {
         checkState();
-        Element channelElement = ConfigUtils.getOrCreateChildElementWithAttributes(
-                ConfigUtils.getOrCreateChildElement(
-                        guildElement,
-                        CHANNELS_TAG_NAME),
-                CHANNEL_TAG_NAME,
-                Collections.singletonMap(CHANNEL_ID_ATTRIBUTE_NAME, channel.getId()));
+        Element channelElement = ConfigUtils.getOrCreateChildElementWithAttributes(ConfigUtils.getOrCreateChildElement(guildElement, CHANNELS_TAG_NAME), CHANNEL_TAG_NAME, Collections
+                .singletonMap(CHANNEL_ID_ATTRIBUTE_NAME, channel.getId()));
         return new ChannelConfigManagerImpl(channelElement);
     }
 
     @Override
     public CommandConfigManager getCommandConfigManager(CommandDescriptor command) {
         checkState();
-        Element commandElement = ConfigUtils.getOrCreateChildElementWithAttributes(
-                ConfigUtils.getOrCreateChildElement(
-                        guildElement,
-                        COMMANDS_TAG_NAME),
-                COMMAND_TAG_NAME,
-                Collections.singletonMap(COMMAND_NAME_ATTRIBUTE_NAME, command.getPrimaryName()));
+        Element commandElement = ConfigUtils.getOrCreateChildElementWithAttributes(ConfigUtils.getOrCreateChildElement(guildElement, COMMANDS_TAG_NAME), COMMAND_TAG_NAME, Collections
+                .singletonMap(COMMAND_NAME_ATTRIBUTE_NAME, command.getPrimaryName()));
         return new CommandConfigManagerImpl(commandElement);
     }
 

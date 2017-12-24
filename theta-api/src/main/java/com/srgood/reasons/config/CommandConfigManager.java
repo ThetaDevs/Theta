@@ -7,7 +7,8 @@ public interface CommandConfigManager extends BasicConfigManager {
     default boolean isEnabled() {
         return Boolean.parseBoolean(getProperty(ENABLED_PROPERTY_NAME, String.valueOf(DEFAULT_ENABLED_STATE)));
     }
-    default void setEnabled(boolean enabled){
+
+    default void setEnabled(boolean enabled) {
         setProperty(ENABLED_PROPERTY_NAME, String.valueOf(enabled));
     }
 }

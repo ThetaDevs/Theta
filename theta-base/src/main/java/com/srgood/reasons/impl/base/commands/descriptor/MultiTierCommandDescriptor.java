@@ -29,8 +29,7 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
         this.subCommands = new HashSet<>(subCommands);
     }
 
-    private static Function<CommandExecutionData, CommandExecutor> generateDataToExecutorFunction(Collection<CommandDescriptor> subCommandDescriptors,
-                                                                                                               Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction) {
+    private static Function<CommandExecutionData, CommandExecutor> generateDataToExecutorFunction(Collection<CommandDescriptor> subCommandDescriptors, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction) {
         return executionData -> {
             if (executionData.getParsedArguments().isEmpty()) {
                 return defaultExecutorFunction.apply(executionData);
@@ -52,8 +51,8 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
         List<String> oldParsedArguments = data.getParsedArguments();
         List<String> newParsedArguments = oldParsedArguments.subList(1, oldParsedArguments.size());
 
-        return new com.srgood.reasons.impl.base.commands.CommandExecutionDataImpl(data.getMessage(), data.getRawData(), data.getRawArguments(), newParsedArguments, data.getChannel(),
-                data.getGuild(), data.getSender(), data.getBotManager());
+        return new com.srgood.reasons.impl.base.commands.CommandExecutionDataImpl(data.getMessage(), data.getRawData(), data
+                .getRawArguments(), newParsedArguments, data.getChannel(), data.getGuild(), data.getSender(), data.getBotManager());
     }
 
     @Override

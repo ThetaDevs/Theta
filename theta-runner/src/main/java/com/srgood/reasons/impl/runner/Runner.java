@@ -64,32 +64,31 @@ public class Runner {
     }
 
     private static Logger createLogger(String name) {
-            Logger logger = Logger.getLogger(name);
-            Formatter loggerFormatter = new Formatter() {
-                @Override
-                public String format(LogRecord record) {
-                    ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneOffset
-                            .systemDefault());
-                    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    return String.format("[%s] [%s] [%s]: %s %n", dateFormatter.format(dateTime), StringUtils.capitalize(record
-                            .getLevel()
-                            .toString()
-                            .toLowerCase()), record.getLoggerName(), record.getMessage());
-                }
-            };
+        Logger logger = Logger.getLogger(name);
+        Formatter loggerFormatter = new Formatter() {
+            @Override
+            public String format(LogRecord record) {
+                ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneOffset.systemDefault());
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                return String.format("[%s] [%s] [%s]: %s %n", dateFormatter.format(dateTime), StringUtils.capitalize(record
+                        .getLevel()
+                        .toString()
+                        .toLowerCase()), record.getLoggerName(), record.getMessage());
+            }
+        };
 
-            StreamHandler streamHandler = new StreamHandler(System.out, loggerFormatter) {
-                @Override
-                public synchronized void publish(LogRecord record) {
-                    super.publish(record);
-                    super.flush();
-                }
-            };
-            streamHandler.flush();
+        StreamHandler streamHandler = new StreamHandler(System.out, loggerFormatter) {
+            @Override
+            public synchronized void publish(LogRecord record) {
+                super.publish(record);
+                super.flush();
+            }
+        };
+        streamHandler.flush();
 
-            logger.setUseParentHandlers(false);
-            logger.addHandler(streamHandler);
-            logger.setLevel(Level.ALL);
-            return logger;
+        logger.setUseParentHandlers(false);
+        logger.addHandler(streamHandler);
+        logger.setLevel(Level.ALL);
+        return logger;
     }
 }

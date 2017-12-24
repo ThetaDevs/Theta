@@ -1,11 +1,11 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
-import com.srgood.reasons.impl.commands.utils.GitUtils;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
+import com.srgood.reasons.impl.commands.utils.GitUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -59,13 +59,16 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
                 Optional<String> branchOptional = GitUtils.getCurrentBranch();
                 Optional<String> commitOptional = GitUtils.getCurrentRevision();
 
-                branchOptional.ifPresent(branch -> stringBuilder.append(lineSep).append(String.format("Local repo is on branch **`%s`**", branch)));
-                commitOptional.ifPresent(commit -> stringBuilder.append(lineSep).append(String.format("Local repo is on commit **`%s`**", commit)));
+                branchOptional.ifPresent(branch -> stringBuilder.append(lineSep)
+                                                                .append(String.format("Local repo is on branch **`%s`**", branch)));
+                commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)
+                                                                .append(String.format("Local repo is on commit **`%s`**", commit)));
 
                 sendOutput(stringBuilder.toString());
             }
         }
     }
+
     private static class UpdateDescriptor extends BaseCommandDescriptor {
         public UpdateDescriptor() {
             super(Executor::new, "Updates the local repo, if present", "<>", "update", "pull");

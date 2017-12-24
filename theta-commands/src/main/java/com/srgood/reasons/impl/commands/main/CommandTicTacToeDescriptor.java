@@ -1,9 +1,9 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.games.TicTacToeGame;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.games.TicTacToeGame;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class CommandTicTacToeDescriptor extends BaseCommandDescriptor {
     public CommandTicTacToeDescriptor() {
-        super(Executor::new, "Displays the current status of the bot","I HAVE NO WORLDLY IDEA", "tictactoe");
+        super(Executor::new, "Displays the current status of the bot", "I HAVE NO WORLDLY IDEA", "tictactoe");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -24,19 +24,22 @@ public class CommandTicTacToeDescriptor extends BaseCommandDescriptor {
 
         @Override
         public boolean shouldExecute() {
-                boolean o = true;
-                if(executionData.getParsedArguments().size() == 0) {} else if(executionData.getParsedArguments().size() == 1 && Objects
-                        .equals(executionData.getParsedArguments().get(0), "check")) {} else if(executionData.getParsedArguments().size() == 2) {
-                    try {
-                        int n = Integer.parseInt(executionData.getParsedArguments().get(0));
-                        n = Integer.parseInt(executionData.getParsedArguments().get(1));
-                    } catch(Exception e) {
-                        o = false;
-                    }
-                } else {
+            boolean o = true;
+            if (executionData.getParsedArguments().size() == 0) {
+            } else if (executionData.getParsedArguments()
+                                    .size() == 1 && Objects.equals(executionData.getParsedArguments()
+                                                                                .get(0), "check")) {
+            } else if (executionData.getParsedArguments().size() == 2) {
+                try {
+                    int n = Integer.parseInt(executionData.getParsedArguments().get(0));
+                    n = Integer.parseInt(executionData.getParsedArguments().get(1));
+                } catch (Exception e) {
                     o = false;
                 }
-                return o;
+            } else {
+                o = false;
+            }
+            return o;
         }
 
         @Override

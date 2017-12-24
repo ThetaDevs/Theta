@@ -10,7 +10,9 @@ public interface BotManager extends AutoCloseable {
     void init();
 
     BotConfigManager getConfigManager();
+
     CommandManager getCommandManager();
+
     Logger getLogger();
 
     Instant getStartTime();

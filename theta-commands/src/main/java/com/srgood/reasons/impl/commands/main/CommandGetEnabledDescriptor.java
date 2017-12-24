@@ -18,12 +18,15 @@ public class CommandGetEnabledDescriptor extends BaseCommandDescriptor {
         @Override
         public void execute() {
             if (executionData.getParsedArguments().size() > 0) {
-                CommandDescriptor command = executionData.getBotManager().getCommandManager().getCommandByName(executionData.getParsedArguments()
-                                                                                                                                  .get(0));
-                sendOutput("Command %s is %s.", command.getPrimaryName(), executionData.getBotManager().getConfigManager()
-                                                                                                             .getGuildConfigManager(executionData.getGuild())
-                                                                                                             .getCommandConfigManager(command)
-                                                                                                             .isEnabled() ? "enabled" : "disabled");
+                CommandDescriptor command = executionData.getBotManager()
+                                                         .getCommandManager()
+                                                         .getCommandByName(executionData.getParsedArguments().get(0));
+                sendOutput("Command %s is %s.", command.getPrimaryName(), executionData.getBotManager()
+                                                                                       .getConfigManager()
+                                                                                       .getGuildConfigManager(executionData
+                                                                                               .getGuild())
+                                                                                       .getCommandConfigManager(command)
+                                                                                       .isEnabled() ? "enabled" : "disabled");
             } else {
                 sendOutput("Please specify a command for which to get the enabled status.");
             }

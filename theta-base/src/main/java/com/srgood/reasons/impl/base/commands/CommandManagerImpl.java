@@ -26,35 +26,36 @@ public class CommandManagerImpl implements CommandManager {
         this.botManagerFuture = botManagerFuture;
     }
 
-        @Override
-        public void handleCommandMessage(Message cmd) {
-            GuildConfigManager guildConfigManager = getBotManager().getConfigManager()
-                                                              .getGuildConfigManager(cmd.getGuild());
+    @Override
+    public void handleCommandMessage(Message cmd) {
+        GuildConfigManager guildConfigManager = getBotManager().getConfigManager()
+                                                               .getGuildConfigManager(cmd.getGuild());
 
-            //if (BlacklistUtils.isBlacklisted(botManager.getConfigManager(), cmd.getMember(), GuildDataManager.getGuildBlacklist(botManager.getConfigManager(), cmd.getGuild()))) {
-            //    botManager.getLogger().info("Ignoring command, sender was directly or indirectly blacklisted");
-            //    return;
-            //}
+        //if (BlacklistUtils.isBlacklisted(botManager.getConfigManager(), cmd.getMember(), GuildDataManager.getGuildBlacklist(botManager.getConfigManager(), cmd.getGuild()))) {
+        //    botManager.getLogger().info("Ignoring command, sender was directly or indirectly blacklisted");
+        //    return;
+        //}
 
-            String calledCommand = CommandUtils.getCalledCommand(cmd.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, cmd.getGuild()));
-            CommandDescriptor descriptor = getCommandByName(calledCommand);
-            if (descriptor != null) {
-                if (guildConfigManager.getCommandConfigManager(descriptor).isEnabled()) {
-                    getChannelThreadMapLock().lock();
-                    ChannelCommandThread channelCommandThread = channelThreadMap.computeIfAbsent(cmd.getChannel()
-                                                                                                                                     .getId(), id -> new ChannelCommandThread(cmd
-                            .getChannel(), this, getBotManager()));
-                    getChannelThreadMapLock().unlock();
-                    channelCommandThread.addCommand(cmd);
-                    if (channelCommandThread.getState() == Thread.State.NEW) {
-                        channelCommandThread.start();
-                    }
-                } else {
-                    cmd.getChannel().sendMessage("This command is disabled").queue();
+        String calledCommand = CommandUtils.getCalledCommand(cmd.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, cmd
+                .getGuild()));
+        CommandDescriptor descriptor = getCommandByName(calledCommand);
+        if (descriptor != null) {
+            if (guildConfigManager.getCommandConfigManager(descriptor).isEnabled()) {
+                getChannelThreadMapLock().lock();
+                ChannelCommandThread channelCommandThread = channelThreadMap.computeIfAbsent(cmd.getChannel()
+                                                                                                .getId(), id -> new ChannelCommandThread(cmd
+                        .getChannel(), this, getBotManager()));
+                getChannelThreadMapLock().unlock();
+                channelCommandThread.addCommand(cmd);
+                if (channelCommandThread.getState() == Thread.State.NEW) {
+                    channelCommandThread.start();
                 }
             } else {
-                cmd.getChannel().sendMessage(String.format("Unknown command `%s`", calledCommand)).queue();
+                cmd.getChannel().sendMessage("This command is disabled").queue();
             }
+        } else {
+            cmd.getChannel().sendMessage(String.format("Unknown command `%s`", calledCommand)).queue();
+        }
     }
 
     @Override
@@ -95,7 +96,10 @@ public class CommandManagerImpl implements CommandManager {
         if (!cmd.canSetEnabled()) {
             throw new IllegalArgumentException("Cannot toggle this command");
         }
-        getBotManager().getConfigManager().getGuildConfigManager(guild).getCommandConfigManager(cmd).setEnabled(enabled);
+        getBotManager().getConfigManager()
+                       .getGuildConfigManager(guild)
+                       .getCommandConfigManager(cmd)
+                       .setEnabled(enabled);
     }
 
     @Override

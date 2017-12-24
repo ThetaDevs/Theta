@@ -1,9 +1,9 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
 import java.util.Optional;
 

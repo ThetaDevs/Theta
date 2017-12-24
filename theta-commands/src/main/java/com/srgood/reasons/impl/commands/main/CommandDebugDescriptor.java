@@ -1,10 +1,10 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.time.Duration;
@@ -17,15 +17,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
     private static final boolean ALLOW_DEBUG = true;
 
     public CommandDebugDescriptor() {
-        super(new LinkedHashSet<>(
-              Arrays.asList(
-                        new DeleteGuildDescriptor(),
-                        new RemoveRolesDescriptor(),
-                        new UptimeDescriptor())),
-              "FOR DEBUG ONLY",
-              "<deleteguild | removeroles | uptime>",
-              false,
-              "debug");
+        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor(), new UptimeDescriptor())), "FOR DEBUG ONLY", "<deleteguild | removeroles | uptime>", false, "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -50,7 +42,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
 
     private static class DeleteGuildDescriptor extends BaseCommandDescriptor {
         public DeleteGuildDescriptor() {
-            super(Executor::new, "Deletes the current guild from the config", "<>" ,"deleteguild");
+            super(Executor::new, "Deletes the current guild from the config", "<>", "deleteguild");
         }
 
         private static class Executor extends BaseExecutor {
@@ -60,7 +52,10 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).delete();
+                executionData.getBotManager()
+                             .getConfigManager()
+                             .getGuildConfigManager(executionData.getGuild())
+                             .delete();
             }
         }
     }
@@ -79,8 +74,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
             public void execute() {
                 for (Role r : executionData.getGuild().getRoles()) {
                     if (r.getName().equals("Reasons Admin") || r.getName().equals("DJ")) {
-                        r.delete()
-                         .queue(role -> sendOutput("Removed role: **`%s`**", r.getName()));
+                        r.delete().queue(role -> sendOutput("Removed role: **`%s`**", r.getName()));
                     }
                 }
             }
@@ -100,7 +94,8 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                long seconds = Duration.between(executionData.getBotManager().getStartTime(), Instant.now()).getSeconds();
+                long seconds = Duration.between(executionData.getBotManager().getStartTime(), Instant.now())
+                                       .getSeconds();
                 long absSeconds = Math.abs(seconds);
                 String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
                 String x = seconds < 0 ? "-" + positive : positive;

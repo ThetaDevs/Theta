@@ -6,7 +6,7 @@ import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecut
 
 public class CommandGetPrefixDescriptor extends BaseCommandDescriptor {
     public CommandGetPrefixDescriptor() {
-        super(Executor::new, "Gets the prefix in the current Guild","<>", "getprefix", "whatistheprefix");
+        super(Executor::new, "Gets the prefix in the current Guild", "<>", "getprefix", "whatistheprefix");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -16,7 +16,10 @@ public class CommandGetPrefixDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("**Prefix:** `%s`", executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).getPrefix());
+            sendOutput("**Prefix:** `%s`", executionData.getBotManager()
+                                                        .getConfigManager()
+                                                        .getGuildConfigManager(executionData.getGuild())
+                                                        .getPrefix());
         }
     }
 }

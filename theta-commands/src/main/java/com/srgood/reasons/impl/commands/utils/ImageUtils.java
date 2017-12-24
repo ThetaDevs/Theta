@@ -23,15 +23,15 @@ public class ImageUtils {
 
         float angle = (float) totalVotes / (float) categoryVotes.length;
         int shadowOffset = -8;
-        float oSpace = (((float) VOTE_IMAGE_HEIGHT - 320))/ (float) categoryNames.length ;
+        float oSpace = (((float) VOTE_IMAGE_HEIGHT - 320)) / (float) categoryNames.length;
 
         Graphics graphics = workImage.getGraphics();
         graphics.setFont(new Font("TimesRoman", Font.PLAIN, 35));
         FontMetrics metrics = graphics.getFontMetrics();
 
         //shading
-        graphics.setColor(new Color(0,0,0,50));
-        graphics.fillArc(VOTE_IMAGE_WIDTH / 4 - 180 + shadowOffset,VOTE_IMAGE_HEIGHT / 2 - 180, 360,360,0,360);
+        graphics.setColor(new Color(0, 0, 0, 50));
+        graphics.fillArc(VOTE_IMAGE_WIDTH / 4 - 180 + shadowOffset, VOTE_IMAGE_HEIGHT / 2 - 180, 360, 360, 0, 360);
         graphics.drawString(voteName, VOTE_IMAGE_WIDTH / 2 + shadowOffset, VOTE_IMAGE_HEIGHT / 8);
 
         graphics.setColor(Color.WHITE);
@@ -41,7 +41,7 @@ public class ImageUtils {
             float percent = (float) i / (float) totalVotes;
             float angleM = percent * 360;
             graphics.setColor(COLORS[colorInt]);
-            graphics.fillArc(VOTE_IMAGE_WIDTH / 4 - 175,VOTE_IMAGE_HEIGHT / 2 - 175, 350,350, (int) angle,(int) angleM);
+            graphics.fillArc(VOTE_IMAGE_WIDTH / 4 - 175, VOTE_IMAGE_HEIGHT / 2 - 175, 350, 350, (int) angle, (int) angleM);
             angle += angleM;
             colorInt++;
         }
@@ -49,15 +49,17 @@ public class ImageUtils {
 
         for (int i = 0; i < categoryNames.length; i++) {
 
-            graphics.setColor(new Color(0,0,0,50));
-            graphics.drawString(categoryNames[i] + " (" + categoryVotes[i] + ")",((VOTE_IMAGE_WIDTH / 3) * 2) + 80 + (shadowOffset / 2),(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + metrics.getHeight()) + (shadowOffset / 2));
-            graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15 + (shadowOffset / 2),(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15) + (shadowOffset / 2),30,30);
+            graphics.setColor(new Color(0, 0, 0, 50));
+            graphics.drawString(categoryNames[i] + " (" + categoryVotes[i] + ")", ((VOTE_IMAGE_WIDTH / 3) * 2) + 80 + (shadowOffset / 2), (int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + metrics
+                    .getHeight()) + (shadowOffset / 2));
+            graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15 + (shadowOffset / 2), (int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15) + (shadowOffset / 2), 30, 30);
 
             graphics.setColor(COLORS[i]);
-            graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15,(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15),30,30);
+            graphics.fillRect(((VOTE_IMAGE_WIDTH / 3) * 2) + 15, (int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + 15), 30, 30);
             graphics.setColor(Color.WHITE);
 
-            graphics.drawString(categoryNames[i] + " (" + categoryVotes[i] + ")",((VOTE_IMAGE_WIDTH / 3) * 2) + 80,(int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + metrics.getHeight()));
+            graphics.drawString(categoryNames[i] + " (" + categoryVotes[i] + ")", ((VOTE_IMAGE_WIDTH / 3) * 2) + 80, (int) (((VOTE_IMAGE_HEIGHT / 2) - (totalKeyHeight / 2)) + (i * oSpace) + metrics
+                    .getHeight()));
 
         }
 

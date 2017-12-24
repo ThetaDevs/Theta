@@ -1,11 +1,11 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.utils.GuildDataManager;
-import com.srgood.reasons.impl.commands.utils.StringUtils;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.utils.GuildDataManager;
+import com.srgood.reasons.impl.commands.utils.StringUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
@@ -31,7 +31,9 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                List<String> blacklistedIDs = GuildDataManager.getGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+                List<String> blacklistedIDs = GuildDataManager.getGuildBlacklist(executionData.getBotManager()
+                                                                                              .getConfigManager(), executionData
+                        .getGuild());
                 if (blacklistedIDs.size() == 0) {
                     sendOutput("```There are no roles or users in this Guild's blacklist```");
                     return;
@@ -67,13 +69,17 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+                List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager()
+                                                                                         .getConfigManager(), executionData
+                        .getGuild());
                 if (blacklist.contains(executionData.getParsedArguments().get(0))) {
-                    sendOutput("```ID \"%s\" was already in the blacklist```", executionData.getParsedArguments().get(0));
+                    sendOutput("```ID \"%s\" was already in the blacklist```", executionData.getParsedArguments()
+                                                                                            .get(0));
                     return;
                 }
                 blacklist.add(executionData.getParsedArguments().get(0));
-                GuildDataManager.setGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild(), blacklist);
+                GuildDataManager.setGuildBlacklist(executionData.getBotManager()
+                                                                .getConfigManager(), executionData.getGuild(), blacklist);
                 sendOutput("```ID \"%s\" added to blacklist.```", executionData.getParsedArguments().get(0));
             }
         }
@@ -91,13 +97,16 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+                List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager()
+                                                                                         .getConfigManager(), executionData
+                        .getGuild());
                 if (!blacklist.contains(executionData.getParsedArguments().get(0))) {
                     sendOutput("```ID \"%s\" was not in the blacklist```", executionData.getParsedArguments().get(0));
                     return;
                 }
                 blacklist.remove(executionData.getParsedArguments().get(0));
-                GuildDataManager.setGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild(), blacklist);
+                GuildDataManager.setGuildBlacklist(executionData.getBotManager()
+                                                                .getConfigManager(), executionData.getGuild(), blacklist);
                 sendOutput("```ID \"%s\" removed from blacklist.```", executionData.getParsedArguments().get(0));
             }
         }

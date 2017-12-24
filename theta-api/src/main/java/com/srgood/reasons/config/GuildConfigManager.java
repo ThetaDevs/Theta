@@ -10,8 +10,11 @@ public interface GuildConfigManager extends BasicConfigManager {
     String DEFAULT_PREFIX = "#!";
 
     MemberConfigManager getMemberConfigManager(Member member);
+
     RoleConfigManager getRoleConfigManager(Role role);
+
     ChannelConfigManager getChannelConfigManager(Channel channel);
+
     CommandConfigManager getCommandConfigManager(CommandDescriptor command);
 
     default String getPrefix() {

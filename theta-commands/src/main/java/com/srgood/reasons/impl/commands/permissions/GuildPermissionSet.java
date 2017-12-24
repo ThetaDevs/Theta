@@ -54,11 +54,14 @@ public class GuildPermissionSet implements Serializable {
             }
         }
         // If no custom roles match, check everyone role
-        return rolePermissions.get(member.getGuild().getPublicRole().getId()).getActionStatus(action) == PermissionStatus.ALLOWED;
+        return rolePermissions.get(member.getGuild().getPublicRole().getId())
+                              .getActionStatus(action) == PermissionStatus.ALLOWED;
     }
 
     private void checkGuild(Guild guild) {
-        if (guild == null) throw new IllegalStateException("Associated Guild has been deleted");
+        if (guild == null) {
+            throw new IllegalStateException("Associated Guild has been deleted");
+        }
     }
 
     private void removeUnusedRoles(Guild guild) {

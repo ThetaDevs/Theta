@@ -31,13 +31,7 @@ public class BotConfigManagerImpl extends BasicConfigManagerImpl implements BotC
     public GuildConfigManager getGuildConfigManager(Guild guild) {
         Map<String, String> attributeHashMap = new HashMap<>();
         attributeHashMap.put(GUILD_ID_ATTRIBUTE_NAME, guild.getId());
-        return new GuildConfigManagerImpl(
-                ConfigUtils.getOrCreateChildElementWithAttributes(
-                        ConfigUtils.getOrCreateChildElement(
-                                applyOnDocument(Document::getDocumentElement),
-                                GUILDS_TAG_NAME),
-                        GUILD_TAG_NAME,
-                        attributeHashMap));
+        return new GuildConfigManagerImpl(ConfigUtils.getOrCreateChildElementWithAttributes(ConfigUtils.getOrCreateChildElement(applyOnDocument(Document::getDocumentElement), GUILDS_TAG_NAME), GUILD_TAG_NAME, attributeHashMap));
     }
 
     public <T> T applyOnDocument(Function<Document, T> function) {

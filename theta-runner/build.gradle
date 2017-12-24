@@ -1,7 +1,7 @@
 dependencies {
-    compile botDependencies["ThetaAPI"]
-    compile botDependencies["ThetaBase"]
-    compile botDependencies["ThetaCommands"]
+    compile botDependencies['ThetaAPI']
+    compile botDependencies['ThetaBase']
+    compile botDependencies['ThetaCommands']
 
-    runtime botDependencies["NoOpLogger"]
+    runtime botDependencies['NoOpLogger']
 }

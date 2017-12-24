@@ -20,15 +20,12 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
     private final BotManager botManager;
 
     public CommandExecutionDataImpl(Message message, BotManager botManager) {
-        this(message, message.getContentRaw(),
-                CommandUtils.getCommandMessageArgsSection(message.getContentRaw(),
-                        generatePossiblePrefixesForGuild(botManager.getConfigManager().getGuildConfigManager(message.getGuild()), message.getGuild())),
-                CommandUtils.parseCommandMessageArguments(message.getContentRaw(),
-                        generatePossiblePrefixesForGuild(botManager.getConfigManager().getGuildConfigManager(message.getGuild()), message.getGuild())),
-                message.getChannel(),
-                message.getGuild(),
-                message.getAuthor(),
-                botManager);
+        this(message, message.getContentRaw(), CommandUtils.getCommandMessageArgsSection(message.getContentRaw(), generatePossiblePrefixesForGuild(botManager
+                .getConfigManager()
+                .getGuildConfigManager(message.getGuild()), message.getGuild())), CommandUtils.parseCommandMessageArguments(message
+                .getContentRaw(), generatePossiblePrefixesForGuild(botManager.getConfigManager()
+                                                                             .getGuildConfigManager(message.getGuild()), message
+                .getGuild())), message.getChannel(), message.getGuild(), message.getAuthor(), botManager);
     }
 
     public CommandExecutionDataImpl(Message message, String rawData, String rawArgs, List<String> parsedArguments, MessageChannel channel, Guild guild, User sender, BotManager botManager) {
@@ -51,31 +48,38 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
         return message;
     }
 
-    @Override public String getRawData() {
+    @Override
+    public String getRawData() {
         return rawData;
     }
 
-    @Override public String getRawArguments() {
+    @Override
+    public String getRawArguments() {
         return rawArgs;
     }
 
-    @Override public List<String> getParsedArguments() {
+    @Override
+    public List<String> getParsedArguments() {
         return Collections.unmodifiableList(parsedArguments);
     }
 
-    @Override public MessageChannel getChannel() {
+    @Override
+    public MessageChannel getChannel() {
         return channel;
     }
 
-    @Override public Guild getGuild() {
+    @Override
+    public Guild getGuild() {
         return guild;
     }
 
-    @Override public Member getSender() {
+    @Override
+    public Member getSender() {
         return sender;
     }
 
-    @Override public BotManager getBotManager() {
+    @Override
+    public BotManager getBotManager() {
         return botManager;
     }
 }

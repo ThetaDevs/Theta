@@ -13,14 +13,7 @@ import java.util.*;
 
 public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
     public CommandCensorDescriptor() {
-        super(new LinkedHashSet<>(
-                Arrays.asList(
-                        new ListDescriptor(),
-                        new AddDescriptor(),
-                        new RemoveDescriptor())),
-                "Performs operations with the censorlist of the current Guild",
-                "<list | add | remove> <...>",
-                "censor");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Performs operations with the censorlist of the current Guild", "<list | add | remove> <...>", "censor");
     }
 
     private static abstract class BaseExecutor extends DMOutputCommandExecutor {
@@ -33,15 +26,18 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
         @Override
         protected Optional<String> checkCallerPermissions() {
-            if (!checkPermissions) return Optional.empty();
+            if (!checkPermissions) {
+                return Optional.empty();
+            }
 
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager().getConfigManager(), executionData.getSender(), Permission.MANAGE_CENSOR);
+            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
+                                                                        .getConfigManager(), executionData.getSender(), Permission.MANAGE_CENSOR);
         }
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
         public ListDescriptor() {
-            super(Executor::new, "Gets the current censorlist", "<>","list");
+            super(Executor::new, "Gets the current censorlist", "<>", "list");
         }
 
         private static class Executor extends BaseExecutor {
@@ -51,7 +47,9 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                List<String> censoredWords = GuildDataManager.getGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+                List<String> censoredWords = GuildDataManager.getGuildCensorList(executionData.getBotManager()
+                                                                                              .getConfigManager(), executionData
+                        .getGuild());
 
                 StringBuilder outBuilder = new StringBuilder("__**Censored Words**__ ```\n");
                 for (String censoredWord : censoredWords) {
@@ -80,24 +78,27 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
             @Override
             public void execute() {
-                List<String> censoredWords = new ArrayList<>(GuildDataManager.getGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild()));
+                List<String> censoredWords = new ArrayList<>(GuildDataManager.getGuildCensorList(executionData.getBotManager()
+                                                                                                              .getConfigManager(), executionData
+                        .getGuild()));
                 String wordToCensor = executionData.getParsedArguments().get(0).toLowerCase();
                 censoredWords.add(wordToCensor);
-                GuildDataManager.setGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild(), censoredWords);
+                GuildDataManager.setGuildCensorList(executionData.getBotManager()
+                                                                 .getConfigManager(), executionData.getGuild(), censoredWords);
 
                 sendOutput("The word `%s` has been added to the censorlist.", wordToCensor);
             }
         }
     }
 
-    private static class RemoveDescriptor extends BaseCommandDescriptor  {
+    private static class RemoveDescriptor extends BaseCommandDescriptor {
         public RemoveDescriptor() {
             super(Executor::new, "Removes a word from the current censorlist", "<word>", "remove");
         }
 
         private static class Executor extends BaseExecutor {
             public Executor(CommandExecutionData executionData) {
-                super(executionData,true);
+                super(executionData, true);
             }
 
             @Override
@@ -105,14 +106,17 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
                 GuildConfigManager guildConfigManager = executionData.getBotManager()
                                                                      .getConfigManager()
                                                                      .getGuildConfigManager(executionData.getGuild());
-                List<String> censoredWords = GuildDataManager.getGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+                List<String> censoredWords = GuildDataManager.getGuildCensorList(executionData.getBotManager()
+                                                                                              .getConfigManager(), executionData
+                        .getGuild());
 
                 String wordToRemove = executionData.getParsedArguments().get(0).toLowerCase();
                 boolean inList = censoredWords.contains(wordToRemove);
 
                 if (inList) {
                     censoredWords.remove(wordToRemove);
-                    GuildDataManager.setGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild(), censoredWords);
+                    GuildDataManager.setGuildCensorList(executionData.getBotManager()
+                                                                     .getConfigManager(), executionData.getGuild(), censoredWords);
                     sendOutput("The word `%s` has been removed from the censor list.", wordToRemove);
                 } else {
                     sendOutput("The word `%s` was not found in the censor list.", wordToRemove);

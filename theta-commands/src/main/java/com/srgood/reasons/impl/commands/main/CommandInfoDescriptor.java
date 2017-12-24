@@ -12,7 +12,7 @@ import static com.srgood.reasons.impl.commands.CommandConstants.LIBRARIES;
 
 public class CommandInfoDescriptor extends BaseCommandDescriptor {
     public CommandInfoDescriptor() {
-        super(Executor::new, "Returns information about the bot, including the current version","<>", "info", "version", "about");
+        super(Executor::new, "Returns information about the bot, including the current version", "<>", "info", "version", "about");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -30,8 +30,10 @@ public class CommandInfoDescriptor extends BaseCommandDescriptor {
             Optional<String> branchOptional = GitUtils.getCurrentBranch();
             Optional<String> commitOptional = GitUtils.getCurrentRevision();
 
-            branchOptional.ifPresent(branch -> stringBuilder.append(lineSep).append(String.format("Local repo is on branch **`%s`**", branch)));
-            commitOptional.ifPresent(commit -> stringBuilder.append(lineSep).append(String.format("Local repo is on commit **`%s`**", commit)));
+            branchOptional.ifPresent(branch -> stringBuilder.append(lineSep)
+                                                            .append(String.format("Local repo is on branch **`%s`**", branch)));
+            commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)
+                                                            .append(String.format("Local repo is on commit **`%s`**", commit)));
 
             sendOutput(stringBuilder.toString());
         }

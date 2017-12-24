@@ -30,8 +30,8 @@ public class BasicConfigManagerImpl implements BasicConfigManager {
         for (String propertyPart : split) {
             final Element finalBaseElement = currentBaseElement;
             currentBaseElement = ConfigUtils.getDirectDescendants(currentBaseElement, propertyPart)
-                                                                           .findFirst()
-                                                                           .orElseGet(() -> {
+                                            .findFirst()
+                                            .orElseGet(() -> {
                                                 if (createIfMissing) {
                                                     return ConfigUtils.createChild(finalBaseElement, propertyPart);
                                                 } else {

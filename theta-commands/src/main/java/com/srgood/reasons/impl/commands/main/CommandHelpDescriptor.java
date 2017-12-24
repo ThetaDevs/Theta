@@ -2,9 +2,9 @@ package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.utils.StringUtils;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.DMOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.utils.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -64,9 +64,10 @@ public class CommandHelpDescriptor extends BaseCommandDescriptor {
         private List<String> getCommandHelpLines(CommandDescriptor command) {
             List<String> ret = new ArrayList<>();
             String primaryName = command.getPrimaryName();
-            String regexLine = !Objects.equals(command.getNameRegex(), "(" + command.getPrimaryName() + ")") ? ". Matched on Regex: \"" + command.getNameRegex() + "\"" : "";
+            String regexLine = !Objects.equals(command.getNameRegex(), "(" + command.getPrimaryName() + ")") ? ". Matched on Regex: \"" + command
+                    .getNameRegex() + "\"" : "";
             String format = String.format("[%s \"%s\"](%s%s)", primaryName, command.help().args(), command.help()
-                                                                                                            .description(), regexLine);
+                                                                                                          .description(), regexLine);
             ret.add(format);
             if (command.hasSubCommands()) {
                 for (CommandDescriptor subCommand : command.getSubCommands()) {

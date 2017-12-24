@@ -38,12 +38,12 @@ public class ChannelCommandThread extends Thread {
                 try {
                     GuildConfigManager guildConfigManager = botManager.getConfigManager()
                                                                       .getGuildConfigManager(message.getGuild());
-                    String calledCommad = CommandUtils.getCalledCommand(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()));
+                    String calledCommad = CommandUtils.getCalledCommand(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message
+                            .getGuild()));
                     CommandDescriptor descriptor = commandManager.getCommandByName(calledCommad);
                     CommandExecutionData executionData = new CommandExecutionDataImpl(message, botManager);
                     CommandExecutor executor = descriptor.getExecutor(executionData);
-                    if (guildConfigManager
-                                  .getCommandConfigManager(descriptor).isEnabled()) {
+                    if (guildConfigManager.getCommandConfigManager(descriptor).isEnabled()) {
                         if (executor.shouldExecute()) {
                             executor.execute();
                             executor.postExecution();
@@ -52,7 +52,9 @@ public class ChannelCommandThread extends Thread {
                         message.getChannel().sendMessage("This command is not enabled.").queue();
                     }
                 } catch (Exception e) {
-                    message.getChannel().sendMessage("A ***FATAL*** exception occurred ( `" + e.getMessage()+ "` ) , please notify us. If possible, store the date and time.").queue();
+                    message.getChannel()
+                           .sendMessage("A ***FATAL*** exception occurred ( `" + e.getMessage() + "` ) , please notify us. If possible, store the date and time.")
+                           .queue();
                     e.printStackTrace();
 
                 }

@@ -16,8 +16,7 @@ public class BaseConstants {
 
     public static final Charset FILE_CHARSET = StandardCharsets.US_ASCII;
 
-    public static final List<String> BOT_DEVELOPERS = Collections.unmodifiableList(Arrays.asList(
-            "138048665112543233", // srgood
+    public static final List<String> BOT_DEVELOPERS = Collections.unmodifiableList(Arrays.asList("138048665112543233", // srgood
             "164117897025683456", // MeowingTwurtle
             "181061030799998977")); // HiItsMe
 

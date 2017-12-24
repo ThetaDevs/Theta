@@ -21,7 +21,9 @@ public class CommandListenDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            List<TextChannel> channelList = executionData.getGuild().getTextChannelsByName(executionData.getParsedArguments().get(1), false);
+            List<TextChannel> channelList = executionData.getGuild()
+                                                         .getTextChannelsByName(executionData.getParsedArguments()
+                                                                                             .get(1), false);
             if (channelList.size() == 0) {
                 sendOutput("No channel by the name `%s` was found.", executionData.getParsedArguments().get(1));
                 return;
@@ -49,7 +51,8 @@ public class CommandListenDescriptor extends BaseCommandDescriptor {
                          .getChannelConfigManager(channel)
                          .setProperty("listening", "" + enabledState);
 
-            sendOutput("Listening %s for channel `%s`", enabledState == true ? "enabled" : "disabled", executionData.getParsedArguments().get(1));
+            sendOutput("Listening %s for channel `%s`", enabledState == true ? "enabled" : "disabled", executionData.getParsedArguments()
+                                                                                                                    .get(1));
         }
     }
 }

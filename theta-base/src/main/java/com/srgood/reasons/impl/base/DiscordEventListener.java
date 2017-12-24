@@ -57,7 +57,9 @@ public class DiscordEventListener extends ListenerAdapter {
     }
 
     private void handleMessage(Message message) {
-        if (Objects.equals(message.getAuthor(), message.getJDA().getSelfUser())) return;
+        if (Objects.equals(message.getAuthor(), message.getJDA().getSelfUser())) {
+            return;
+        }
 
         //if (!Objects.equals(botManager.getConfigManager()
         //                              .getGuildConfigManager(message.getGuild())
@@ -75,7 +77,8 @@ public class DiscordEventListener extends ListenerAdapter {
         }
 
         GuildConfigManager guildConfigManager = getGuildConfigManager(message.getGuild());
-        if (CommandUtils.isCommandMessage(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()))) {
+        if (CommandUtils.isCommandMessage(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message
+                .getGuild()))) {
             botManager.getCommandManager().handleCommandMessage(message);
             botManager.getLogger().info("Got command message: " + message.getContentDisplay());
         }
@@ -95,7 +98,7 @@ public class DiscordEventListener extends ListenerAdapter {
 
     @Override
     public void onGuildJoin(GuildJoinEvent event) {
-//          initGuild(event.getGuild());
+        //          initGuild(event.getGuild());
     }
 
     @Override
@@ -107,9 +110,9 @@ public class DiscordEventListener extends ListenerAdapter {
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         if (event.getChannelLeft().getMembers().size() == 1) {
             // TODO FIX AUDIO
-//            AudioManager manager = event.getGuild();
-//
-//            manager.closeAudioConnection();
+            //            AudioManager manager = event.getGuild();
+            //
+            //            manager.closeAudioConnection();
         }
     }
 

@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class RoleUtils {
 
-    public static List<Role> getRolesByName(Guild guild,String name) {
-        return getRolesByName(guild.getRoles(),name);
+    public static List<Role> getRolesByName(Guild guild, String name) {
+        return getRolesByName(guild.getRoles(), name);
     }
 
-    public static List<Role> getRolesByName(List<Role> roleList,String name) {
-        return roleList.stream().filter(role -> role.getName().equalsIgnoreCase(name)).collect(Collectors.toCollection(LinkedList::new));
+    public static List<Role> getRolesByName(List<Role> roleList, String name) {
+        return roleList.stream()
+                       .filter(role -> role.getName().equalsIgnoreCase(name))
+                       .collect(Collectors.toCollection(LinkedList::new));
     }
 
     public static Role getUniqueRole(Guild guild, String nameOrID) {

@@ -60,7 +60,6 @@ public class BasicPermissionSet implements Serializable {
     }
 
 
-
     public Set<Permission> getAllowedActions() {
         return getActionsByStatus(ALLOWED);
     }

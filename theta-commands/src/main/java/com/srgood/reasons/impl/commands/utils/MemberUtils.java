@@ -17,15 +17,19 @@ public class MemberUtils {
     }
 
     public static List<Member> getOnlineMembers(List<Member> memberList) {
-        return memberList.stream().filter(m -> Objects.equals(m.getOnlineStatus(), OnlineStatus.ONLINE)).collect(Collectors.toCollection(LinkedList::new));
+        return memberList.stream()
+                         .filter(m -> Objects.equals(m.getOnlineStatus(), OnlineStatus.ONLINE))
+                         .collect(Collectors.toCollection(LinkedList::new));
     }
 
 
     public static List<Member> getMembersWithRole(Guild guild, Role role) {
-        return getMembersWithRole(guild.getMembers(),role);
+        return getMembersWithRole(guild.getMembers(), role);
     }
 
     public static List<Member> getMembersWithRole(List<Member> memberList, Role role) {
-        return memberList.stream().filter(m -> m.getRoles().contains(role)).collect(Collectors.toCollection(LinkedList::new));
+        return memberList.stream()
+                         .filter(m -> m.getRoles().contains(role))
+                         .collect(Collectors.toCollection(LinkedList::new));
     }
 }

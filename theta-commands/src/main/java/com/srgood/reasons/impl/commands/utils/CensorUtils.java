@@ -11,7 +11,9 @@ import java.util.regex.Pattern;
 
 public class CensorUtils {
     public static void checkCensor(List<String> censorList, Message message) {
-        if (!message.getGuild().getSelfMember().hasPermission(((Channel) message.getChannel()), Permission.MESSAGE_MANAGE)) {
+        if (!message.getGuild()
+                    .getSelfMember()
+                    .hasPermission(((Channel) message.getChannel()), Permission.MESSAGE_MANAGE)) {
             return;
         }
 

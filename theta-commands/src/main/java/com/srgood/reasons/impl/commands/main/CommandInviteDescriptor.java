@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.Permission;
 
 public class CommandInviteDescriptor extends BaseCommandDescriptor {
     public CommandInviteDescriptor() {
-        super(Executor::new, "Prints the authlink for the bot","<>", "invite", "link", "authlink");
+        super(Executor::new, "Prints the authlink for the bot", "<>", "invite", "link", "authlink");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -18,7 +18,10 @@ public class CommandInviteDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("Theta authorization link: %s", executionData.getGuild().getJDA().asBot().getInviteUrl(Permission.ADMINISTRATOR));
+            sendOutput("Theta authorization link: %s", executionData.getGuild()
+                                                                    .getJDA()
+                                                                    .asBot()
+                                                                    .getInviteUrl(Permission.ADMINISTRATOR));
         }
     }
 }

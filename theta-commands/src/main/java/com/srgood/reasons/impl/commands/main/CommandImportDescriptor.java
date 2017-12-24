@@ -4,13 +4,13 @@ import com.google.common.io.Files;
 import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.BaseConstants;
+import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
+import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
 import com.srgood.reasons.impl.commands.permissions.Permission;
 import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.commands.permissions.PermissionStatus;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
-import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
-import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 import org.apache.commons.codec.binary.Base32;
@@ -28,7 +28,7 @@ import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 
 public class CommandImportDescriptor extends BaseCommandDescriptor {
     public CommandImportDescriptor() {
-        super(Executor::new, "Runs a script of bot commands","<>", "import");
+        super(Executor::new, "Runs a script of bot commands", "<>", "import");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -67,7 +67,10 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
         }
 
         private void handlePrefixCommand(String command) {
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).setPrefix(command.split(" ")[1]);
+            executionData.getBotManager()
+                         .getConfigManager()
+                         .getGuildConfigManager(executionData.getGuild())
+                         .setPrefix(command.split(" ")[1]);
         }
 
         private void handlePermsCommand(String command) {
@@ -84,14 +87,19 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
             } catch (IllegalArgumentException e) {
                 return;
             }
-            GuildPermissionSet guildPermissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+            GuildPermissionSet guildPermissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
+                                                                                                        .getConfigManager(), executionData
+                    .getGuild());
             guildPermissionSet.setPermissionStatus(role, permission, permissionStatus);
-            GuildDataManager.setGuildPermissionSet(executionData.getBotManager().getConfigManager(), executionData.getGuild(), guildPermissionSet);
+            GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
+                                                                .getConfigManager(), executionData.getGuild(), guildPermissionSet);
         }
 
         private void handleEnableCommand(String command) {
             String[] parts = command.split(" ");
-            CommandDescriptor commandDescriptor = executionData.getBotManager().getCommandManager().getCommandByName(parts[1]);
+            CommandDescriptor commandDescriptor = executionData.getBotManager()
+                                                               .getCommandManager()
+                                                               .getCommandByName(parts[1]);
             if (commandDescriptor != null) {
                 executionData.getBotManager()
                              .getConfigManager()
@@ -103,7 +111,9 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
 
         private void handleDisableCommand(String command) {
             String[] parts = command.split(" ");
-            CommandDescriptor commandDescriptor = executionData.getBotManager().getCommandManager().getCommandByName(parts[1]);
+            CommandDescriptor commandDescriptor = executionData.getBotManager()
+                                                               .getCommandManager()
+                                                               .getCommandByName(parts[1]);
             if (commandDescriptor != null) {
                 executionData.getBotManager()
                              .getConfigManager()
@@ -115,16 +125,21 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
 
         private void handleBlacklistCommand(String command) {
             String[] parts = command.split(" ");
-            List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+            List<String> blacklist = GuildDataManager.getGuildBlacklist(executionData.getBotManager()
+                                                                                     .getConfigManager(), executionData.getGuild());
             blacklist.add(parts[1]);
-            GuildDataManager.setGuildBlacklist(executionData.getBotManager().getConfigManager(), executionData.getGuild(), blacklist);
+            GuildDataManager.setGuildBlacklist(executionData.getBotManager()
+                                                            .getConfigManager(), executionData.getGuild(), blacklist);
         }
 
         private void handleCensorListCommand(String command) {
             String[] parts = command.split(" ");
-            List<String> censorList = GuildDataManager.getGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild());
+            List<String> censorList = GuildDataManager.getGuildCensorList(executionData.getBotManager()
+                                                                                       .getConfigManager(), executionData
+                    .getGuild());
             censorList.add(parts[1]);
-            GuildDataManager.setGuildCensorList(executionData.getBotManager().getConfigManager(), executionData.getGuild(), censorList);
+            GuildDataManager.setGuildCensorList(executionData.getBotManager()
+                                                             .getConfigManager(), executionData.getGuild(), censorList);
         }
 
         private List<String> getCommands(Message.Attachment attachment) {
@@ -136,10 +151,13 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
                 encrypted = Files.asCharSource(tempFile, BaseConstants.FILE_CHARSET).readFirstLine();
 
                 if (!tempFile.delete()) {
-                    executionData.getBotManager().getLogger().warning("Unable to delete an CommandImportDescriptor tempfile.");
+                    executionData.getBotManager()
+                                 .getLogger()
+                                 .warning("Unable to delete an CommandImportDescriptor tempfile.");
                 }
 
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(encrypted));
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.getDecoder()
+                                                                                           .decode(encrypted));
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
                 String deserialized = (String) objectInputStream.readObject();
                 byte[] base32 = Base64.getDecoder().decode(deserialized);
@@ -160,21 +178,34 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
             String[] parts = command.split(" ");
             String channelID = parts[1];
             String message = Arrays.asList(parts).subList(2, parts.length).stream().collect(Collectors.joining(" "));
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).setProperty("moderation/welcome", message);
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).setProperty("moderation/welcomechannel", channelID);
+            executionData.getBotManager()
+                         .getConfigManager()
+                         .getGuildConfigManager(executionData.getGuild())
+                         .setProperty("moderation/welcome", message);
+            executionData.getBotManager()
+                         .getConfigManager()
+                         .getGuildConfigManager(executionData.getGuild())
+                         .setProperty("moderation/welcomechannel", channelID);
         }
 
         private void handleGoodbyeCommand(String command) {
             String[] parts = command.split(" ");
             String channelID = parts[1];
             String message = Arrays.asList(parts).subList(2, parts.length).stream().collect(Collectors.joining(" "));
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).setProperty("moderation/goodbye", message);
-            executionData.getBotManager().getConfigManager().getGuildConfigManager(executionData.getGuild()).setProperty("moderation/goodbyechannel", channelID);
+            executionData.getBotManager()
+                         .getConfigManager()
+                         .getGuildConfigManager(executionData.getGuild())
+                         .setProperty("moderation/goodbye", message);
+            executionData.getBotManager()
+                         .getConfigManager()
+                         .getGuildConfigManager(executionData.getGuild())
+                         .setProperty("moderation/goodbyechannel", channelID);
         }
 
         @Override
         protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager().getConfigManager(), executionData.getSender(), Permission.MANAGE_BACKUPS);
+            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
+                                                                        .getConfigManager(), executionData.getSender(), Permission.MANAGE_BACKUPS);
         }
 
         @Override

@@ -1,10 +1,10 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
+import com.srgood.reasons.impl.commands.permissions.Permission;
+import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
@@ -20,7 +20,7 @@ import static com.srgood.reasons.impl.commands.utils.RoleUtils.getUniqueRole;
 
 public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
     public CommandNotifyRandDescriptor() {
-        super(Executor::new, "Notifies a random Member with the specified role and optional amount","<role name> {amount}", "notifyrand");
+        super(Executor::new, "Notifies a random Member with the specified role and optional amount", "<role name> {amount}", "notifyrand");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -61,7 +61,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
 
             int actualMax = Math.min(amount, foundMembers.size());
 
-            for (int i = 0;i < actualMax; i++) {
+            for (int i = 0; i < actualMax; i++) {
                 Member m = foundMembers.get(GLOBAL_RANDOM.nextInt(foundMembers.size() + 1));
                 assert m != null;
                 foundMembers.remove(m);
@@ -71,10 +71,12 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dmTargetUsers.size(); i++) {
                 User u = dmTargetUsers.get(i);
-                u.openPrivateChannel().complete().sendMessage(String.format("%s, your presence was requested by *%s* in *%s -> #%s*", u
-                        .getName(), executionData.getSender().getAsMention(), executionData.getGuild()
-                                                                                           .getName(), executionData.getChannel()
-                                                                                                                    .getName())).queue();
+                u.openPrivateChannel()
+                 .complete()
+                 .sendMessage(String.format("%s, your presence was requested by *%s* in *%s -> #%s*", u.getName(), executionData
+                         .getSender()
+                         .getAsMention(), executionData.getGuild().getName(), executionData.getChannel().getName()))
+                 .queue();
 
                 sb.append(u.getName());
 
@@ -99,7 +101,8 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
 
         @Override
         protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager().getConfigManager(), executionData.getSender(), Permission.NOTIFY_MEMBER);
+            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
+                                                                        .getConfigManager(), executionData.getSender(), Permission.NOTIFY_MEMBER);
         }
     }
 }
