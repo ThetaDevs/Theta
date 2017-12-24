@@ -1,6 +1,7 @@
 package com.srgood.reasons.commands;
 
 import com.srgood.reasons.BotManager;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -24,4 +25,6 @@ public interface CommandExecutionData {
     Member getSender();
 
     BotManager getBotManager();
+
+    JDA getJDA();
 }

@@ -2,6 +2,7 @@ package com.srgood.reasons.impl.base.commands;
 
 import com.srgood.reasons.BotManager;
 import com.srgood.reasons.commands.CommandExecutionData;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 
 import java.util.Collections;
@@ -18,6 +19,7 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
     private final Guild guild;
     private final Member sender;
     private final BotManager botManager;
+    private final JDA jda;
 
     public CommandExecutionDataImpl(Message message, BotManager botManager) {
         this(message, message.getContentRaw(), CommandUtils.getCommandMessageArgsSection(message.getContentRaw(), generatePossiblePrefixesForGuild(botManager
@@ -41,6 +43,7 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
         this.guild = guild;
         this.sender = sender;
         this.botManager = botManager;
+        this.jda = message.getJDA();
     }
 
     @Override
@@ -81,5 +84,10 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
     @Override
     public BotManager getBotManager() {
         return botManager;
+    }
+
+    @Override
+    public JDA getJDA() {
+        return jda;
     }
 }
