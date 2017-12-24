@@ -7,8 +7,6 @@ import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecut
 import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -17,7 +15,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
     private static final boolean ALLOW_DEBUG = true;
 
     public CommandDebugDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor(), new UptimeDescriptor())), "FOR DEBUG ONLY", "<deleteguild | removeroles | uptime>", false, "debug");
+        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", "<deleteguild | removeroles>", false, "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -77,29 +75,6 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
                         r.delete().queue(role -> sendOutput("Removed role: **`%s`**", r.getName()));
                     }
                 }
-            }
-        }
-    }
-
-    private static class UptimeDescriptor extends BaseCommandDescriptor {
-        public UptimeDescriptor() {
-            super(Executor::new, "Gets the current uptime", "<>", "uptime");
-        }
-
-        private static class Executor extends BaseExecutor {
-
-            public Executor(CommandExecutionData executionData) {
-                super(executionData);
-            }
-
-            @Override
-            public void execute() {
-                long seconds = Duration.between(executionData.getBotManager().getStartTime(), Instant.now())
-                                       .getSeconds();
-                long absSeconds = Math.abs(seconds);
-                String positive = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
-                String x = seconds < 0 ? "-" + positive : positive;
-                sendOutput(x);
             }
         }
     }

@@ -31,6 +31,8 @@ public class CommandStatusDescriptor extends BaseCommandDescriptor {
             int threadCount = Thread.getAllStackTraces().size();
             String cpuUsage = (ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage() * 100) + "%";
 
+            embedBuilder.addField("Shard", executionData.getGuild().getJDA().getShardInfo().getShardString(), false);
+            embedBuilder.addField("JVM Uptime", "" + ManagementFactory.getRuntimeMXBean().getUptime(), false);
             embedBuilder.addField("Used memory", usedMemory, false);
             embedBuilder.addField("Free memory", freeMemory, false);
             embedBuilder.addField("Total memory", totalMemory, false);

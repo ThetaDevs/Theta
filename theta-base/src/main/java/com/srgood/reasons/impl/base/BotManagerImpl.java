@@ -77,12 +77,6 @@ public class BotManagerImpl implements BotManager {
         return loggerCache;
     }
 
-    @Override
-    public Instant getStartTime() {
-        checkActive();
-        return startInstant;
-    }
-
     private void clearFields() {
         shardManagerCache = null;
         configManagerCache = null;
