@@ -7,11 +7,11 @@ description = """The Theta Discord Bot"""
 allprojects {
     ext {
         botDependencies = [
-                JDA          : 'net.dv8tion:JDA:3.3.0_263',
-                Guava        : 'com.google.guava:guava:21.0',
+                JDA          : 'net.dv8tion:JDA:3.4.0_318',
+                Guava        : 'com.google.guava:guava:23.6-jre',
                 Math         : 'com.github.meowingtwurtle:mathParser:1.0.1',
-                JGit         : 'org.eclipse.jgit:org.eclipse.jgit:4.7.0.201704051617-r',
-                NoOpLogger   : 'org.slf4j:slf4j-nop:1.7.2',
+                JGit         : 'org.eclipse.jgit:org.eclipse.jgit:4.9.2.201712150930-r',
+                NoOpLogger   : 'org.slf4j:slf4j-nop:1.7.25',
                 ApacheCommons: 'org.apache.commons:commons-lang3:3.6',
                 ThetaAPI     : project(':theta-api'),
                 ThetaBase    : project(':theta-base'),

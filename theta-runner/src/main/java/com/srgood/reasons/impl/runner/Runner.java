@@ -51,7 +51,7 @@ public class Runner {
             return new JDABuilder(AccountType.BOT).addEventListener(new DiscordEventListener(botManagerFuture, Collections
                     .unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED)))) // TODO Add messageChecks for eventlistener
                                                   .setToken(token)
-                                                  .setGame(Game.of("Type @Theta help"))
+                                                  .setGame(Game.playing("Type @Theta help"))
                                                   .setAutoReconnect(true)
                                                   .buildBlocking();
         } catch (LoginException | IllegalArgumentException e) {

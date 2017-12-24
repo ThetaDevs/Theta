@@ -38,7 +38,7 @@ public class ChannelCommandThread extends Thread {
                 try {
                     GuildConfigManager guildConfigManager = botManager.getConfigManager()
                                                                       .getGuildConfigManager(message.getGuild());
-                    String calledCommad = CommandUtils.getCalledCommand(message.getRawContent(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()));
+                    String calledCommad = CommandUtils.getCalledCommand(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()));
                     CommandDescriptor descriptor = commandManager.getCommandByName(calledCommad);
                     CommandExecutionData executionData = new CommandExecutionDataImpl(message, botManager);
                     CommandExecutor executor = descriptor.getExecutor(executionData);

@@ -70,14 +70,14 @@ public class DiscordEventListener extends ListenerAdapter {
             return;
         }
 
-        if (Objects.equals(message.getContent(), BaseConstants.TABLE_FLIP)) {
+        if (Objects.equals(message.getContentDisplay(), BaseConstants.TABLE_FLIP)) {
             message.getChannel().sendMessage(BaseConstants.TABLE_UNFLIP_JOKE).queue();
         }
 
         GuildConfigManager guildConfigManager = getGuildConfigManager(message.getGuild());
-        if (CommandUtils.isCommandMessage(message.getRawContent(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()))) {
+        if (CommandUtils.isCommandMessage(message.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, message.getGuild()))) {
             botManager.getCommandManager().handleCommandMessage(message);
-            botManager.getLogger().info("Got command message: " + message.getContent());
+            botManager.getLogger().info("Got command message: " + message.getContentDisplay());
         }
 
         //CensorUtils.checkCensor(GuildDataManager.getGuildCensorList(botManager.getConfigManager(), message.getGuild()), message);

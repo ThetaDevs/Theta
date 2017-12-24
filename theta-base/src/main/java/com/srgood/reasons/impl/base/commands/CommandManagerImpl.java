@@ -36,7 +36,7 @@ public class CommandManagerImpl implements CommandManager {
             //    return;
             //}
 
-            String calledCommand = CommandUtils.getCalledCommand(cmd.getRawContent(), generatePossiblePrefixesForGuild(guildConfigManager, cmd.getGuild()));
+            String calledCommand = CommandUtils.getCalledCommand(cmd.getContentRaw(), generatePossiblePrefixesForGuild(guildConfigManager, cmd.getGuild()));
             CommandDescriptor descriptor = getCommandByName(calledCommand);
             if (descriptor != null) {
                 if (guildConfigManager.getCommandConfigManager(descriptor).isEnabled()) {

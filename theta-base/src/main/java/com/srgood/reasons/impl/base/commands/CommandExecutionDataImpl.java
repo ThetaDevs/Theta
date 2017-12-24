@@ -20,10 +20,10 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
     private final BotManager botManager;
 
     public CommandExecutionDataImpl(Message message, BotManager botManager) {
-        this(message, message.getRawContent(),
-                CommandUtils.getCommandMessageArgsSection(message.getRawContent(),
+        this(message, message.getContentRaw(),
+                CommandUtils.getCommandMessageArgsSection(message.getContentRaw(),
                         generatePossiblePrefixesForGuild(botManager.getConfigManager().getGuildConfigManager(message.getGuild()), message.getGuild())),
-                CommandUtils.parseCommandMessageArguments(message.getRawContent(),
+                CommandUtils.parseCommandMessageArguments(message.getContentRaw(),
                         generatePossiblePrefixesForGuild(botManager.getConfigManager().getGuildConfigManager(message.getGuild()), message.getGuild())),
                 message.getChannel(),
                 message.getGuild(),

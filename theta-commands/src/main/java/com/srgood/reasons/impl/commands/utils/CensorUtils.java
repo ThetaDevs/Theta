@@ -17,7 +17,7 @@ public class CensorUtils {
 
         for (String aCensorList : censorList) {
             Pattern p = Pattern.compile("\\b" + aCensorList + "\\b");
-            Matcher m = p.matcher(message.getContent().toLowerCase());
+            Matcher m = p.matcher(message.getContentDisplay().toLowerCase());
             if (m.find()) {
                 message.getAuthor()
                        .openPrivateChannel()

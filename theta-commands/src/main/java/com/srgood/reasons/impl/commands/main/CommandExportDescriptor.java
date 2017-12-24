@@ -54,7 +54,7 @@ public class CommandExportDescriptor extends BaseCommandDescriptor {
                 File file = File.createTempFile("THETA_BACKUP_GUILD_" + executionData.getGuild().getId(), ".txt");
                 String rawOutput = output.toString();
                 String fakeEncryptedOutput = encrypt(rawOutput);
-                Files.write(fakeEncryptedOutput, file, BaseConstants.FILE_CHARSET);
+                Files.asCharSink(file, BaseConstants.FILE_CHARSET).write(fakeEncryptedOutput);
                 executionData.getChannel().sendFile(file, new MessageBuilder().append("Output file generated.").build()).queue();
             } catch (Exception e) {
                 sendOutput("Internal I/O error, could not generate temp file.");

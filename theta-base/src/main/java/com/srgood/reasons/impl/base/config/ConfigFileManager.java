@@ -32,7 +32,7 @@ public class ConfigFileManager {
         try {
             File file = new File(fileName);
             if (file.createNewFile()) {
-                Files.write(DEFAULT_FILE_CONTENT, file, BaseConstants.FILE_CHARSET);
+                Files.asCharSink(file, BaseConstants.FILE_CHARSET).write(DEFAULT_FILE_CONTENT);
             }
             parsedDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             parseCompleted = true;
@@ -50,7 +50,7 @@ public class ConfigFileManager {
     public void save() {
         checkState();
         try {
-            Files.write(generateXML(), new File(fileName), BaseConstants.FILE_CHARSET);
+            Files.asCharSink(new File(fileName), BaseConstants.FILE_CHARSET).write(generateXML());
         } catch (IOException e) {
             System.err.println("Exception when writing config: ");
             e.printStackTrace();

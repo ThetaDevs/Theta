@@ -133,7 +133,7 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
                 File tempFile = new File("" + GLOBAL_RANDOM.nextLong() + ".txt");
 
                 attachment.download(tempFile);
-                encrypted = Files.readFirstLine(tempFile, BaseConstants.FILE_CHARSET);
+                encrypted = Files.asCharSource(tempFile, BaseConstants.FILE_CHARSET).readFirstLine();
 
                 if (!tempFile.delete()) {
                     executionData.getBotManager().getLogger().warning("Unable to delete an CommandImportDescriptor tempfile.");
