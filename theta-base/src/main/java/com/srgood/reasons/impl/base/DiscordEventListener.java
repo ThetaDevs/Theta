@@ -5,7 +5,6 @@ import com.srgood.reasons.config.GuildConfigManager;
 import com.srgood.reasons.impl.base.commands.CommandUtils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
@@ -15,8 +14,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.function.BiPredicate;
 
 import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossiblePrefixesForGuild;
@@ -32,23 +29,12 @@ import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossibl
  */
 public class DiscordEventListener extends ListenerAdapter {
 
-    private BotManager botManager;
+    private final BotManager botManager;
     private final Collection<BiPredicate<Message, BotManager>> messageFilters;
-    private Future<BotManager> botManagerFuture;
 
-    public DiscordEventListener(Future<BotManager> botManagerFuture, Collection<BiPredicate<Message, BotManager>> messageFilters) {
-        this.botManagerFuture = botManagerFuture;
+    public DiscordEventListener(BotManager botManager, Collection<BiPredicate<Message, BotManager>> messageFilters) {
+        this.botManager = botManager;
         this.messageFilters = messageFilters;
-    }
-
-    @Override
-    public void onReady(ReadyEvent event) {
-        try {
-            botManager = botManagerFuture.get();
-            botManagerFuture = null;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

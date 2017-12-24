@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.logging.*;
 
 import static com.srgood.reasons.impl.runner.MessageReceivedPredicates.*;
@@ -30,9 +29,9 @@ public class Runner {
     public static void main(String[] args) {
         String token = getToken(args);
         CompletableFuture<BotManager> botManagerFuture = new CompletableFuture<>();
-        BotManager botManager = new BotManagerImpl(() -> createShardManager(token, createLogger("ThetaInit"), botManagerFuture), () -> new BotConfigManagerImpl(new ConfigFileManager("theta.xml")), () -> new CommandManagerImpl(botManagerFuture), () -> createLogger("Theta"));
+        BotManager passthrough = new PassthroughBotManager(botManagerFuture);
+        BotManager botManager = new BotManagerImpl(createShardManager(token, createLogger("ThetaInit"), passthrough), new BotConfigManagerImpl(new ConfigFileManager("theta.xml")), new CommandManagerImpl(passthrough), createLogger("Theta"));
         botManagerFuture.complete(botManager);
-        botManager.init();
         CommandRegistrar.registerCommands(botManager.getCommandManager());
     }
 
@@ -45,11 +44,11 @@ public class Runner {
         return args[0];
     }
 
-    private static ShardManager createShardManager(String token, Logger logger, Future<BotManager> botManagerFuture) {
+    private static ShardManager createShardManager(String token, Logger logger, BotManager botManager) {
         try {
             ShardManager shardManager = new DefaultShardManagerBuilder().setEventManager(new InterfacedEventManager())
-                                                                        .addEventListeners(new DiscordEventListener(botManagerFuture, Collections
-                                                                                .unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED))))
+                                                                        .addEventListeners(new DiscordEventListener(botManager,
+                                                                                Collections.unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED))))
                                                                         .setGame(Game.playing("Type @Theta help"))
                                                                         .setAutoReconnect(true)
                                                                         .setShardsTotal(-1) // Get recommended number from Discord

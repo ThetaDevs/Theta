@@ -8,8 +8,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,17 +17,16 @@ public class CommandManagerImpl implements CommandManager {
     private final Lock channelThreadMapLock = new ReentrantLock();
     private final Map<String, CommandDescriptor> commands = new TreeMap<>();
     private final Map<String, ChannelCommandThread> channelThreadMap = new HashMap<>();
+    private final BotManager botManager;
 
-    private Future<BotManager> botManagerFuture;
-
-    public CommandManagerImpl(Future<BotManager> botManagerFuture) {
-        this.botManagerFuture = botManagerFuture;
+    public CommandManagerImpl(BotManager botManager) {
+        this.botManager = botManager;
     }
 
     @Override
     public void handleCommandMessage(Message cmd) {
-        GuildConfigManager guildConfigManager = getBotManager().getConfigManager()
-                                                               .getGuildConfigManager(cmd.getGuild());
+        GuildConfigManager guildConfigManager = botManager.getConfigManager()
+                                                          .getGuildConfigManager(cmd.getGuild());
 
         //if (BlacklistUtils.isBlacklisted(botManager.getConfigManager(), cmd.getMember(), GuildDataManager.getGuildBlacklist(botManager.getConfigManager(), cmd.getGuild()))) {
         //    botManager.getLogger().info("Ignoring command, sender was directly or indirectly blacklisted");
@@ -44,7 +41,7 @@ public class CommandManagerImpl implements CommandManager {
                 getChannelThreadMapLock().lock();
                 ChannelCommandThread channelCommandThread = channelThreadMap.computeIfAbsent(cmd.getChannel()
                                                                                                 .getId(), id -> new ChannelCommandThread(cmd
-                        .getChannel(), this, getBotManager()));
+                        .getChannel(), this, botManager));
                 getChannelThreadMapLock().unlock();
                 channelCommandThread.addCommand(cmd);
                 if (channelCommandThread.getState() == Thread.State.NEW) {
@@ -83,7 +80,7 @@ public class CommandManagerImpl implements CommandManager {
     @Override
     public void registerCommand(CommandDescriptor descriptor) {
         commands.put(descriptor.getNameRegex(), descriptor);
-        getBotManager().getLogger().info("Registered command by regex: " + descriptor.getNameRegex());
+        botManager.getLogger().info("Registered command by regex: " + descriptor.getNameRegex());
     }
 
     @Override
@@ -96,20 +93,12 @@ public class CommandManagerImpl implements CommandManager {
         if (!cmd.canSetEnabled()) {
             throw new IllegalArgumentException("Cannot toggle this command");
         }
-        getBotManager().getConfigManager()
-                       .getGuildConfigManager(guild)
-                       .getCommandConfigManager(cmd)
-                       .setEnabled(enabled);
+        botManager.getConfigManager()
+                  .getGuildConfigManager(guild)
+                  .getCommandConfigManager(cmd)
+                  .setEnabled(enabled);
     }
 
     @Override
     public void close() {}
-
-    private BotManager getBotManager() {
-        try {
-            return botManagerFuture.get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

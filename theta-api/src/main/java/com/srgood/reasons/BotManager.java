@@ -6,8 +6,6 @@ import com.srgood.reasons.config.BotConfigManager;
 import java.util.logging.Logger;
 
 public interface BotManager extends AutoCloseable {
-    void init();
-
     BotConfigManager getConfigManager();
 
     CommandManager getCommandManager();
