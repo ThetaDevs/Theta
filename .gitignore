@@ -49,7 +49,7 @@ local.properties
 ## Plugin-specific files:
 
 # IntelliJ
-out/
+**/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -72,7 +72,7 @@ fabric.properties
 
 ### Gradle template
 .gradle
-/build/
+**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
