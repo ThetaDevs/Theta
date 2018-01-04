@@ -50,5 +50,7 @@ public class BotConfigManagerImpl extends BasicConfigManagerImpl implements BotC
     }
 
     @Override
-    public void close() {}
+    public void close() {
+        fileManager.save();
+    }
 }
