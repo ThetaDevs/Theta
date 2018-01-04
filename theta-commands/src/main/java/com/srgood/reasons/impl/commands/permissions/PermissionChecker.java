@@ -35,7 +35,7 @@ public class PermissionChecker {
 
     /**
      * Returns an {@link java.util.Optional} containing an error if the {@link net.dv8tion.jda.core.entities.Member} is not an administrator for the bot, otherwise an empty optional.
-     * Currently, the only way to be an administrator is to be a recognized developer, as in {@link com.srgood.reasons.impl.BaseConstants#BOT_DEVELOPERS}.
+     * Currently, the only way to be an administrator is to be a recognized developer, as in {@link com.srgood.reasons.impl.base.BaseConstants#BOT_DEVELOPERS}.
      *
      * @param member The {@link net.dv8tion.jda.core.entities.Member} to check for being a bot admin.
      *
