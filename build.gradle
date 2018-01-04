@@ -22,7 +22,7 @@ allprojects {
 
     apply plugin: 'java'
 
-    group = 'com.srgood'
+    group = 'com.github.meowingtwurtle'
     version = grgit.head().getAbbreviatedId()
 
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
