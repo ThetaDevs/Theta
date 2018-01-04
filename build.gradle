@@ -1,10 +1,26 @@
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://repo.eclipse.org/content/groups/releases/'
+        }
+    }
+
+    dependencies {
+        classpath group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.10.0.201712302008-r'
+    }
+}
+
 plugins {
     id 'org.ajoberstar.grgit' version '2.1.0'
 }
 
 description = """The Theta Discord Bot"""
 
-allprojects {
+subprojects {
     ext {
         botDependencies = [
                 JDA          : 'net.dv8tion:JDA:3.4.0_318',
@@ -23,7 +39,14 @@ allprojects {
     apply plugin: 'java'
 
     group = 'com.github.meowingtwurtle'
-    version = grgit.head().getAbbreviatedId()
+
+    def jgit = grgit.repository.jgit
+    def logCommand = jgit.log().addPath(name)
+    logCommand.maxCount = 1
+    def commit = logCommand.call().first()
+    def time = commit.commitTime
+
+    version = Instant.ofEpochSecond(time).atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("uuuuMMddHHmm"))
 
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
