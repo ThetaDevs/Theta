@@ -32,4 +32,29 @@ public class MemberUtils {
                          .filter(m -> m.getRoles().contains(role))
                          .collect(Collectors.toCollection(LinkedList::new));
     }
+
+    public static List<Member> getMembersByName(Guild guild, String name) {
+        return getMembersByName(guild.getMembers(), name);
+    }
+
+    public static List<Member> getMembersByName(List<Member> memberList, String name) {
+        return memberList.stream().filter(m -> m.getEffectiveName().equals(name)).collect(Collectors.toList());
+    }
+
+    public static Member getUniqueMember(Guild guild, String nameOrID) {
+        final List<Member> foundMembers = getMembersByName(guild, nameOrID);
+
+        if (foundMembers.size() < 1) {
+            Member memberById = guild.getMemberById(nameOrID);
+            if (memberById == null) {
+                throw new IllegalArgumentException(String.format("Found no members called `%s`", nameOrID));
+            } else {
+                return memberById;
+            }
+        } else if (foundMembers.size() > 1) {
+            throw new IllegalArgumentException(String.format("Found more than one member by the name `%s`. Please use a specific ID.", nameOrID));
+        } else {
+            return foundMembers.get(0);
+        }
+    }
 }

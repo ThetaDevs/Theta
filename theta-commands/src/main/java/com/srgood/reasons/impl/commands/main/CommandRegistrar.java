@@ -9,6 +9,7 @@ public class CommandRegistrar {
         commandManager.registerCommand(new CommandCensorDescriptor());
         commandManager.registerCommand(new CommandCoinFlipDescriptor());
         commandManager.registerCommand(new CommandDebugDescriptor());
+        commandManager.registerCommand(new CommandDeleteDescriptor());
         commandManager.registerCommand(new CommandDiceRollDescriptor());
         commandManager.registerCommand(new CommandDisableDescriptor());
         commandManager.registerCommand(new CommandEnableDescriptor());
