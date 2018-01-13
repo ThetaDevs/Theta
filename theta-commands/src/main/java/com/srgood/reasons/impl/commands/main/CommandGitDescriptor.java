@@ -7,16 +7,15 @@ import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecut
 import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.commands.utils.GitUtils;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.srgood.reasons.impl.commands.utils.GitUtils.localRepoExists;
 
 
 public class CommandGitDescriptor extends MultiTierCommandDescriptor {
     public CommandGitDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", "<info | update>", false, "git", "vcs");
+        super(Set.of(new InfoDescriptor(), new UpdateDescriptor()), "Manages the local git repo, if present", "<info | update>", false, "git", "vcs");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {

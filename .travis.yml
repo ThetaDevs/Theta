@@ -1,5 +1,5 @@
+os: ubuntu
+dist: trusty
+group: edge
 language: java
-jdk:
-  - oraclejdk8
-os:
-  - ubuntu
+jdk: oraclejdk9

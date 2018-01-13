@@ -5,6 +5,7 @@ import com.srgood.reasons.impl.commands.utils.GitUtils;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class CommandConstants {
@@ -17,5 +18,5 @@ public class CommandConstants {
 
     public static final Supplier<String> VERSION_SUPPLIER = () -> GitUtils.getCurrentRevision()
                                                                           .orElse("unknown (not in a Git repository)");
-    public static final java.util.List<String> LIBRARIES = Collections.unmodifiableList(Arrays.asList("JDA (https://github.com/DV8FromTheWorld/JDA)", "JGit (https://eclipse.org/jgit/)", "Google Guava (https://github.com/google/guava)"));
+    public static final java.util.List<String> LIBRARIES = List.of("JDA (https://github.com/DV8FromTheWorld/JDA)", "JGit (https://eclipse.org/jgit/)", "Google Guava (https://github.com/google/guava)");
 }

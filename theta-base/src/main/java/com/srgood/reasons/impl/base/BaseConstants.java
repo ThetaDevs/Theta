@@ -2,8 +2,6 @@ package com.srgood.reasons.impl.base;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -16,9 +14,10 @@ public class BaseConstants {
 
     public static final Charset FILE_CHARSET = StandardCharsets.US_ASCII;
 
-    public static final List<String> BOT_DEVELOPERS = Collections.unmodifiableList(Arrays.asList("138048665112543233", // srgood
+    public static final List<String> BOT_DEVELOPERS = List.of(
+            "138048665112543233", // srgood
             "164117897025683456", // MeowingTwurtle
-            "181061030799998977")); // HiItsMe
+            "181061030799998977"); // HiItsMe
 
     public static final Random GLOBAL_RANDOM = new Random();
 }

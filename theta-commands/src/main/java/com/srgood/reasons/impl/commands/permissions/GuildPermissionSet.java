@@ -12,7 +12,7 @@ public class GuildPermissionSet implements Serializable {
     private final String guildID;
     private final Map<String, BasicPermissionSet> rolePermissions = new HashMap<>();
 
-    private static final Collection<Permission> PERMISSIBLE_ACTION_COLLECTION = Arrays.asList(Permission.values());
+    private static final Collection<Permission> PERMISSIBLE_ACTION_COLLECTION = List.of(Permission.values());
 
     public GuildPermissionSet(Guild guild) {
         guildID = guild.getId();

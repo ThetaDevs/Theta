@@ -10,13 +10,12 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
     public CommandBlacklistDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "<list | add | remove> <...>", "blacklist");
+        super(Set.of(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor()), "Manages this Guild's blacklist.", "<list | add | remove> <...>", "blacklist");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {

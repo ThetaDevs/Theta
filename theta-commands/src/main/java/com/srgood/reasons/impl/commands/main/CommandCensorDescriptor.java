@@ -13,7 +13,12 @@ import java.util.*;
 
 public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
     public CommandCensorDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Performs operations with the censorlist of the current Guild", "<list | add | remove> <...>", "censor");
+        super(Set.of(new ListDescriptor(),
+                     new AddDescriptor(),
+                     new RemoveDescriptor()),
+                "Performs operations with the censorlist of the current Guild",
+                "<list | add | remove> <...>",
+                "censor");
     }
 
     private static abstract class BaseExecutor extends DMOutputCommandExecutor {
