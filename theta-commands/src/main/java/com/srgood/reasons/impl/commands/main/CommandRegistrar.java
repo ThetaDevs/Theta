@@ -33,6 +33,5 @@ public class CommandRegistrar {
         commandManager.registerCommand(new CommandSetWelcomeDescriptor());
         commandManager.registerCommand(new CommandShutdownDescriptor());
         commandManager.registerCommand(new CommandStatusDescriptor());
-        commandManager.registerCommand(new CommandTicTacToeDescriptor());
     }
 }
