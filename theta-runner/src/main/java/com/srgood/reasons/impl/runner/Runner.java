@@ -6,6 +6,7 @@ import com.srgood.reasons.impl.base.DiscordEventListener;
 import com.srgood.reasons.impl.base.commands.CommandManagerImpl;
 import com.srgood.reasons.impl.base.config.BotConfigManagerImpl;
 import com.srgood.reasons.impl.base.config.ConfigFileManager;
+import com.srgood.reasons.impl.commands.CensorEventListener;
 import com.srgood.reasons.impl.commands.main.CommandRegistrar;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
@@ -47,8 +48,15 @@ public class Runner {
     private static ShardManager createShardManager(String token, Logger logger, BotManager botManager) {
         try {
             ShardManager shardManager = new DefaultShardManagerBuilder().setEventManager(new InterfacedEventManager())
-                                                                        .addEventListeners(new DiscordEventListener(botManager,
-                                                                                Collections.unmodifiableList(Arrays.asList(NOT_BOT_SENDER, LISTENING_IN_CHANNEL, NOT_BLACKLISTED))))
+                                                                        .addEventListeners(
+                                                                                new DiscordEventListener(
+                                                                                        botManager,
+                                                                                        Collections.unmodifiableList(
+                                                                                                Arrays.asList(
+                                                                                                        NOT_BOT_SENDER,
+                                                                                                        LISTENING_IN_CHANNEL,
+                                                                                                        NOT_BLACKLISTED))),
+                                                                                new CensorEventListener(botManager))
                                                                         .setGame(Game.playing("Type @Theta help"))
                                                                         .setAutoReconnect(true)
                                                                         .setShardsTotal(-1) // Get recommended number from Discord
