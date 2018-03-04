@@ -12,7 +12,7 @@ import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 
 public class CommandCoinFlipDescriptor extends BaseCommandDescriptor {
     public CommandCoinFlipDescriptor() {
-        super(Executor::new, "Flips a coin", "<>", "coinflip", "flip", "flipcoin", "flipacoin");
+        super(Executor::new, "Flips a coin", null, "coinflip", "flip", "flipcoin", "flipacoin");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

@@ -15,7 +15,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
     private static final boolean ALLOW_DEBUG = true;
 
     public CommandDebugDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", "<deleteguild | removeroles>", false, "debug");
+        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", false, "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -40,7 +40,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
 
     private static class DeleteGuildDescriptor extends BaseCommandDescriptor {
         public DeleteGuildDescriptor() {
-            super(Executor::new, "Deletes the current guild from the config", "<>", "deleteguild");
+            super(Executor::new, "Deletes the current guild from the config", null, "deleteguild");
         }
 
         private static class Executor extends BaseExecutor {
@@ -60,7 +60,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
 
     private static class RemoveRolesDescriptor extends BaseCommandDescriptor {
         public RemoveRolesDescriptor() {
-            super(Executor::new, "Removes roles from old bot system.", "<>", "removeroles");
+            super(Executor::new, "Removes roles from old bot system.", null, "removeroles");
         }
 
         private static class Executor extends BaseExecutor {

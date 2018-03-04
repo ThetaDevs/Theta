@@ -12,7 +12,7 @@ import static com.srgood.reasons.impl.commands.CommandConstants.LIBRARIES;
 
 public class CommandInfoDescriptor extends BaseCommandDescriptor {
     public CommandInfoDescriptor() {
-        super(Executor::new, "Returns information about the bot, including the current version", "<>", "info", "version", "about");
+        super(Executor::new, "Returns information about the bot, including the current version", null, "info", "version", "about");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

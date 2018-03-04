@@ -3,6 +3,7 @@ package com.srgood.reasons.impl.commands.main;
 import com.meowingtwurtle.math.api.IMathGroup;
 import com.meowingtwurtle.math.api.IMathHandler;
 import com.meowingtwurtle.math.api.MathExpressionParseException;
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
@@ -17,7 +18,8 @@ public class CommandEvalDescriptor extends BaseCommandDescriptor {
     private final static ThreadLocal<NumberFormat> RESULT_FORMATTER = ThreadLocal.withInitial(() -> new DecimalFormat("#0.0###"));
 
     public CommandEvalDescriptor() {
-        super(Executor::new, "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt", "<math expr.>", "eval");
+        super(Executor::new, "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt", Argument
+                .string("math expression"), "eval");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

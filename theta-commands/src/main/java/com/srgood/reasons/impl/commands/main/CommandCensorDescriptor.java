@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.config.GuildConfigManager;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
@@ -13,7 +14,7 @@ import java.util.*;
 
 public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
     public CommandCensorDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Performs operations with the censorlist of the current Guild", "<list | add | remove> <...>", "censor");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Performs operations with the censorlist of the current Guild", "censor");
     }
 
     private static abstract class BaseExecutor extends DMOutputCommandExecutor {
@@ -37,7 +38,7 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
     private static class ListDescriptor extends BaseCommandDescriptor {
         public ListDescriptor() {
-            super(Executor::new, "Gets the current censorlist", "<>", "list");
+            super(Executor::new, "Gets the current censorlist", null, "list");
         }
 
         private static class Executor extends BaseExecutor {
@@ -66,7 +67,7 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
     private static class AddDescriptor extends BaseCommandDescriptor {
         public AddDescriptor() {
-            super(Executor::new, "Adds a word to the current censorlist", "<word>", "add");
+            super(Executor::new, "Adds a word to the current censorlist", Argument.string("word"), "add");
         }
 
         private static class Executor extends BaseExecutor {
@@ -91,7 +92,7 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
 
     private static class RemoveDescriptor extends BaseCommandDescriptor {
         public RemoveDescriptor() {
-            super(Executor::new, "Removes a word from the current censorlist", "<word>", "remove");
+            super(Executor::new, "Removes a word from the current censorlist", Argument.string("word"), "remove");
         }
 
         private static class Executor extends BaseExecutor {

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class CommandShutdownDescriptor extends BaseCommandDescriptor {
     public CommandShutdownDescriptor() {
-        super(Executor::new, "Shuts down the bot. You SHOULD be an developer to use this", "<>", false, "shutdown", "die", "halt", "stop");
+        super(Executor::new, "Shuts down the bot. You SHOULD be an developer to use this", null, false, "shutdown", "die", "halt", "stop");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

@@ -1,6 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.utils.MemberUtils;
@@ -17,7 +18,7 @@ public class CommandDeleteDescriptor extends BaseCommandDescriptor {
     private static final int DEFAULT_MAX = 100;
 
     public CommandDeleteDescriptor() {
-        super(Executor::new, "If specified, deletes messages only from sender, and if specified, deletes at max the specified number of messages, otherwise 100", "{sender} {max number}", "delete", "purge");
+        super(Executor::new, "If specified, deletes messages only from sender, and if specified, deletes at max the specified number of messages, otherwise 100", ArgsBuilder.create().beginOptional().addString("sender").addNumber("number").build(), "delete", "purge");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

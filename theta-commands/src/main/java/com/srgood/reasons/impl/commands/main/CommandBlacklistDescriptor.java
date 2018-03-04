@@ -1,6 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
@@ -16,12 +17,12 @@ import java.util.List;
 
 public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
     public CommandBlacklistDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "<list | add | remove> <...>", "blacklist");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "blacklist");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
         public ListDescriptor() {
-            super(Executor::new, "Lists the IDs on this Guild's blacklist", "<>", "list", "get");
+            super(Executor::new, "Lists the IDs on this Guild's blacklist", null, "list", "get");
         }
 
         private static class Executor extends ChannelOutputCommandExecutor {
@@ -59,7 +60,7 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
 
     private static class AddDescriptor extends BaseCommandDescriptor {
         public AddDescriptor() {
-            super(Executor::new, "Adds a member/role ID to this Guild's blacklist", "<ID>", "add");
+            super(Executor::new, "Adds a member/role ID to this Guild's blacklist", Argument.string("ID"), "add");
         }
 
         private static class Executor extends ChannelOutputCommandExecutor {
@@ -87,7 +88,7 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
 
     private static class RemoveDescriptor extends BaseCommandDescriptor {
         public RemoveDescriptor() {
-            super(Executor::new, "Removes a member/role ID from this Guild's blacklist", "<ID>", "remove");
+            super(Executor::new, "Removes a member/role ID from this Guild's blacklist", Argument.string("ID"), "remove");
         }
 
         private static class Executor extends ChannelOutputCommandExecutor {

@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class CommandSetPrefixDescriptor extends BaseCommandDescriptor {
     public CommandSetPrefixDescriptor() {
-        super(Executor::new, "Gets the prefix in the current Guild", "<prefix>", "setprefix");
+        super(Executor::new, "Gets the prefix in the current Guild", Argument.string("prefix"), "setprefix");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

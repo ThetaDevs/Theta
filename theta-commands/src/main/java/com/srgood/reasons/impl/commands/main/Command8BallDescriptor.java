@@ -13,7 +13,7 @@ import static com.srgood.reasons.impl.commands.CommandConstants.EIGHT_BALL;
 
 public class Command8BallDescriptor extends BaseCommandDescriptor {
     public Command8BallDescriptor() {
-        super(Executor::new, "Tells your fortune", "<>", "8ball", "fortune", "magic", "idiothelper");
+        super(Executor::new, "Tells your fortune", null, "8ball", "fortune", "magic", "idiothelper");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

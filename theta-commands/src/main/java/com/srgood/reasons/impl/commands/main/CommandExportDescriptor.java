@@ -25,7 +25,7 @@ import java.util.Optional;
 
 public class CommandExportDescriptor extends BaseCommandDescriptor {
     public CommandExportDescriptor() {
-        super(Executor::new, "Outputs a file that contains commands to reconstruct the bot state of this Guild.", "<>", "export");
+        super(Executor::new, "Outputs a file that contains commands to reconstruct the bot state of this Guild.", null, "export");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

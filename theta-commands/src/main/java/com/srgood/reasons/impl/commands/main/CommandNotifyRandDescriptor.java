@@ -1,6 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.permissions.Permission;
@@ -20,7 +21,7 @@ import static com.srgood.reasons.impl.commands.utils.RoleUtils.getUniqueRole;
 
 public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
     public CommandNotifyRandDescriptor() {
-        super(Executor::new, "Notifies a random Member with the specified role and optional amount", "<role name> {amount}", "notifyrand");
+        super(Executor::new, "Notifies a random Member with the specified role and optional amount", ArgsBuilder.create().addString("role name").beginOptional().addNumber("number").build(), "notifyrand");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

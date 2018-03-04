@@ -1,7 +1,9 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.DMOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.utils.StringUtils;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class CommandHelpDescriptor extends BaseCommandDescriptor {
     public CommandHelpDescriptor() {
-        super(Executor::new, "Provides information about all commands if no arguments are given, otherwise only the commands given as arguments.", "{command} {...}", "help");
+        super(Executor::new, "Provides information about all commands if no arguments are given, otherwise only the commands given as arguments.", ArgsBuilder.create().beginOptional().addString("command").repeatLast(), "help");
     }
 
     private static class Executor extends DMOutputCommandExecutor {
@@ -66,8 +68,9 @@ public class CommandHelpDescriptor extends BaseCommandDescriptor {
             String primaryName = command.getPrimaryName();
             String regexLine = !Objects.equals(command.getNameRegex(), "(" + command.getPrimaryName() + ")") ? ". Matched on Regex: \"" + command
                     .getNameRegex() + "\"" : "";
-            String format = String.format("[%s \"%s\"](%s%s)", primaryName, command.help().args(), command.help()
-                                                                                                          .description(), regexLine);
+            Argument args = command.help().args();
+            String argsSection = args == null ? "<>" : args.format();
+            String format = String.format("[%s \"%s\"](%s%s)", primaryName, argsSection, command.help().description(), regexLine);
             ret.add(format);
             if (command.hasSubCommands()) {
                 for (CommandDescriptor subCommand : command.getSubCommands()) {

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class CommandRolesDescriptor extends BaseCommandDescriptor {
     public CommandRolesDescriptor() {
-        super(Executor::new, "Lists the roles and their IDs in the current Guild", "<>", "roles");
+        super(Executor::new, "Lists the roles and their IDs in the current Guild", null, "roles");
     }
 
     private static class Executor extends DMOutputCommandExecutor {

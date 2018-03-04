@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.Permission;
 
 public class CommandInviteDescriptor extends BaseCommandDescriptor {
     public CommandInviteDescriptor() {
-        super(Executor::new, "Prints the authlink for the bot", "<>", "invite", "link", "authlink");
+        super(Executor::new, "Prints the authlink for the bot", null, "invite", "link", "authlink");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

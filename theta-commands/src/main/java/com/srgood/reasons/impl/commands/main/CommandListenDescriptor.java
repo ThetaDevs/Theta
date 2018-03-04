@@ -1,6 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import net.dv8tion.jda.core.Permission;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class CommandListenDescriptor extends BaseCommandDescriptor {
     public CommandListenDescriptor() {
-        super(Executor::new, "Enables or disables command listening in a channel", "<enable | disable> <channel>", "listen");
+        super(Executor::new, "Enables or disables command listening in a channel", ArgsBuilder.create().addString("enable | disable").addString("channel").build(), "listen");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

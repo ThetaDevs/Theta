@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
@@ -7,7 +8,7 @@ import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecut
 
 public class CommandGetEnabledDescriptor extends BaseCommandDescriptor {
     public CommandGetEnabledDescriptor() {
-        super(Executor::new, "Gets whether the command is enabled or not in the current Guild", "<command>", "getenabled");
+        super(Executor::new, "Gets whether the command is enabled or not in the current Guild", Argument.string("command"), "getenabled");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

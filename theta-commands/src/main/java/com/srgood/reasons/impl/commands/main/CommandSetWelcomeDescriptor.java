@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.config.GuildConfigManager;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
@@ -12,7 +13,8 @@ import java.util.Optional;
 
 public class CommandSetWelcomeDescriptor extends BaseCommandDescriptor {
     public CommandSetWelcomeDescriptor() {
-        super(Executor::new, "Sets the welcome message for the Guild, which will be sent in the current Channel. Set it to OFF to disable. Use @USER to mention the leaving user.", "<message>", "setwelcome");
+        super(Executor::new, "Sets the welcome message for the Guild, which will be sent in the current Channel. Set it to OFF to disable. Use @USER to mention the leaving user.", Argument
+                .string("message"), "setwelcome");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

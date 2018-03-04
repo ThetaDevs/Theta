@@ -11,7 +11,7 @@ public class SimpleTextCommandDescriptor extends BaseCommandDescriptor {
     protected final String outputText;
 
     public SimpleTextCommandDescriptor(String commandName, String outputText) {
-        super(generateExecutorFunction(outputText), outputText, "<>", commandName);
+        super(generateExecutorFunction(outputText), outputText, null, commandName);
         this.outputText = outputText;
     }
 

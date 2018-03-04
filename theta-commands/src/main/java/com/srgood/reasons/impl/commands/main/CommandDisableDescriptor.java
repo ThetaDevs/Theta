@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public class CommandDisableDescriptor extends BaseCommandDescriptor {
     public CommandDisableDescriptor() {
-        super(Executor::new, "Disables a command in the current Guild", "<command>", "disable");
+        super(Executor::new, "Disables a command in the current Guild", Argument.string("command"), "disable");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

@@ -28,7 +28,7 @@ import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 
 public class CommandImportDescriptor extends BaseCommandDescriptor {
     public CommandImportDescriptor() {
-        super(Executor::new, "Runs a script of bot commands", "<>", "import");
+        super(Executor::new, "Runs a script of bot commands", null, "import");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {

@@ -1,6 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.DMOutputCommandExecutor;
@@ -18,12 +19,12 @@ import java.util.Optional;
 
 public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
     public CommandPermissionsDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", "<list | set> <...>", "permissions");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", "permissions");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
         public ListDescriptor() {
-            super(Executor::new, "Lists permissions for all Roles in the current Guild", "<>", "list");
+            super(Executor::new, "Lists permissions for all Roles in the current Guild", null, "list");
         }
 
         private static class Executor extends DMOutputCommandExecutor {
@@ -69,7 +70,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
 
     private static class SetDescriptor extends BaseCommandDescriptor {
         public SetDescriptor() {
-            super(Executor::new, "Sets a permission's status for the given role", "<role> <permission> <status>", "set");
+            super(Executor::new, "Sets a permission's status for the given role", ArgsBuilder.create().addString("role").addString("permission").addString("status").build(), "set");
         }
 
         private static class Executor extends DMOutputCommandExecutor {
