@@ -21,14 +21,14 @@ public class CommandGetEnabledDescriptor extends BaseCommandDescriptor {
                 CommandDescriptor command = executionData.getBotManager()
                                                          .getCommandManager()
                                                          .getCommandByName(executionData.getParsedArguments().get(0));
-                sendOutput("Command %s is %s.", command.getPrimaryName(), executionData.getBotManager()
+                sendSuccess("Command %s is %s.", command.getPrimaryName(), executionData.getBotManager()
                                                                                        .getConfigManager()
                                                                                        .getGuildConfigManager(executionData
                                                                                                .getGuild())
                                                                                        .getCommandConfigManager(command)
                                                                                        .isEnabled() ? "enabled" : "disabled");
             } else {
-                sendOutput("Please specify a command for which to get the enabled status.");
+                sendError("Please specify a command for which to get the enabled status.");
             }
         }
     }

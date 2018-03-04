@@ -2,8 +2,12 @@ package com.srgood.reasons.impl.base.commands.executor;
 
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.commands.CommandExecutor;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
+import java.awt.*;
 import java.util.Optional;
 
 public abstract class BaseCommandExecutor implements CommandExecutor {
@@ -30,26 +34,62 @@ public abstract class BaseCommandExecutor implements CommandExecutor {
     public boolean shouldExecute() {
         Optional<String> callerPermissionResult = checkCallerPermissions();
         if (callerPermissionResult.isPresent()) {
-            sendOutput(callerPermissionResult.get());
+            sendError(callerPermissionResult.get());
             return false;
         }
 
         Optional<String> botPermissionResult = checkBotPermissions();
         if (botPermissionResult.isPresent()) {
-            sendOutput(botPermissionResult.get());
+            sendError(botPermissionResult.get());
             return false;
         }
 
         Optional<String> customCheckResult = customPreExecuteCheck();
         if (customCheckResult.isPresent()) {
-            sendOutput(customCheckResult.get());
+            sendError(customCheckResult.get());
             return false;
         }
 
         return true;
     }
 
-    protected abstract void sendOutput(String format, Object... arguments);
+    abstract boolean showEmbedFooter();
 
-    protected abstract void sendOutput(Message message);
+    abstract MessageChannel outputChannel();
+
+    private void sendOutput(Color embedColor, String format, Object... arguments) {
+        sendOutput(new MessageBuilder(createEmbed(showEmbedFooter(), format, arguments).setColor(embedColor)).build());
+    }
+
+    protected void sendOutput(String format, Object... arguments) {
+        sendOutput(null, format, arguments);
+    }
+
+    protected void sendOutput(Message message) {
+        outputChannel().sendMessage(message).queue();
+    }
+
+    protected void sendSuccess(String format, Object... arguments) {
+        sendOutput(Color.GREEN, format, arguments);
+    }
+
+    protected void sendError(String format, Object... arguments) {
+        sendOutput(Color.RED, format, arguments);
+    }
+
+    protected void sendRaw(String format, Object... arguments) {
+        sendOutput(new MessageBuilder(String.format(format, arguments)).build());
+    }
+
+    private final EmbedBuilder createEmbed(boolean footer, String format, Object... arguments) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.appendDescription(String.format(format, arguments));
+        if (footer) {
+            embedBuilder.setFooter("Requested by: " + executionData.getSender()
+                                                                   .getEffectiveName(), executionData.getSender()
+                                                                                                     .getUser()
+                                                                                                     .getAvatarUrl());
+        }
+        return embedBuilder;
+    }
 }

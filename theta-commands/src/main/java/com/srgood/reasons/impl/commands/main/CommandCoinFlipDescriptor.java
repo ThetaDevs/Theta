@@ -24,11 +24,11 @@ public class CommandCoinFlipDescriptor extends BaseCommandDescriptor {
         public void execute() {
             int n = GLOBAL_RANDOM.nextInt(6002);
             if (n < 3000) {
-                sendOutput("Heads");
+                sendSuccess("Heads");
             } else if (n > 3001) {
-                sendOutput("Tails");
+                sendSuccess("Tails");
             } else {
-                sendOutput("Side");
+                sendSuccess("Side");
             }
         }
 

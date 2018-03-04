@@ -51,17 +51,15 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
                                                                                               .getConfigManager(), executionData
                         .getGuild());
 
-                StringBuilder outBuilder = new StringBuilder("__**Censored Words**__ ```\n");
+                StringBuilder outBuilder = new StringBuilder("__**Censored Words**__");
                 for (String censoredWord : censoredWords) {
-                    outBuilder.append("- ");
                     outBuilder.append(censoredWord);
                     outBuilder.append("\n");
                 }
-                outBuilder.append("```");
                 if (censoredWords.size() == 0) {
                     outBuilder = new StringBuilder("There are no censored words on this server.");
                 }
-                sendOutput(outBuilder.toString());
+                sendSuccess(outBuilder.toString());
             }
         }
     }
@@ -86,7 +84,7 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
                 GuildDataManager.setGuildCensorList(executionData.getBotManager()
                                                                  .getConfigManager(), executionData.getGuild(), censoredWords);
 
-                sendOutput("The word `%s` has been added to the censorlist.", wordToCensor);
+                sendSuccess("The word `%s` has been added to the censorlist.", wordToCensor);
             }
         }
     }
@@ -117,9 +115,9 @@ public class CommandCensorDescriptor extends MultiTierCommandDescriptor {
                     censoredWords.remove(wordToRemove);
                     GuildDataManager.setGuildCensorList(executionData.getBotManager()
                                                                      .getConfigManager(), executionData.getGuild(), censoredWords);
-                    sendOutput("The word `%s` has been removed from the censor list.", wordToRemove);
+                    sendSuccess("The word `%s` has been removed from the censor list.", wordToRemove);
                 } else {
-                    sendOutput("The word `%s` was not found in the censor list.", wordToRemove);
+                    sendError("The word `%s` was not found in the censor list.", wordToRemove);
                 }
             }
         }

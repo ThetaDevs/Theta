@@ -48,7 +48,7 @@ public class CommandHelpDescriptor extends BaseCommandDescriptor {
                                              .collect(Collectors.toList());
             helpLines.add(0, "__HELP__");
             List<String> messages = StringUtils.groupMessagesToLength(helpLines, 2000, "```Markdown\n", "```");
-            messages.forEach(this::sendOutput);
+            messages.forEach(this::sendRaw);
         }
 
         private List<String> getSingleCommandOutput(String command) {

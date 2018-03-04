@@ -37,18 +37,18 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                     displayAllRoles();
                 } else {
                     try {
-                        sendOutput(formatPermissions(RoleUtils.getUniqueRole(executionData.getGuild(), executionData.getParsedArguments()
+                        sendSuccess(formatPermissions(RoleUtils.getUniqueRole(executionData.getGuild(), executionData.getParsedArguments()
                                                                                                                     .get(0))));
                     } catch (IllegalArgumentException e) {
-                        sendOutput(e.getMessage());
+                        sendError(e.getMessage());
                     }
                 }
             }
 
             private void displayAllRoles() {
-                sendOutput("**`Roles in %s`**", executionData.getGuild().getName());
+                sendRaw("**`Roles in %s`**", executionData.getGuild().getName());
                 for (Role role : executionData.getGuild().getRoles()) {
-                    sendOutput(formatPermissions(role));
+                    sendRaw(formatPermissions(role));
                 }
             }
 
@@ -89,7 +89,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                     status = getPermissionStatusArg();
                     checkPermissionStatusArg(role, status);
                 } catch (IllegalArgumentException e) {
-                    sendOutput(e.getMessage());
+                    sendError(e.getMessage());
                     return;
                 }
 
@@ -101,14 +101,14 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                         try {
                             setPermissionStatus(role, permission, status);
                         } catch (IllegalArgumentException e) {
-                            sendOutput(e.getMessage());
+                            sendError(e.getMessage());
                         }
                     }
                 } else {
                     try {
                         setPermissionStatus(role, parsePermissionArg(), status);
                     } catch (IllegalArgumentException e) {
-                        sendOutput(e.getMessage());
+                        sendError(e.getMessage());
                     }
                 }
                 GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
@@ -182,7 +182,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                 GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
                                                                     .getConfigManager(), role.getGuild(), permissionSet);
 
-                sendOutput("Permission **`%s`** set to state **`%s`** for role **`%s`**", permission, status, role.getName());
+                sendSuccess("Permission **`%s`** set to state **`%s`** for role **`%s`**", permission, status, role.getName());
             }
 
             private PermissionStatus getPermissionStatus(String name) {

@@ -25,7 +25,7 @@ public class CommandListenDescriptor extends BaseCommandDescriptor {
                                                          .getTextChannelsByName(executionData.getParsedArguments()
                                                                                              .get(1), false);
             if (channelList.size() == 0) {
-                sendOutput("No channel by the name `%s` was found.", executionData.getParsedArguments().get(1));
+                sendError("No channel by the name `%s` was found.", executionData.getParsedArguments().get(1));
                 return;
             }
             Channel channel = channelList.get(0);
@@ -38,11 +38,11 @@ public class CommandListenDescriptor extends BaseCommandDescriptor {
                     enabledState = false;
                     break;
                 default:
-                    sendOutput("Illegal enabled state. Use `enable` or `disable`");
+                    sendError("Illegal enabled state. Use `enable` or `disable`");
                     return;
             }
             if (!executionData.getSender().hasPermission(channel, Permission.MANAGE_CHANNEL)) {
-                sendOutput("You have insufficient permissions.");
+                sendError("You have insufficient permissions.");
                 return;
             }
             executionData.getBotManager()
@@ -51,7 +51,7 @@ public class CommandListenDescriptor extends BaseCommandDescriptor {
                          .getChannelConfigManager(channel)
                          .setProperty("listening", "" + enabledState);
 
-            sendOutput("Listening %s for channel `%s`", enabledState == true ? "enabled" : "disabled", executionData.getParsedArguments()
+            sendSuccess("Listening %s for channel `%s`", enabledState == true ? "enabled" : "disabled", executionData.getParsedArguments()
                                                                                                                     .get(1));
         }
     }

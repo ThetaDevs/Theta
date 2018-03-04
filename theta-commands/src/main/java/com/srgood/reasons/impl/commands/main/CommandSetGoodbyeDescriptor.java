@@ -33,9 +33,9 @@ public class CommandSetGoodbyeDescriptor extends BaseCommandDescriptor {
                                                                                                             .getId());
 
             if (message.trim().equalsIgnoreCase("OFF")) {
-                sendOutput("Goodbye message turned off");
+                sendSuccess("Goodbye message turned off");
             } else {
-                sendOutput("Goodbye message set. Messages will be sent in this channel.", message);
+                sendSuccess("Goodbye message set. Messages will be sent in this channel.", message);
             }
         }
 

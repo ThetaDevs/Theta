@@ -29,12 +29,12 @@ public class CommandDisableDescriptor extends BaseCommandDescriptor {
                     executionData.getBotManager()
                                  .getCommandManager()
                                  .setCommandEnabled(executionData.getGuild(), mCommand, false);
-                    sendOutput("Command disabled.", mCommand.getPrimaryName());
+                    sendSuccess("Command disabled.", mCommand.getPrimaryName());
                 } catch (IllegalArgumentException e) {
-                    sendOutput("Cannot disable command %s.", mCommand.getPrimaryName());
+                    sendError("Cannot disable command %s.", mCommand.getPrimaryName());
                 }
             } else {
-                sendOutput("Please specify a command to disable.");
+                sendError("Please specify a command to disable.");
             }
         }
 

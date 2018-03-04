@@ -41,7 +41,7 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
             Message.Attachment attachment = executionData.getMessage().getAttachments().get(0);
             List<String> commands = getCommands(attachment);
             if (commands == null) {
-                sendOutput("Internal I/O error.");
+                sendError("Internal I/O error.");
                 return;
             }
 

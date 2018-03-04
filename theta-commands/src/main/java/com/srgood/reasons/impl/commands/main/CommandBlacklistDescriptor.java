@@ -35,7 +35,7 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                                                                                               .getConfigManager(), executionData
                         .getGuild());
                 if (blacklistedIDs.size() == 0) {
-                    sendOutput("```There are no roles or users in this Guild's blacklist```");
+                    sendSuccess("There are no roles or users in this Guild's blacklist");
                     return;
                 }
                 List<String> outputs = new ArrayList<>();
@@ -52,7 +52,7 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                     }
                     outputs.add(String.format("[User/Role ID %s]", id));
                 }
-                StringUtils.groupMessagesToLength(outputs, 2000, "```", "```").forEach(this::sendOutput);
+                StringUtils.groupMessagesToLength(outputs, 2000, "", "").forEach(this::sendSuccess);
             }
         }
     }
@@ -73,14 +73,14 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                                                                                          .getConfigManager(), executionData
                         .getGuild());
                 if (blacklist.contains(executionData.getParsedArguments().get(0))) {
-                    sendOutput("```ID \"%s\" was already in the blacklist```", executionData.getParsedArguments()
+                    sendError("```ID \"%s\" was already in the blacklist```", executionData.getParsedArguments()
                                                                                             .get(0));
                     return;
                 }
                 blacklist.add(executionData.getParsedArguments().get(0));
                 GuildDataManager.setGuildBlacklist(executionData.getBotManager()
                                                                 .getConfigManager(), executionData.getGuild(), blacklist);
-                sendOutput("```ID \"%s\" added to blacklist.```", executionData.getParsedArguments().get(0));
+                sendSuccess("```ID \"%s\" added to blacklist.```", executionData.getParsedArguments().get(0));
             }
         }
     }
@@ -101,13 +101,13 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                                                                                          .getConfigManager(), executionData
                         .getGuild());
                 if (!blacklist.contains(executionData.getParsedArguments().get(0))) {
-                    sendOutput("```ID \"%s\" was not in the blacklist```", executionData.getParsedArguments().get(0));
+                    sendError("ID \"%s\" was not in the blacklist.", executionData.getParsedArguments().get(0));
                     return;
                 }
                 blacklist.remove(executionData.getParsedArguments().get(0));
                 GuildDataManager.setGuildBlacklist(executionData.getBotManager()
                                                                 .getConfigManager(), executionData.getGuild(), blacklist);
-                sendOutput("```ID \"%s\" removed from blacklist.```", executionData.getParsedArguments().get(0));
+                sendSuccess("ID \"%s\" removed from blacklist.", executionData.getParsedArguments().get(0));
             }
         }
     }

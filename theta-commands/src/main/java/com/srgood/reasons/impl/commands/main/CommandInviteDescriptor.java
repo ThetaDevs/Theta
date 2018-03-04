@@ -18,7 +18,7 @@ public class CommandInviteDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("Theta authorization link: %s", executionData.getJDA()
+            sendSuccess("Theta authorization link: %s", executionData.getJDA()
                                                                     .asBot()
                                                                     .getInviteUrl(Permission.ADMINISTRATOR));
         }

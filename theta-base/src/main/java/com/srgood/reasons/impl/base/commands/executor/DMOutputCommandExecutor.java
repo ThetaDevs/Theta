@@ -1,7 +1,7 @@
 package com.srgood.reasons.impl.base.commands.executor;
 
 import com.srgood.reasons.commands.CommandExecutionData;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 public abstract class DMOutputCommandExecutor extends BaseCommandExecutor {
     public DMOutputCommandExecutor(CommandExecutionData executionData) {
@@ -9,15 +9,12 @@ public abstract class DMOutputCommandExecutor extends BaseCommandExecutor {
     }
 
     @Override
-    protected void sendOutput(String format, Object... arguments) {
-        executionData.getSender()
-                     .getUser()
-                     .openPrivateChannel()
-                     .queue(chan -> chan.sendMessageFormat(format, arguments).queue());
+    boolean showEmbedFooter() {
+        return false;
     }
 
     @Override
-    protected void sendOutput(Message message) {
-        executionData.getSender().getUser().openPrivateChannel().queue(chan -> chan.sendMessage(message).queue());
+    MessageChannel outputChannel() {
+        return executionData.getSender().getUser().openPrivateChannel().complete();
     }
 }

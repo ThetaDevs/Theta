@@ -72,7 +72,7 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
             public void execute() {
                 for (Role r : executionData.getGuild().getRoles()) {
                     if (r.getName().equals("Reasons Admin") || r.getName().equals("DJ")) {
-                        r.delete().queue(role -> sendOutput("Removed role: **`%s`**", r.getName()));
+                        r.delete().queue(role -> sendSuccess("Removed role: **`%s`**", r.getName()));
                     }
                 }
             }

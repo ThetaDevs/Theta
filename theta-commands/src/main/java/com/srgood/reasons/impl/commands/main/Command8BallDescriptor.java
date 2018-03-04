@@ -25,7 +25,7 @@ public class Command8BallDescriptor extends BaseCommandDescriptor {
         public void execute() {
             int numChoices = EIGHT_BALL.length;
             int randIndex = GLOBAL_RANDOM.nextInt(numChoices);
-            sendOutput(EIGHT_BALL[randIndex]);
+            sendSuccess(EIGHT_BALL[randIndex]);
         }
 
         @Override

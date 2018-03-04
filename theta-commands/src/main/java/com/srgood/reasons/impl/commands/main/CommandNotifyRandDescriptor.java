@@ -37,7 +37,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
             try {
                 return getUniqueRole(executionData.getGuild(), executionData.getParsedArguments().get(0));
             } catch (IllegalArgumentException e) {
-                sendOutput(e.getMessage());
+                sendError(e.getMessage());
                 return null;
             }
         }
@@ -53,7 +53,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
             foundMembers.remove(executionData.getGuild().getSelfMember());
 
             if (foundMembers.size() < 1) {
-                sendOutput("Found no online members with role `%s`", targetRole.getName());
+                sendError("Found no online members with role `%s`", targetRole.getName());
                 return;
             }
 
@@ -87,7 +87,7 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
                 }
             }
 
-            sendOutput("Notified %s", sb.toString());
+            sendSuccess("Notified %s", sb.toString());
         }
 
         private int getAmount() {

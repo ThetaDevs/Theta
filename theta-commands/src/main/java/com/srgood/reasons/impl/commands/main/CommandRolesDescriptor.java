@@ -27,8 +27,8 @@ public class CommandRolesDescriptor extends BaseCommandDescriptor {
                                                     .sorted(Comparator.reverseOrder())
                                                     .map(role -> String.format("[%s] %s", role.getName(), role.getId()))
                                                     .collect(Collectors.toList());
-            roleOutputs.add(0, String.format("**`Roles in %s`**", executionData.getGuild().getName()));
-            StringUtils.groupMessagesToLength(roleOutputs, 2000, "```", "```").forEach(this::sendOutput);
+            roleOutputs.add(0, String.format("**Roles in %s**", executionData.getGuild().getName()));
+            StringUtils.groupMessagesToLength(roleOutputs, 2000, "", "").forEach(this::sendSuccess);
         }
     }
 }

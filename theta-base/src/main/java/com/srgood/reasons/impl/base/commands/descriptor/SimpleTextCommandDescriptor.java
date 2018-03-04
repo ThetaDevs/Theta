@@ -19,17 +19,7 @@ public class SimpleTextCommandDescriptor extends BaseCommandDescriptor {
         return data -> new ChannelOutputCommandExecutor(data) {
             @Override
             public void execute() {
-                sendOutput(outputText);
-            }
-        };
-    }
-
-    @Override
-    public CommandExecutor getExecutor(CommandExecutionData executionData) {
-        return new ChannelOutputCommandExecutor(executionData) {
-            @Override
-            public void execute() {
-                sendOutput(outputText);
+                sendSuccess(outputText);
             }
         };
     }

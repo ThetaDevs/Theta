@@ -58,7 +58,7 @@ public class CommandExportDescriptor extends BaseCommandDescriptor {
                              .sendFile(file, new MessageBuilder().append("Output file generated.").build())
                              .queue();
             } catch (Exception e) {
-                sendOutput("Internal I/O error, could not generate temp file.");
+                sendError("Internal I/O error, could not generate temp file.");
             }
         }
 

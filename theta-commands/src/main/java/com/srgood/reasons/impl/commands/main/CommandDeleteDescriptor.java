@@ -38,7 +38,7 @@ public class CommandDeleteDescriptor extends BaseCommandDescriptor {
                     try {
                         numToDelete = Integer.parseInt(executionData.getParsedArguments().get(0));
                     } catch (NumberFormatException nfe) {
-                        sendOutput(iae.getMessage());
+                        sendError(iae.getMessage());
                         return;
                     }
                 }

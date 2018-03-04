@@ -32,9 +32,9 @@ public class CommandSetWelcomeDescriptor extends BaseCommandDescriptor {
                                                                                                             .getId());
 
             if (message.trim().equalsIgnoreCase("OFF")) {
-                sendOutput("Welcome message turned off");
+                sendSuccess("Welcome message turned off");
             } else {
-                sendOutput("Welcome message set. Messages will be sent in this channel.", message);
+                sendSuccess("Welcome message set. Messages will be sent in this channel.", message);
             }
         }
 

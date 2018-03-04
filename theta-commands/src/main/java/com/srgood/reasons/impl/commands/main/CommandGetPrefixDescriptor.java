@@ -16,7 +16,7 @@ public class CommandGetPrefixDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("**Prefix:** `%s`", executionData.getBotManager()
+            sendSuccess("**Prefix:** `%s`", executionData.getBotManager()
                                                         .getConfigManager()
                                                         .getGuildConfigManager(executionData.getGuild())
                                                         .getPrefix());

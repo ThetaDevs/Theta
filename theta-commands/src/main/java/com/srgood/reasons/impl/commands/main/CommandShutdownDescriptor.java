@@ -19,13 +19,13 @@ public class CommandShutdownDescriptor extends BaseCommandDescriptor {
 
         @Override
         public void execute() {
-            sendOutput("Shutting down! %s", executionData.getSender().getAsMention());
+            sendSuccess("Shutting down! %s", executionData.getSender().getAsMention());
 
             try {
                 executionData.getBotManager().close();
             } catch (Exception e) {
                 e.printStackTrace();
-                sendOutput("Error, shutdown failed with an exception. The bot may be in an inconsistent state!");
+                sendError("Error, shutdown failed with an exception. The bot may be in an inconsistent state!");
             }
         }
 

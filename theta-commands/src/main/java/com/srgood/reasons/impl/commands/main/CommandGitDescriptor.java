@@ -64,7 +64,7 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
                 commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)
                                                                 .append(String.format("Local repo is on commit **`%s`**", commit)));
 
-                sendOutput(stringBuilder.toString());
+                sendSuccess(stringBuilder.toString());
             }
         }
     }
@@ -84,7 +84,7 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
                 GitUtils.updateRepo();
                 // We already know we are in a repo. If it's empty, we have a problem
                 //noinspection ConstantConditions
-                sendOutput("Done. New revision is commit **`%s`**", GitUtils.getCurrentRevision().get());
+                sendSuccess("Done. New revision is commit **`%s`**", GitUtils.getCurrentRevision().get());
             }
         }
     }

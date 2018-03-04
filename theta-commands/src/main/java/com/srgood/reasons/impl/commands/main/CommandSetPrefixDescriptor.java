@@ -25,9 +25,9 @@ public class CommandSetPrefixDescriptor extends BaseCommandDescriptor {
                              .getConfigManager()
                              .getGuildConfigManager(executionData.getGuild())
                              .setPrefix(executionData.getParsedArguments().get(0));
-                sendOutput("The prefix has been set.");
+                sendSuccess("The prefix has been set.");
             } else {
-                sendOutput("Please specify a prefix.");
+                sendError("Please specify a prefix.");
             }
         }
 

@@ -29,12 +29,12 @@ public class CommandEnableDescriptor extends BaseCommandDescriptor {
                     executionData.getBotManager()
                                  .getCommandManager()
                                  .setCommandEnabled(executionData.getGuild(), mCommand, true);
-                    sendOutput("Command %s enabled.", mCommand.getPrimaryName());
+                    sendSuccess("Command %s enabled.", mCommand.getPrimaryName());
                 } catch (IllegalArgumentException e) {
-                    sendOutput("Cannot enable command %s.", mCommand.getPrimaryName());
+                    sendError("Cannot enable command %s.", mCommand.getPrimaryName());
                 }
             } else {
-                sendOutput("Please specify a command to enable");
+                sendError("Please specify a command to enable");
             }
         }
 

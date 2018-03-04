@@ -49,9 +49,9 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
                                                          .map(x -> Integer.toString(x))
                                                          .collect(Collectors.toList())) + ".";
 
-                sendOutput(output);
+                sendSuccess(output);
             } else {
-                sendOutput(GLOBAL_RANDOM.nextInt(MAX_ROLL) + 1 + ".");
+                sendSuccess(GLOBAL_RANDOM.nextInt(MAX_ROLL) + 1 + ".");
             }
         }
 

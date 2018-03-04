@@ -35,7 +35,7 @@ public class CommandInfoDescriptor extends BaseCommandDescriptor {
             commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)
                                                             .append(String.format("Local repo is on commit **`%s`**", commit)));
 
-            sendOutput(stringBuilder.toString());
+            sendSuccess(stringBuilder.toString());
         }
 
         private String getLibrariesText() {

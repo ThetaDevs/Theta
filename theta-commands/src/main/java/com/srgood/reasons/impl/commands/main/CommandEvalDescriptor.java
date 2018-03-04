@@ -31,12 +31,12 @@ public class CommandEvalDescriptor extends BaseCommandDescriptor {
                 String exp = executionData.getRawArguments();
 
                 if (!exp.matches("[()\\d\\w\\s.+\\-*/^]+")) {
-                    sendOutput("`MATH:` Expression contains invalid characters");
+                    sendError("Expression contains invalid characters");
                     return;
                 }
 
                 IMathGroup group = IMathHandler.getMathHandler().parse(exp);
-                sendOutput("`MATH:` %s", RESULT_FORMATTER.get().format(group.eval()));
+                sendSuccess("%s", RESULT_FORMATTER.get().format(group.eval()));
             } catch (Exception e) {
                 e.printStackTrace();
                 Throwable t = e;
@@ -47,7 +47,7 @@ public class CommandEvalDescriptor extends BaseCommandDescriptor {
                         break;
                     }
                 }
-                sendOutput("`MATH:` An error occurred during parsing: %s", t == null ? "null" : t.getClass()
+                sendError("`MATH:` An error occurred during parsing: %s", t == null ? "null" : t.getClass()
                                                                                                  .getCanonicalName() + ": " + t
                         .getMessage());
             }
