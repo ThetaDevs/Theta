@@ -1,5 +1,6 @@
 package com.srgood.reasons.impl.commands.main;
 
+import com.srgood.reasons.BotManager;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
@@ -17,6 +18,12 @@ import static com.srgood.reasons.impl.commands.utils.GitUtils.localRepoExists;
 public class CommandGitDescriptor extends MultiTierCommandDescriptor {
     public CommandGitDescriptor() {
         super(new LinkedHashSet<>(Arrays.asList(new InfoDescriptor(), new UpdateDescriptor())), "Manages the local git repo, if present", false, "git", "vcs");
+    }
+
+    @Override
+    public void init(BotManager botManager) {
+        // Used to load GitUtils and cache repository
+        GitUtils.getCachedRevision();
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -56,9 +63,16 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 String lineSep = System.lineSeparator();
+
+                Optional<String> cachedBranch = GitUtils.getCachedBranch();
+                Optional<String> cachedRevision = GitUtils.getCachedRevision();
                 Optional<String> branchOptional = GitUtils.getCurrentBranch();
                 Optional<String> commitOptional = GitUtils.getCurrentRevision();
 
+                cachedBranch.ifPresent(branch -> stringBuilder.append(lineSep)
+                                                              .append(String.format("Running on branch **`%s`**", branch)));
+                cachedRevision.ifPresent(commit -> stringBuilder.append(lineSep)
+                                                                .append(String.format("Running on commit **`%s`**", commit)));
                 branchOptional.ifPresent(branch -> stringBuilder.append(lineSep)
                                                                 .append(String.format("Local repo is on branch **`%s`**", branch)));
                 commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)

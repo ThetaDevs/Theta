@@ -15,7 +15,7 @@ public class CommandConstants {
     public static final int VOTE_IMAGE_WIDTH = 800;
     public static final int VOTE_IMAGE_HEIGHT = 600;
 
-    public static final Supplier<String> VERSION_SUPPLIER = () -> GitUtils.getCurrentRevision()
+    public static final Supplier<String> VERSION_SUPPLIER = () -> GitUtils.getCachedRevision()
                                                                           .orElse("unknown (not in a Git repository)");
     public static final java.util.List<String> LIBRARIES = Collections.unmodifiableList(Arrays.asList("JDA (https://github.com/DV8FromTheWorld/JDA)", "JGit (https://eclipse.org/jgit/)", "Google Guava (https://github.com/google/guava)"));
 }

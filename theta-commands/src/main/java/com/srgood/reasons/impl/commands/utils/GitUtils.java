@@ -21,8 +21,14 @@ public class GitUtils {
     private static final String DEFAULT_REMOTE_NAME = "origin";
     private static final String REMOTE_PREFIX = "refs/remotes/" + DEFAULT_REMOTE_NAME + "/";
 
+    // Cached in CommandGitDescriptor#init
+    private static final String cachedBranch;
+    private static final String cachedRevision;
+
     static {
         generateRepository();
+        cachedBranch = getCurrentBranch().orElse(null);
+        cachedRevision = getCurrentRevision().orElse(null);
     }
 
     public static Optional<String> getCurrentBranch() {
@@ -74,6 +80,14 @@ public class GitUtils {
 
             return null;
         });
+    }
+
+    public static Optional<String> getCachedBranch() {
+        return executeOnRepositorySafe(repo -> cachedBranch);
+    }
+
+    public static Optional<String> getCachedRevision() {
+        return executeOnRepositorySafe(repo -> cachedRevision);
     }
 
     private static void generateRepository() {

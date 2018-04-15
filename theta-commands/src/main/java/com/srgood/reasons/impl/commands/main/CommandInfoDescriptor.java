@@ -27,13 +27,13 @@ public class CommandInfoDescriptor extends BaseCommandDescriptor {
             stringBuilder.append(String.format("The current version is: %s%n%s", CommandConstants.VERSION_SUPPLIER.get(), getLibrariesText()));
 
             String lineSep = System.lineSeparator();
-            Optional<String> branchOptional = GitUtils.getCurrentBranch();
-            Optional<String> commitOptional = GitUtils.getCurrentRevision();
+            Optional<String> branchOptional = GitUtils.getCachedBranch();
+            Optional<String> commitOptional = GitUtils.getCachedRevision();
 
             branchOptional.ifPresent(branch -> stringBuilder.append(lineSep)
-                                                            .append(String.format("Local repo is on branch **`%s`**", branch)));
+                                                            .append(String.format("Running branch **`%s`**", branch)));
             commitOptional.ifPresent(commit -> stringBuilder.append(lineSep)
-                                                            .append(String.format("Local repo is on commit **`%s`**", commit)));
+                                                            .append(String.format("Running commit **`%s`**", commit)));
 
             sendSuccess(stringBuilder.toString());
         }
