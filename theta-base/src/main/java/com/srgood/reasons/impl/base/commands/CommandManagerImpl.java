@@ -81,6 +81,8 @@ public class CommandManagerImpl implements CommandManager {
     public void registerCommand(CommandDescriptor descriptor) {
         if (botManager == null) return;
 
+        descriptor.init(botManager);
+
         commands.put(descriptor.getNameRegex(), descriptor);
         botManager.getLogger().info("Registered command by regex: " + descriptor.getNameRegex());
     }

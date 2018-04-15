@@ -1,5 +1,7 @@
 package com.srgood.reasons.commands;
 
+import com.srgood.reasons.BotManager;
+
 import java.util.Collections;
 import java.util.Set;
 
@@ -11,6 +13,8 @@ public interface CommandDescriptor {
     String getNameRegex();
 
     String getPrimaryName();
+
+    default void init(BotManager botManager) {}
 
     default boolean canSetEnabled() {
         return true;
