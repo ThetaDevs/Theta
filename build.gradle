@@ -29,6 +29,7 @@ subprojects {
                 JGit         : 'org.eclipse.jgit:org.eclipse.jgit:4.9.2.201712150930-r',
                 NoOpLogger   : 'org.slf4j:slf4j-nop:1.7.25',
                 ApacheCommons: 'org.apache.commons:commons-lang3:3.6',
+                LavaPlayer   : 'com.sedmelluq:lavaplayer:1.2.63',
                 ThetaAPI     : project(':theta-api'),
                 ThetaAudio   : project(':theta-audio'),
                 ThetaBase    : project(':theta-base'),

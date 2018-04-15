@@ -2,7 +2,10 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 dependencies {
+    compile botDependencies['ThetaAPI']
+    compile botDependencies['ThetaBase']
     compile botDependencies['JDA']
+    compile botDependencies['LavaPlayer']
 }
 
 task javadocJar(type: Jar) {
