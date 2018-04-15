@@ -30,6 +30,7 @@ subprojects {
                 NoOpLogger   : 'org.slf4j:slf4j-nop:1.7.25',
                 ApacheCommons: 'org.apache.commons:commons-lang3:3.6',
                 ThetaAPI     : project(':theta-api'),
+                ThetaAudio   : project(':theta-audio'),
                 ThetaBase    : project(':theta-base'),
                 ThetaCommands: project(':theta-commands'),
                 ThetaRunner  : project(':theta-runner')
