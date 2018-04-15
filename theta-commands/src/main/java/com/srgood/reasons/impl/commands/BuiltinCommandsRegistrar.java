@@ -1,8 +1,9 @@
-package com.srgood.reasons.impl.commands.main;
+package com.srgood.reasons.impl.commands;
 
 import com.srgood.reasons.commands.CommandManager;
+import com.srgood.reasons.impl.commands.main.*;
 
-public class CommandRegistrar {
+public class BuiltinCommandsRegistrar {
     public static void registerCommands(CommandManager commandManager) {
         commandManager.registerCommand(new Command8BallDescriptor());
         commandManager.registerCommand(new CommandBlacklistDescriptor());

@@ -7,7 +7,7 @@ import com.srgood.reasons.impl.base.commands.CommandManagerImpl;
 import com.srgood.reasons.impl.base.config.BotConfigManagerImpl;
 import com.srgood.reasons.impl.base.config.ConfigFileManager;
 import com.srgood.reasons.impl.commands.CensorEventListener;
-import com.srgood.reasons.impl.commands.main.CommandRegistrar;
+import com.srgood.reasons.impl.commands.BuiltinCommandsRegistrar;
 import net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.entities.Game;
@@ -49,7 +49,7 @@ public class Runner {
                                                         NOT_BLACKLISTED))),
                                 new CensorEventListener(bm))));
         commandManager.init(botManager);
-        CommandRegistrar.registerCommands(botManager.getCommandManager());
+        BuiltinCommandsRegistrar.registerCommands(botManager.getCommandManager());
     }
 
     private static String getToken(String[] args) {
