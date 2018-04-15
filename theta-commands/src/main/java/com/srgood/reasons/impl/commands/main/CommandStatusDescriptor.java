@@ -29,7 +29,6 @@ public class CommandStatusDescriptor extends BaseCommandDescriptor {
             String freeMemory = formatMemoryMB(runtime.freeMemory());
             String usedMemory = formatMemoryMB(runtime.totalMemory() - runtime.freeMemory());
             int threadCount = Thread.getAllStackTraces().size();
-            String cpuUsage = (ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage() * 100) + "%";
 
             embedBuilder.addField("Shard", executionData.getJDA().getShardInfo().getShardString(), false);
             embedBuilder.addField("JVM Uptime", "" + ManagementFactory.getRuntimeMXBean().getUptime(), false);
@@ -37,7 +36,6 @@ public class CommandStatusDescriptor extends BaseCommandDescriptor {
             embedBuilder.addField("Free memory", freeMemory, false);
             embedBuilder.addField("Total memory", totalMemory, false);
             embedBuilder.addField("Total threads", String.valueOf(threadCount), false);
-            embedBuilder.addField("CPU Usage", cpuUsage, false);
             embedBuilder.setColor(Color.GREEN);
 
             MessageEmbed embed = embedBuilder.build();
