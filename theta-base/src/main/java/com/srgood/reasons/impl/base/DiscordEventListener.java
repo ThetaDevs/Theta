@@ -94,11 +94,9 @@ public class DiscordEventListener extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
+        // Leave is bot is the only user left
         if (event.getChannelLeft().getMembers().size() == 1) {
-            // TODO FIX AUDIO
-            //            AudioManager manager = event.getGuild();
-            //
-            //            manager.closeAudioConnection();
+            event.getGuild().getAudioManager().closeAudioConnection();
         }
     }
 
