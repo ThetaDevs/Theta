@@ -5,6 +5,9 @@ import com.srgood.reasons.commands.CommandManager;
 import com.srgood.reasons.config.BotConfigManager;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class BotManagerImpl implements BotManager {
@@ -14,12 +17,18 @@ public class BotManagerImpl implements BotManager {
     private Logger logger;
     private boolean active;
 
-    public BotManagerImpl(ShardManager shardManagerSupplier, BotConfigManager configManagerSupplier, CommandManager commandManagerSupplier, Logger loggerSupplier) {
-        this.shardManager = shardManagerSupplier;
-        this.configManager = configManagerSupplier;
-        this.commandManager = commandManagerSupplier;
-        this.logger = loggerSupplier;
+    public BotManagerImpl(ShardManager shardManager, BotConfigManager configManager, CommandManager commandManager, Logger logger) {
+        this(shardManager, configManager, commandManager, logger, Collections.emptyList());
+    }
+
+    public BotManagerImpl(ShardManager shardManager, BotConfigManager configManager, CommandManager commandManager, Logger logger, List<Consumer<BotManager>> dependentFunctions) {
+        this.shardManager = shardManager;
+        this.configManager = configManager;
+        this.commandManager = commandManager;
+        this.logger = logger;
         this.active = true;
+        for (Consumer<BotManager> consumer : dependentFunctions)
+            consumer.accept(this);
     }
 
     @Override

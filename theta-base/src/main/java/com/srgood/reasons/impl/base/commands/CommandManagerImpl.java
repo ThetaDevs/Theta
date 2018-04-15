@@ -17,14 +17,14 @@ public class CommandManagerImpl implements CommandManager {
     private final Lock channelThreadMapLock = new ReentrantLock();
     private final Map<String, CommandDescriptor> commands = new TreeMap<>();
     private final Map<String, ChannelCommandThread> channelThreadMap = new HashMap<>();
-    private final BotManager botManager;
+    private BotManager botManager;
 
-    public CommandManagerImpl(BotManager botManager) {
-        this.botManager = botManager;
-    }
+    public CommandManagerImpl() {}
 
     @Override
     public void handleCommandMessage(Message cmd) {
+        if (botManager == null) return;
+
         GuildConfigManager guildConfigManager = botManager.getConfigManager()
                                                           .getGuildConfigManager(cmd.getGuild());
 
@@ -79,6 +79,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void registerCommand(CommandDescriptor descriptor) {
+        if (botManager == null) return;
+
         commands.put(descriptor.getNameRegex(), descriptor);
         botManager.getLogger().info("Registered command by regex: " + descriptor.getNameRegex());
     }
@@ -90,6 +92,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void setCommandEnabled(Guild guild, CommandDescriptor cmd, boolean enabled) {
+        if (botManager == null) return;
+
         if (!cmd.canSetEnabled()) {
             throw new IllegalArgumentException("Cannot toggle this command");
         }
@@ -101,4 +105,8 @@ public class CommandManagerImpl implements CommandManager {
 
     @Override
     public void close() {}
+
+    public void init(BotManager botManager) {
+        this.botManager = botManager;
+    }
 }

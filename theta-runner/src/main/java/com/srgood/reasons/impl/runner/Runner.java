@@ -30,9 +30,25 @@ public class Runner {
     public static void main(String[] args) {
         String token = getToken(args);
         CompletableFuture<BotManager> botManagerFuture = new CompletableFuture<>();
-        BotManager passthrough = new PassthroughBotManager(botManagerFuture);
-        BotManager botManager = new BotManagerImpl(createShardManager(token, createLogger("ThetaInit"), passthrough), new BotConfigManagerImpl(new ConfigFileManager("theta.xml")), new CommandManagerImpl(passthrough), createLogger("Theta"));
-        botManagerFuture.complete(botManager);
+        ShardManager shardManager = createShardManager(token, createLogger("ThetaInit"));
+        CommandManagerImpl commandManager = new CommandManagerImpl();
+        BotManager botManager = new BotManagerImpl(
+                shardManager,
+                new BotConfigManagerImpl(
+                        new ConfigFileManager("theta.xml")),
+                commandManager,
+                createLogger("Theta"),
+                Collections.singletonList(bm ->
+                        shardManager.addEventListener(
+                                new DiscordEventListener(
+                                        bm,
+                                        Collections.unmodifiableList(
+                                                Arrays.asList(
+                                                        NOT_BOT_SENDER,
+                                                        LISTENING_IN_CHANNEL,
+                                                        NOT_BLACKLISTED))),
+                                new CensorEventListener(bm))));
+        commandManager.init(botManager);
         CommandRegistrar.registerCommands(botManager.getCommandManager());
     }
 
@@ -45,18 +61,9 @@ public class Runner {
         return args[0];
     }
 
-    private static ShardManager createShardManager(String token, Logger logger, BotManager botManager) {
+    private static ShardManager createShardManager(String token, Logger logger) {
         try {
             ShardManager shardManager = new DefaultShardManagerBuilder().setEventManager(new InterfacedEventManager())
-                                                                        .addEventListeners(
-                                                                                new DiscordEventListener(
-                                                                                        botManager,
-                                                                                        Collections.unmodifiableList(
-                                                                                                Arrays.asList(
-                                                                                                        NOT_BOT_SENDER,
-                                                                                                        LISTENING_IN_CHANNEL,
-                                                                                                        NOT_BLACKLISTED))),
-                                                                                new CensorEventListener(botManager))
                                                                         .setGame(Game.playing("Type @Theta help"))
                                                                         .setAutoReconnect(true)
                                                                         .setShardsTotal(-1) // Get recommended number from Discord
