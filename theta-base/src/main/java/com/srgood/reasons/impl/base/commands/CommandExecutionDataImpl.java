@@ -12,38 +12,47 @@ import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossibl
 
 public class CommandExecutionDataImpl implements CommandExecutionData {
     private final Message message;
-    private final String rawData;
     private final String rawArgs;
     private final List<String> parsedArguments;
-    private final MessageChannel channel;
-    private final Guild guild;
-    private final Member sender;
     private final BotManager botManager;
-    private final JDA jda;
 
     public CommandExecutionDataImpl(Message message, BotManager botManager) {
-        this(message, message.getContentRaw(), CommandUtils.getCommandMessageArgsSection(message.getContentRaw(), generatePossiblePrefixesForGuild(botManager
-                .getConfigManager()
-                .getGuildConfigManager(message.getGuild()), message.getGuild())), CommandUtils.parseCommandMessageArguments(message
-                .getContentRaw(), generatePossiblePrefixesForGuild(botManager.getConfigManager()
-                                                                             .getGuildConfigManager(message.getGuild()), message
-                .getGuild())), message.getChannel(), message.getGuild(), message.getAuthor(), botManager);
+        this(
+                message,
+                CommandUtils.parseCommandMessageArguments(
+                        message.getContentRaw(),
+                        generatePossiblePrefixesForGuild(
+                                botManager
+                                        .getConfigManager()
+                                        .getGuildConfigManager(
+                                                message.getGuild()),
+                                message.getGuild())),
+                botManager
+        );
     }
 
-    public CommandExecutionDataImpl(Message message, String rawData, String rawArgs, List<String> parsedArguments, MessageChannel channel, Guild guild, User sender, BotManager botManager) {
-        this(message, rawData, rawArgs, parsedArguments, channel, guild, guild.getMember(sender), botManager);
+    // Needed for subcommand parsing
+    public CommandExecutionDataImpl(Message message, List<String> forcedArguments, BotManager botManager) {
+        this(
+                message,
+                CommandUtils.getCommandMessageArgsSection(
+                        message.getContentRaw(),
+                        generatePossiblePrefixesForGuild(
+                                botManager
+                                        .getConfigManager()
+                                        .getGuildConfigManager(
+                                                message.getGuild()),
+                                message.getGuild())),
+                forcedArguments,
+                botManager
+        );
     }
 
-    public CommandExecutionDataImpl(Message message, String rawData, String rawArgs, List<String> parsedArguments, MessageChannel channel, Guild guild, Member sender, BotManager botManager) {
+    public CommandExecutionDataImpl(Message message, String rawArgs, List<String> parsedArguments, BotManager botManager) {
         this.message = message;
-        this.rawData = rawData;
         this.rawArgs = rawArgs;
         this.parsedArguments = parsedArguments;
-        this.channel = channel;
-        this.guild = guild;
-        this.sender = sender;
         this.botManager = botManager;
-        this.jda = message.getJDA();
     }
 
     @Override
@@ -53,7 +62,7 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
 
     @Override
     public String getRawData() {
-        return rawData;
+        return message.getContentRaw();
     }
 
     @Override
@@ -68,17 +77,17 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
 
     @Override
     public MessageChannel getChannel() {
-        return channel;
+        return message.getChannel();
     }
 
     @Override
     public Guild getGuild() {
-        return guild;
+        return message.getGuild();
     }
 
     @Override
     public Member getSender() {
-        return sender;
+        return message.getMember();
     }
 
     @Override
@@ -88,6 +97,6 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
 
     @Override
     public JDA getJDA() {
-        return jda;
+        return message.getJDA();
     }
 }

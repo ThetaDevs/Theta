@@ -61,8 +61,7 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
         List<String> oldParsedArguments = data.getParsedArguments();
         List<String> newParsedArguments = oldParsedArguments.subList(1, oldParsedArguments.size());
 
-        return new com.srgood.reasons.impl.base.commands.CommandExecutionDataImpl(data.getMessage(), data.getRawData(), data
-                .getRawArguments(), newParsedArguments, data.getChannel(), data.getGuild(), data.getSender(), data.getBotManager());
+        return new com.srgood.reasons.impl.base.commands.CommandExecutionDataImpl(data.getMessage(), newParsedArguments, data.getBotManager());
     }
 
     @Override
