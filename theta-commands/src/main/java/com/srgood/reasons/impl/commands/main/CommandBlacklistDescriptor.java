@@ -1,7 +1,7 @@
 package com.srgood.reasons.impl.commands.main;
 
-import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.commands.Argument;
+import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
@@ -10,14 +10,13 @@ import com.srgood.reasons.impl.commands.utils.StringUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
     public CommandBlacklistDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", "blacklist");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new AddDescriptor(), new RemoveDescriptor())), "Manages this Guild's blacklist.", true, new HashSet<String>() {{
+            add("blacklist");
+        }}, "blacklist");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
@@ -83,6 +82,11 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                                                                 .getConfigManager(), executionData.getGuild(), blacklist);
                 sendSuccess("```ID \"%s\" added to blacklist.```", executionData.getParsedArguments().get(0));
             }
+
+            @Override
+            protected void checkCallerPermissions() {
+                requirePermission("blacklist");
+            }
         }
     }
 
@@ -109,6 +113,11 @@ public class CommandBlacklistDescriptor extends MultiTierCommandDescriptor {
                 GuildDataManager.setGuildBlacklist(executionData.getBotManager()
                                                                 .getConfigManager(), executionData.getGuild(), blacklist);
                 sendSuccess("ID \"%s\" removed from blacklist.", executionData.getParsedArguments().get(0));
+            }
+
+            @Override
+            protected void checkCallerPermissions() {
+                requirePermission("blacklist");
             }
         }
     }

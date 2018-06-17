@@ -11,8 +11,7 @@ import java.util.function.BiPredicate;
 public class MessageReceivedPredicates {
     public static final BiPredicate<Message, BotManager> NOT_BOT_SENDER = (message, unused) -> !message.getAuthor()
                                                                                                        .isBot();
-    public static final BiPredicate<Message, BotManager> NOT_BLACKLISTED = (message, botManager) -> !BlacklistUtils.isBlacklisted(botManager
-            .getConfigManager(), message.getMember(), botManager.getConfigManager()
+    public static final BiPredicate<Message, BotManager> NOT_BLACKLISTED = (message, botManager) -> !BlacklistUtils.isBlacklisted(botManager, message.getMember(), botManager.getConfigManager()
                                                                 .getGuildConfigManager(message.getGuild())
                                                                 .getSerializedProperty("blacklist", Collections.emptyList()));
     public static final BiPredicate<Message, BotManager> LISTENING_IN_CHANNEL = (message, botManager) -> Objects.equals(botManager

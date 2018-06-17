@@ -5,8 +5,6 @@ import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.DMOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
-import com.srgood.reasons.impl.commands.utils.GuildDataManager;
 import com.srgood.reasons.impl.commands.utils.RoleUtils;
 import com.srgood.reasons.permissions.PermissionProvider;
 import com.srgood.reasons.permissions.PermissionStatus;
@@ -104,9 +102,6 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                     return;
                 }
 
-                GuildPermissionSet permissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
-                                                                                                       .getConfigManager(), executionData
-                        .getGuild());
                 if (shouldSetAll()) {
                     for (String permission : permissionProvider().getRegisteredPermissions()) {
                         try {
@@ -122,8 +117,6 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                         sendError(e.getMessage());
                     }
                 }
-                GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
-                                                                    .getConfigManager(), executionData.getGuild(), permissionSet);
             }
 
             private boolean shouldSetAll() {
