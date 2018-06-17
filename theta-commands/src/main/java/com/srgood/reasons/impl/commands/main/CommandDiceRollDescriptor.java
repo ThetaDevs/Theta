@@ -3,12 +3,10 @@ package com.srgood.reasons.impl.commands.main;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
@@ -18,7 +16,10 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
     private static final int MAX_DICE = 50;
 
     public CommandDiceRollDescriptor() {
-        super(Executor::new, "Rolls some dice", null, "diceroll");
+        super(Executor::new, "Rolls some dice", null,
+                new HashSet<String>(){{
+                    add("chance");
+                }}, "diceroll");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -56,9 +57,8 @@ public class CommandDiceRollDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.DO_CHANCE_GAME);
+        protected void checkCallerPermissions() {
+            requirePermission("chance");
         }
     }
 }

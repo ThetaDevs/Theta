@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CommandExecutionData {
     Message getMessage();
@@ -27,4 +28,6 @@ public interface CommandExecutionData {
     BotManager getBotManager();
 
     JDA getJDA();
+
+    Set<String> getSenderPermissions();
 }

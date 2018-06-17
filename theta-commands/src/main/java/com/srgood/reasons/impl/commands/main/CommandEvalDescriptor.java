@@ -7,19 +7,20 @@ import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Optional;
+import java.util.HashSet;
 
 public class CommandEvalDescriptor extends BaseCommandDescriptor {
     private final static ThreadLocal<NumberFormat> RESULT_FORMATTER = ThreadLocal.withInitial(() -> new DecimalFormat("#0.0###"));
 
     public CommandEvalDescriptor() {
         super(Executor::new, "Evaluates a math expression and prints result. Supports arithmetic operations, sin, cos, tan, abs, sqrt", Argument
-                .string("math expression"), "eval");
+                .string("math expression"),
+                new HashSet<String>(){{
+                    add("math");
+                }}, "eval");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -56,9 +57,8 @@ public class CommandEvalDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.EVALUATE_MATH);
+        protected void checkCallerPermissions() {
+            requirePermission("math");
         }
     }
 }

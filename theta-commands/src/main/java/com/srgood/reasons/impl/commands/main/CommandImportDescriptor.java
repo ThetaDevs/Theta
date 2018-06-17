@@ -8,9 +8,8 @@ import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
 import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
-import com.srgood.reasons.impl.commands.permissions.PermissionStatus;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
+import com.srgood.reasons.permissions.PermissionStatus;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 import org.apache.commons.codec.binary.Base32;
@@ -20,15 +19,18 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 
 public class CommandImportDescriptor extends BaseCommandDescriptor {
     public CommandImportDescriptor() {
-        super(Executor::new, "Runs a script of bot commands", null, "import");
+        super(Executor::new, "Runs a script of bot commands", null,
+                new HashSet<String>(){{
+                    add("backup");
+                }}, "import");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -203,17 +205,15 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.MANAGE_BACKUPS);
+        protected void checkCallerPermissions() {
+            requirePermission("backup");
         }
 
         @Override
-        protected Optional<String> customPreExecuteCheck() {
+        protected void customPreExecuteCheck() {
             if (executionData.getMessage().getAttachments().isEmpty()) {
-                return Optional.of("No file to execute.");
+                dontExecute("No file to execute.");
             }
-            return Optional.empty();
         }
     }
 }

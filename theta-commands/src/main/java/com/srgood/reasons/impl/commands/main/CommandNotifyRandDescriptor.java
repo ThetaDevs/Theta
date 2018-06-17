@@ -4,15 +4,13 @@ import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.ArgsBuilder;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 import static com.srgood.reasons.impl.commands.utils.MemberUtils.getMembersWithRole;
@@ -21,7 +19,9 @@ import static com.srgood.reasons.impl.commands.utils.RoleUtils.getUniqueRole;
 
 public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
     public CommandNotifyRandDescriptor() {
-        super(Executor::new, "Notifies a random Member with the specified role and optional amount", ArgsBuilder.create().addString("role name").beginOptional().addNumber("number").build(), "notifyrand");
+        super(Executor::new, "Notifies a random Member with the specified role and optional amount", ArgsBuilder.create().addString("role name").beginOptional().addNumber("number").build(), new HashSet<String>(){{
+            add("notifyrand");
+        }}, "notifyrand");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -101,9 +101,8 @@ public class CommandNotifyRandDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.NOTIFY_MEMBER);
+        protected void checkCallerPermissions() {
+            requirePermission("notifyrand");
         }
     }
 }

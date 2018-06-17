@@ -1,11 +1,9 @@
 package com.srgood.reasons.impl.commands.main;
 
 import com.srgood.reasons.commands.CommandExecutionData;
+import com.srgood.reasons.impl.base.BaseConstants;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
-
-import java.util.Optional;
 
 public class CommandShutdownDescriptor extends BaseCommandDescriptor {
     public CommandShutdownDescriptor() {
@@ -30,8 +28,10 @@ public class CommandShutdownDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkBotAdmin(executionData.getSender());
+        protected void checkCallerPermissions() {
+            if (!BaseConstants.BOT_DEVELOPERS.contains(executionData.getSender().getUser().getId())) {
+                 dontExecute("You must be a bot developer to use this.");
+            }
         }
     }
 }

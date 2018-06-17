@@ -9,6 +9,7 @@ import com.srgood.reasons.impl.base.commands.executor.EmptyCommandExecutor;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
 
@@ -22,12 +23,20 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
         this(subCommands, executionData -> EmptyCommandExecutor.INSTANCE, help, visible, primaryName, names);
     }
 
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, String help, boolean visible, Set<String> permissions, String primaryName, String... names) {
+        this(subCommands, executionData -> EmptyCommandExecutor.INSTANCE, help, visible, permissions, primaryName, names);
+    }
+
     public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, String primaryName, String... names) {
         this(subCommands, defaultExecutorFunction, help, true, primaryName, names);
     }
 
     public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, boolean visible, String primaryName, String... names) {
-        super(generateDataToExecutorFunction(subCommands, defaultExecutorFunction), help, createArgs(subCommands), visible, primaryName, names);
+        this(subCommands, defaultExecutorFunction, help, true, allPermissions(subCommands), primaryName, names);
+    }
+
+    public MultiTierCommandDescriptor(Set<CommandDescriptor> subCommands, Function<CommandExecutionData, CommandExecutor> defaultExecutorFunction, String help, boolean visible, Set<String> permissions, String primaryName, String... names) {
+        super(generateDataToExecutorFunction(subCommands, defaultExecutorFunction), help, createArgs(subCommands), visible, permissions, primaryName, names);
         this.subCommands = new HashSet<>(subCommands);
     }
 
@@ -62,6 +71,13 @@ public abstract class MultiTierCommandDescriptor extends BaseCommandDescriptor {
         List<String> newParsedArguments = oldParsedArguments.subList(1, oldParsedArguments.size());
 
         return new com.srgood.reasons.impl.base.commands.CommandExecutionDataImpl(data.getMessage(), newParsedArguments, data.getBotManager());
+    }
+
+    private static Set<String> allPermissions(Set<CommandDescriptor> subCommands) {
+        return subCommands.stream()
+                          .map(CommandDescriptor::getDeclaredPermissions)
+                          .flatMap(Collection::stream)
+                          .collect(Collectors.toSet());
     }
 
     @Override

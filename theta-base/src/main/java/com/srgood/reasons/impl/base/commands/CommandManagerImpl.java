@@ -53,6 +53,8 @@ public class CommandManagerImpl implements CommandManager {
         } else {
             cmd.getChannel().sendMessage(String.format("Unknown command `%s`", calledCommand)).queue();
         }
+
+        botManager.getPermissionProvider().registerPermissions(getDeclaredPermissions());
     }
 
     @Override

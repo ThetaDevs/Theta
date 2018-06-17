@@ -23,4 +23,8 @@ public interface CommandDescriptor {
     default Set<CommandDescriptor> getSubCommands() {
         return Collections.emptySet();
     }
+
+    default Set<String> getDeclaredPermissions() {
+        return Collections.emptySet();
+    }
 }

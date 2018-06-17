@@ -4,14 +4,14 @@ import com.srgood.reasons.commands.Argument;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
-import java.util.Optional;
+import java.util.HashSet;
 
 public class CommandSetPrefixDescriptor extends BaseCommandDescriptor {
     public CommandSetPrefixDescriptor() {
-        super(Executor::new, "Gets the prefix in the current Guild", Argument.string("prefix"), "setprefix");
+        super(Executor::new, "Gets the prefix in the current Guild", Argument.string("prefix"), new HashSet<String>() {{
+            add("setprefix");
+        }}, "setprefix");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -33,9 +33,8 @@ public class CommandSetPrefixDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.SET_PREFIX);
+        protected void checkCallerPermissions() {
+            requirePermission("setprefix");
         }
     }
 }

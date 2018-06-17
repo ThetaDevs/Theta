@@ -5,8 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -16,18 +15,28 @@ public class BaseCommandDescriptor implements CommandDescriptor {
     private final String primaryName;
     private final HelpData help;
     private final Function<CommandExecutionData, CommandExecutor> executorFunction;
+    private final Set<String> declaredPermissions;
 
     protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, Argument args, String primaryName, String... names) {
-        this(executorFunction, help, args, true, primaryName, names);
+        this(executorFunction, help, args, true, Collections.emptySet(), primaryName, names);
+    }
+
+    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, Argument args, Set<String> permissions, String primaryName, String... names) {
+        this(executorFunction, help, args, true, permissions, primaryName, names);
     }
 
     protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, Argument args, boolean visible, String primaryName, String... names) {
+        this(executorFunction, help, args, visible, Collections.emptySet(), primaryName, names);
+    }
+
+    protected BaseCommandDescriptor(Function<CommandExecutionData, CommandExecutor> executorFunction, String help, Argument args, boolean visible, Set<String> declaredPermissions, String primaryName, String... names) {
         List<String> tempNameList = new ArrayList<>(Arrays.asList(names));
         tempNameList.add(primaryName);
         this.nameRegex = tempNameList.stream().map(s -> "(" + s + ")").collect(Collectors.joining("|"));
         this.primaryName = primaryName;
         this.help = new HelpDataImpl(args, help, visible);
         this.executorFunction = executorFunction;
+        this.declaredPermissions = new HashSet<>(declaredPermissions);
     }
 
     @Override
@@ -112,5 +121,10 @@ public class BaseCommandDescriptor implements CommandDescriptor {
         public boolean visible() {
             return visible;
         }
+    }
+
+    @Override
+    public Set<String> getDeclaredPermissions() {
+        return declaredPermissions;
     }
 }

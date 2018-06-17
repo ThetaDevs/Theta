@@ -5,14 +5,15 @@ import com.srgood.reasons.commands.CommandDescriptor;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
-import java.util.Optional;
+import java.util.HashSet;
 
 public class CommandEnableDescriptor extends BaseCommandDescriptor {
     public CommandEnableDescriptor() {
-        super(Executor::new, "Enables a command in the current Guild", Argument.string("command"), "enable");
+        super(Executor::new, "Enables a command in the current Guild", Argument.string("command"),
+                new HashSet<String>(){{
+                    add("enable");
+                }}, "enable");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -40,9 +41,8 @@ public class CommandEnableDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.SET_COMMAND_ENABLED);
+        protected void checkCallerPermissions() {
+            requirePermission("enable");
         }
     }
 }

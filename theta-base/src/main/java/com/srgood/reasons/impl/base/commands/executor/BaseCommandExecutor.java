@@ -2,13 +2,17 @@ package com.srgood.reasons.impl.base.commands.executor;
 
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.commands.CommandExecutor;
+import com.srgood.reasons.impl.base.BaseConstants;
+import com.srgood.reasons.permissions.PermissionProvider;
+import com.srgood.reasons.permissions.PermissionStatus;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
-import java.util.Optional;
+import java.util.Map;
 
 public abstract class BaseCommandExecutor implements CommandExecutor {
 
@@ -18,38 +22,58 @@ public abstract class BaseCommandExecutor implements CommandExecutor {
         this.executionData = executionData;
     }
 
-    protected Optional<String> checkCallerPermissions() {
-        return Optional.empty();
+    protected void checkCallerPermissions() {}
+
+    protected void checkBotPermissions() {}
+
+    protected void customPreExecuteCheck() {}
+
+    protected static class CannotExecuteException extends RuntimeException {
+        public CannotExecuteException(String message) {
+            super(message);
+        }
     }
 
-    protected Optional<String> checkBotPermissions() {
-        return Optional.empty();
+    protected void requirePermission(String permission) {
+        if (BaseConstants.BOT_DEVELOPERS.contains(executionData.getSender().getUser().getId())) return;
+
+        if (!checkPermission(permission)) {
+            throw new CannotExecuteException("You don't have needed permission \"" + permission + "\"!");
+        }
     }
 
-    protected Optional<String> customPreExecuteCheck() {
-        return Optional.empty();
+    protected boolean checkPermission(String permission) {
+        return executionData.getSenderPermissions().contains(permission);
+    }
+
+    protected PermissionProvider permissionProvider() {
+        return executionData.getBotManager().getPermissionProvider();
+    }
+
+    protected Map<String, PermissionStatus> callerPermissionMap() {
+        return executionData.getBotManager().getPermissionProvider().getPermissionsMap(executionData.getSender());
+    }
+
+    protected void requirePermission(Permission permission) {
+        if (!executionData.getGuild().getSelfMember().hasPermission(permission)) {
+            throw new CannotExecuteException("I don't have needed permission \"" + permission.getName() + "\"!");
+        }
+    }
+
+    protected void dontExecute(String reason) {
+        throw new CannotExecuteException(reason);
     }
 
     @Override
     public boolean shouldExecute() {
-        Optional<String> callerPermissionResult = checkCallerPermissions();
-        if (callerPermissionResult.isPresent()) {
-            sendError(callerPermissionResult.get());
+        try {
+            checkCallerPermissions();
+            checkBotPermissions();
+            customPreExecuteCheck();
+        } catch (CannotExecuteException e) {
+            sendError(e.getMessage());
             return false;
         }
-
-        Optional<String> botPermissionResult = checkBotPermissions();
-        if (botPermissionResult.isPresent()) {
-            sendError(botPermissionResult.get());
-            return false;
-        }
-
-        Optional<String> customCheckResult = customPreExecuteCheck();
-        if (customCheckResult.isPresent()) {
-            sendError(customCheckResult.get());
-            return false;
-        }
-
         return true;
     }
 

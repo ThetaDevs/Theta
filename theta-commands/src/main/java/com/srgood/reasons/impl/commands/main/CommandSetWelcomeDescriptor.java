@@ -5,16 +5,17 @@ import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.config.GuildConfigManager;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.commands.utils.GreetingUtils;
 
-import java.util.Optional;
+import java.util.HashSet;
 
 public class CommandSetWelcomeDescriptor extends BaseCommandDescriptor {
     public CommandSetWelcomeDescriptor() {
         super(Executor::new, "Sets the welcome message for the Guild, which will be sent in the current Channel. Set it to OFF to disable. Use @USER to mention the leaving user.", Argument
-                .string("message"), "setwelcome");
+                .string("message"),
+                new HashSet<String>(){{
+                    add("managejoinleave");
+                }}, "setwelcome");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -41,9 +42,8 @@ public class CommandSetWelcomeDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.MANAGE_JOIN_LEAVE_MESSAGES);
+        protected void checkCallerPermissions() {
+            requirePermission("managejoinleave");
         }
     }
 }

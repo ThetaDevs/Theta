@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static com.srgood.reasons.impl.base.commands.CommandUtils.generatePossiblePrefixesForGuild;
 
@@ -88,6 +89,11 @@ public class CommandExecutionDataImpl implements CommandExecutionData {
     @Override
     public Member getSender() {
         return message.getMember();
+    }
+
+    @Override
+    public Set<String> getSenderPermissions() {
+        return botManager.getPermissionProvider().getActualPermissions(getSender());
     }
 
     @Override

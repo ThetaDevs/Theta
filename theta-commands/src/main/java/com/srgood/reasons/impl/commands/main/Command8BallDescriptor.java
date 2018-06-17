@@ -3,17 +3,17 @@ package com.srgood.reasons.impl.commands.main;
 import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 
-import java.util.Optional;
+import java.util.HashSet;
 
 import static com.srgood.reasons.impl.base.BaseConstants.GLOBAL_RANDOM;
 import static com.srgood.reasons.impl.commands.CommandConstants.EIGHT_BALL;
 
 public class Command8BallDescriptor extends BaseCommandDescriptor {
     public Command8BallDescriptor() {
-        super(Executor::new, "Tells your fortune", null, "8ball", "fortune", "magic", "idiothelper");
+        super(Executor::new, "Tells your fortune", null, new HashSet<String>(){{
+            add("chance");
+        }}, "8ball", "fortune", "magic", "idiothelper");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -29,9 +29,8 @@ public class Command8BallDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.DO_CHANCE_GAME);
+        protected void checkCallerPermissions() {
+            requirePermission("chance");
         }
     }
 }

@@ -4,18 +4,19 @@ import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import net.dv8tion.jda.core.entities.Role;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 
 public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
     private static final boolean ALLOW_DEBUG = true;
 
     public CommandDebugDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", false, "debug");
+        super(new LinkedHashSet<>(Arrays.asList(new DeleteGuildDescriptor(), new RemoveRolesDescriptor())), "FOR DEBUG ONLY", false, new HashSet<String>(){{
+            add("debug");
+        }}, "debug");
     }
 
     private static abstract class BaseExecutor extends ChannelOutputCommandExecutor {
@@ -24,16 +25,14 @@ public class CommandDebugDescriptor extends MultiTierCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkBotAdmin(executionData.getSender());
+        protected void checkCallerPermissions() {
+            requirePermission("debug");
         }
 
         @Override
-        protected Optional<String> customPreExecuteCheck() {
+        protected void customPreExecuteCheck() {
             if (!ALLOW_DEBUG) {
-                return Optional.of("Debug mode is disabled in this version.");
-            } else {
-                return Optional.empty();
+                dontExecute("Debug mode is disabled.");
             }
         }
     }

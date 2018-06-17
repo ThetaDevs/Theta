@@ -28,16 +28,17 @@ public class CommandGitDescriptor extends MultiTierCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return checkPermissions ? PermissionChecker.checkBotAdmin(executionData.getSender()) : Optional.empty();
+        protected void checkCallerPermissions() {
+            if (checkPermissions) {
+                PermissionChecker.checkBotAdmin(executionData.getSender());
+            }
         }
 
         @Override
-        protected Optional<String> customPreExecuteCheck() {
+        protected void customPreExecuteCheck() {
             if (!localRepoExists()) {
-                return Optional.of("The bot is not running in a local repo.");
+                dontExecute("The bot is not running in a local repo.");
             }
-            return Optional.empty();
         }
     }
 

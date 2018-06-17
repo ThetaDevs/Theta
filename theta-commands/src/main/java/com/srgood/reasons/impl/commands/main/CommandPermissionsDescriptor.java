@@ -6,20 +6,21 @@ import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.descriptor.MultiTierCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.DMOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
-import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
-import com.srgood.reasons.impl.commands.permissions.PermissionStatus;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
 import com.srgood.reasons.impl.commands.utils.RoleUtils;
+import com.srgood.reasons.permissions.PermissionProvider;
+import com.srgood.reasons.permissions.PermissionStatus;
+import net.dv8tion.jda.core.entities.IPermissionHolder;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Optional;
+import java.util.*;
 
 public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
     public CommandPermissionsDescriptor() {
-        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", "permissions");
+        super(new LinkedHashSet<>(Arrays.asList(new ListDescriptor(), new SetDescriptor())), "Gets and modifies information about permissions for roles", true,
+                new HashSet<String>(){{
+                    add("permissions");
+                }}, "permissions");
     }
 
     private static class ListDescriptor extends BaseCommandDescriptor {
@@ -54,16 +55,24 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
             }
 
             private String formatPermissions(Role role) {
-                GuildPermissionSet permissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
-                                                                                                       .getConfigManager(), role
-                        .getGuild());
-                StringBuilder builder = new StringBuilder();
-                builder.append(String.format("```Markdown\n[%s]\n", role.getName()));
-                for (Permission permission : Permission.values()) {
-                    builder.append(String.format("[%s](%s)\n", permission, permissionSet.getPermissionStatus(role, permission)));
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(String.format("```Markdown\n[%s]\n", role.getName()));
+
+                List<String> registeredPermissions = new ArrayList<>(permissionProvider().getRegisteredPermissions());
+                Map<String, PermissionStatus> rolePermissionMap = permissionProvider().getPermissionsMap(role);
+                Collections.sort(registeredPermissions);
+                PermissionStatus defaultPermission = role.isPublicRole() ? PermissionStatus.ALLOWED : PermissionStatus.DEFERRED;
+                for (String permission : registeredPermissions) {
+                    stringBuilder.append("[")
+                                 .append(permission)
+                                 .append("]")
+                                 .append("(")
+                                 .append(rolePermissionMap.getOrDefault(permission, defaultPermission).toString())
+                                 .append(")")
+                                 .append("\n");
                 }
-                builder.append("```");
-                return builder.toString();
+                stringBuilder.append("```");
+                return stringBuilder.toString();
             }
         }
     }
@@ -74,6 +83,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
         }
 
         private static class Executor extends DMOutputCommandExecutor {
+
             public Executor(CommandExecutionData executionData) {
                 super(executionData);
             }
@@ -98,7 +108,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                                                                                                        .getConfigManager(), executionData
                         .getGuild());
                 if (shouldSetAll()) {
-                    for (Permission permission : Permission.values()) {
+                    for (String permission : permissionProvider().getRegisteredPermissions()) {
                         try {
                             setPermissionStatus(role, permission, status);
                         } catch (IllegalArgumentException e) {
@@ -107,7 +117,7 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                     }
                 } else {
                     try {
-                        setPermissionStatus(role, parsePermissionArg(), status);
+                        setPermissionStatus(role, executionData.getParsedArguments().get(1), status);
                     } catch (IllegalArgumentException e) {
                         sendError(e.getMessage());
                     }
@@ -118,17 +128,6 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
 
             private boolean shouldSetAll() {
                 return executionData.getParsedArguments().get(1).equalsIgnoreCase("all");
-            }
-
-            private Permission parsePermissionArg() {
-                try {
-                    return Permission.valueOf(executionData.getParsedArguments()
-                                                           .get(1)
-                                                           .toUpperCase()
-                                                           .replaceAll("\\s+", "_"));
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("Found no permission by that name", e);
-                }
             }
 
             private PermissionStatus getPermissionStatusArg() {
@@ -156,34 +155,77 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
                 }
             }
 
-            private void setPermissionStatus(Role role, Permission permission, PermissionStatus status) {
-                GuildPermissionSet permissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
-                                                                                                       .getConfigManager(), role
-                        .getGuild());
-
-                if (PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                         .getConfigManager(), executionData.getSender(), permission)
-                                     .isPresent()) {
+            private void setPermissionStatus(Role role, String permission, PermissionStatus status) {
+                if (!checkPermission(permission)) {
                     throw new IllegalArgumentException(String.format("Not setting permission **`%s`** because you do not have it.", permission));
                 }
 
-                PermissionStatus backupPermissionStatus = permissionSet.getPermissionStatus(role, permission);
+                if (status != PermissionStatus.ALLOWED)
+                    checkDoesNotDenyFromSender(permission);
 
-                permissionSet.setPermissionStatus(role, permission, status);
+                permissionProvider().setPermission(role, permission, status);
 
-                if (status != PermissionStatus.ALLOWED) {
-                    if (PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                             .getConfigManager(), executionData.getSender(), permission)
-                                         .isPresent()) {
-                        permissionSet.setPermissionStatus(role, permission, backupPermissionStatus);
-                        throw new IllegalArgumentException(String.format("Not setting permission **`%s`** because doing so would deny it from you.", permission));
+                sendSuccess("Permission **`%s`** set to state **`%s`** for role **`%s`**", permission, status, role.getName());
+            }
+
+            private void checkDoesNotDenyFromSender(String permission) {
+                class TestPermissionProvider implements PermissionProvider {
+                    private Map<IPermissionHolder, Map<String, PermissionStatus>> permissionsMap;
+
+                    public TestPermissionProvider(Map<IPermissionHolder, Map<String, PermissionStatus>> permissionsMap) {
+                        this.permissionsMap = permissionsMap;
+                    }
+
+                    @Override
+                    public Map<String, PermissionStatus> getPermissionsMap(IPermissionHolder permissionHolder) {
+                        Map<String, PermissionStatus> holderMap = permissionsMap.get(permissionHolder);
+                        if (holderMap == null)
+                            throw new IllegalArgumentException();
+                        return holderMap;
+                    }
+
+                    @Override
+                    public void setPermissions(IPermissionHolder permissionHolder, Map<String, PermissionStatus> permissions) {
+                        throw new UnsupportedOperationException();
+                    }
+
+                    @Override
+                    public Set<String> getRegisteredPermissions() {
+                        throw new UnsupportedOperationException();
+                    }
+
+                    @Override
+                    public void registerPermissions(Collection<String> permissions) {
+                        throw new UnsupportedOperationException();
+                    }
+
+                    @Override
+                    public void close() throws Exception {
+                        throw new UnsupportedOperationException();
                     }
                 }
 
-                GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
-                                                                    .getConfigManager(), role.getGuild(), permissionSet);
+                Map<IPermissionHolder, Map<String, PermissionStatus>> relevantPermissions = getPermissionsRelevantToSender(permissionProvider());
 
-                sendSuccess("Permission **`%s`** set to state **`%s`** for role **`%s`**", permission, status, role.getName());
+                TestPermissionProvider testPermissionProvider = new TestPermissionProvider(relevantPermissions);
+
+                if (!testPermissionProvider.checkPermission(executionData.getSender(), permission))
+                    throw new IllegalArgumentException("Cannot perform change, doing so would deny permission from yourself!");
+            }
+
+            private Map<IPermissionHolder, Map<String, PermissionStatus>> getPermissionsRelevantToSender(PermissionProvider permissionProvider) {
+                Map<IPermissionHolder, Map<String, PermissionStatus>> relevantPermissions = new HashMap<>();
+                relevantPermissions.put(executionData.getSender(), callerPermissionMap());
+
+                {
+                    Role publicRole = executionData.getGuild().getPublicRole();
+                    relevantPermissions.put(publicRole, permissionProvider.getPermissionsMap(publicRole));
+                }
+
+                for (Role senderRole : executionData.getSender().getRoles()) {
+                    relevantPermissions.put(senderRole, permissionProvider.getPermissionsMap(senderRole));
+                }
+                return relevantPermissions;
             }
 
             private PermissionStatus getPermissionStatus(String name) {
@@ -201,9 +243,8 @@ public class CommandPermissionsDescriptor extends MultiTierCommandDescriptor {
             }
 
             @Override
-            protected Optional<String> checkCallerPermissions() {
-                return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                            .getConfigManager(), executionData.getSender(), Permission.MANAGE_PERMISSIONS);
+            protected void checkCallerPermissions() {
+                requirePermission("permissions");
             }
         }
     }

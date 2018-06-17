@@ -1,5 +1,7 @@
 package com.srgood.reasons.impl.commands.permissions;
 
+import com.srgood.reasons.permissions.PermissionStatus;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.srgood.reasons.impl.commands.permissions.PermissionStatus.*;
+import static com.srgood.reasons.permissions.PermissionStatus.*;
 
 public class BasicPermissionSet implements Serializable {
 

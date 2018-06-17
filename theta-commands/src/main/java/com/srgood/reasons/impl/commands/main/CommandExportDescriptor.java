@@ -9,10 +9,8 @@ import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecut
 import com.srgood.reasons.impl.commands.CommandConstants;
 import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
 import com.srgood.reasons.impl.commands.permissions.Permission;
-import com.srgood.reasons.impl.commands.permissions.PermissionChecker;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Role;
 import org.apache.commons.codec.binary.Base32;
 
@@ -20,12 +18,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 public class CommandExportDescriptor extends BaseCommandDescriptor {
     public CommandExportDescriptor() {
-        super(Executor::new, "Outputs a file that contains commands to reconstruct the bot state of this Guild.", null, "export");
+        super(Executor::new, "Outputs a file that contains commands to reconstruct the bot state of this Guild.", null, new HashSet<String>(){{
+            add("backup");
+        }}, "export");
     }
 
     private static class Executor extends ChannelOutputCommandExecutor {
@@ -201,19 +201,13 @@ public class CommandExportDescriptor extends BaseCommandDescriptor {
         }
 
         @Override
-        protected Optional<String> checkCallerPermissions() {
-            return PermissionChecker.checkMemberPermission(executionData.getBotManager()
-                                                                        .getConfigManager(), executionData.getSender(), Permission.MANAGE_BACKUPS);
+        protected void checkCallerPermissions() {
+            requirePermission("backup");
         }
 
         @Override
-        protected Optional<String> checkBotPermissions() {
-            if (!executionData.getGuild()
-                              .getSelfMember()
-                              .hasPermission((Channel) executionData.getChannel(), net.dv8tion.jda.core.Permission.MESSAGE_ATTACH_FILES)) {
-                return Optional.of("Cannot attach output file because I don't have permission to do so.");
-            }
-            return Optional.empty();
+        protected void checkBotPermissions() {
+            requirePermission(net.dv8tion.jda.core.Permission.MESSAGE_ATTACH_FILES);
         }
     }
 }
