@@ -7,8 +7,6 @@ import com.srgood.reasons.impl.base.BaseConstants;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
 import com.srgood.reasons.impl.commands.CommandConstants;
-import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
-import com.srgood.reasons.impl.commands.permissions.Permission;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Role;
@@ -90,9 +88,7 @@ public class CommandExportDescriptor extends BaseCommandDescriptor {
             output.append(newline);
             output.append("# Setup permissions");
             output.append(newline);
-            GuildPermissionSet guildPermissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
-                                                                                                        .getConfigManager(), executionData
-                    .getGuild());
+
             for (Role role : executionData.getGuild().getRoles()) {
                 output.append(newline)
                       .append("# Permissions for role ")
@@ -101,13 +97,13 @@ public class CommandExportDescriptor extends BaseCommandDescriptor {
                       .append(role.getName())
                       .append("\"")
                       .append(newline);
-                for (Permission permission : Permission.values()) {
+                for (String permission : permissionProvider().getRegisteredPermissions()) {
                     output.append("PERMS ")
                           .append(role.getId())
                           .append(" ")
-                          .append(permission.name())
+                          .append(permission)
                           .append(" ")
-                          .append(guildPermissionSet.getPermissionStatus(role, permission))
+                          .append(permissionProvider().getPermission(role, permission))
                           .append(newline);
                 }
             }

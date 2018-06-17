@@ -6,8 +6,6 @@ import com.srgood.reasons.commands.CommandExecutionData;
 import com.srgood.reasons.impl.base.BaseConstants;
 import com.srgood.reasons.impl.base.commands.descriptor.BaseCommandDescriptor;
 import com.srgood.reasons.impl.base.commands.executor.ChannelOutputCommandExecutor;
-import com.srgood.reasons.impl.commands.permissions.GuildPermissionSet;
-import com.srgood.reasons.impl.commands.permissions.Permission;
 import com.srgood.reasons.impl.commands.utils.GuildDataManager;
 import com.srgood.reasons.permissions.PermissionStatus;
 import net.dv8tion.jda.core.entities.Message;
@@ -81,20 +79,14 @@ public class CommandImportDescriptor extends BaseCommandDescriptor {
             if (role == null) {
                 return;
             }
-            Permission permission;
+            String permission = parts[2];
             PermissionStatus permissionStatus;
             try {
-                permission = Permission.valueOf(parts[2]);
                 permissionStatus = PermissionStatus.valueOf(parts[3]);
             } catch (IllegalArgumentException e) {
                 return;
             }
-            GuildPermissionSet guildPermissionSet = GuildDataManager.getGuildPermissionSet(executionData.getBotManager()
-                                                                                                        .getConfigManager(), executionData
-                    .getGuild());
-            guildPermissionSet.setPermissionStatus(role, permission, permissionStatus);
-            GuildDataManager.setGuildPermissionSet(executionData.getBotManager()
-                                                                .getConfigManager(), executionData.getGuild(), guildPermissionSet);
+            permissionProvider().setPermission(role, permission, permissionStatus);
         }
 
         private void handleEnableCommand(String command) {
